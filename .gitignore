@@ -1,0 +1,11 @@
+*.private
+/config/*
+/node_modules/*
+/bower_components/*
+/python/auth.dat
+/public/*
+/models/*
+/data/*
+/mongod
+/.c9/*
+/*.min.js
