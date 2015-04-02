@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride());
 //app.use(cookieParser());
-app.use(session({secret: process.env.DBEXPRESSSECRET, resave: false, saveUninitialized: false}));
+//app.use(session({secret: process.env.DBEXPRESSSECRET, resave: false, saveUninitialized: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 require('./routes.min.js') (app);
@@ -25,5 +25,3 @@ require('./routes.min.js') (app);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-
-

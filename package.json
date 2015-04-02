@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node app.min.js",
-    "dev": "grunt & grunt watch & DBEXPRESSSECRET=swag nodemon app.min.js"
+    "dev": "grunt & DBEXPRESSSECRET=swag nodemon app.min.js & grunt watch",
+    "devWindows": "grunt & set DBEXPRESSSECRET=swag & nodemon app.min.js & grunt watch"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

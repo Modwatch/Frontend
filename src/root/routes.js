@@ -1,19 +1,11 @@
-module.exports = function(app, passport, scriptVersion) {
+module.exports = function(app) {
 
 	app.get('/', function(req, res) {
 		res.sendfile('views/home.html');
 	});
-	app.get('/users', function(req, res) {
+	/*app.get('/users', function(req, res) {
 		res.render('allusers.ejs');
 	});
-	/*app.get('/logout', function(req, res) {
-		req.logout();
-		res.redirect('/');
-	});
-	app.post('/login', passport.authenticate('login', {
-		successRedirect: '/admin',
-		failureRedirect: '/login'
-	}));*/
 	app.get('/:username', function(req, res) {
 
 		Modlist.findOne({username: req.params.username},{username:1}, function(err, _list) {
@@ -21,9 +13,6 @@ module.exports = function(app, passport, scriptVersion) {
 				res.redirect('/');
 			}
 			else {
-				/*if(_list.list && _list.list.length > 0) {
-					_list.UpdateOldStyleModlist();
-				}*/
 				res.render('profile.ejs', {
 					username: _list.username,
 					owner: (req.user != undefined && req.user.username == req.params.username) ? true : false
@@ -62,8 +51,9 @@ module.exports = function(app, passport, scriptVersion) {
 			}
 		});
 	});
+*/
 };
-
+/*
 var Blog = require('./public/models/blog.min.js');
 var Modlist = require('./public/models/modlist.min.js');
 function isLoggedIn(req, res, next) {
@@ -76,3 +66,4 @@ function isLoggedIn(req, res, next) {
 		res.end();
 	}
 }
+*/

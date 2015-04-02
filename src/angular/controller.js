@@ -195,7 +195,6 @@
         };
         
         $scope.openLogin = function() {
-          console.log($scope.user.username);
           var modalInstance = $modal.open({
             templateUrl: 'loginModal.html',
             controller: 'LoginModalCtrl',
@@ -210,6 +209,19 @@
             $scope.token = res.token;
             $scope.user.username = res.username;
             $scope.authenticated = true;
+          });
+        };
+
+        $scope.openSearch = function() {
+          var modalInstance = $modal.open({
+            templateUrl: 'SearchModal.html',
+            controller: 'SearchModalCtrl',
+            size: "large",
+            resolve: {
+              users: function() {
+                return $scope.users;
+              }
+            }
           });
         };
 
@@ -243,22 +255,32 @@
           $modalInstance.dismiss("cancel");
         };
     }])
-    .controller("SearchModalCtrl", ["$scope","$modalInstance", "Main", function($scope, $modalInstance, Main) {
+    .controller("SearchModalCtrl", ["$scope","$modalInstance", "Main", "users", function($scope, $modalInstance, Main, users) {
+        $scope.users = users;
 
-        $scope.login = function() {
-          clearToken();
-          if($scope.user.username && $scope.user.password) {
-            Main.signIn($scope.user.username, $scope.user.password,
-              function(res) {
-                localStorageService.set("token", res.token);
-                $scope.authenticated = true;
-                $modalInstance.close({"token": $scope.token, "username": $scope.user.username});
-              }, function(err) {
-                console.log(res);
-              }
-            );
-          }
+        $scope.searchModlists = function(query) {
+          Main.searchModlists(query,
+            function(list) {
+              console.log(list);
+            }, function(err) {
+              console.log(err);
+            }
+          );
         };
+
+        $scope.getUsers = function() {
+          Main.getUsers(
+            function(res) {
+                $scope.users = res.usernames;
+                $scope.loading = false;
+            },
+            function(res) {
+                console.log(res);
+                $scope.loading = false;
+            }
+          );
+        };
+
         $scope.cancel = function() {
           $modalInstance.dismiss("cancel");
         };
