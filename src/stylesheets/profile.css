@@ -52,16 +52,16 @@ ul#plugins, ul#modlist, ul#ini, ul#prefsini, ul#skse, ul#enblocal {
   list-style-type: none;
   padding: 0px 40px 40px 40px;
 }
+ul#plugins li:nth-child(even), ul#modlist li:nth-child(even), ul#ini li:nth-child(even), ul#prefsini li:nth-child(even), ul#skse li:nth-child(even), ul#enblocal li:nth-child(even) {
+  background-color: #E0E0E0;
+}
+ul#plugins li:nth-child(odd), ul#modlist li:nth-child(odd), ul#ini li:nth-child(odd), ul#prefsini li:nth-child(odd), ul#skse li:nth-child(odd), ul#enblocal li:nth-child(odd) {
+  background-color: #FFFFFF;
+}
 li {
   padding: 3px 0px 3px 3px;
   border-left: 1px solid #B0B0B0;
   border-right: 1px solid #B0B0B0;
-}
-li.grayed {
-  background-color: #E0E0E0;
-} /* 1380 */
-li.whited {
-  background-color: #FFFFFF;
 }
 span.row-header {
   display: inline-block;

@@ -1,8 +1,20 @@
 (function() {
 
-  angular.module('modwatchApp', ["LocalStorageModule", "ui.bootstrap"])
+  angular.module('modwatchApp', ["LocalStorageModule", "ngRoute", "ui.bootstrap"])
 
-  .config(function (localStorageServiceProvider, $httpProvider) {
+  .config(function (localStorageServiceProvider, $routeProvider, $locationProvider, $httpProvider) {
+    $routeProvider
+      .when("/", {
+        templateUrl: "templates/HomeView.html"
+      })
+      .when("/u/:username", {
+        templateUrl: "templates/ProfileView.html",
+        controller: "ProfileCtrl"
+      })
+    ;
+    
+    $locationProvider.html5Mode(true);
+    
     localStorageServiceProvider.setPrefix('modwatch');
 
     $httpProvider.interceptors.push(['$q', '$window', 'localStorageService', function($q, $window, $location, localStorageService) {

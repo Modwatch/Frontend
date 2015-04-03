@@ -3,6 +3,9 @@ module.exports = function(app) {
 	app.get('/', function(req, res) {
 		res.sendfile('views/home.html');
 	});
+	app.get('/u/:username', function(req, res) {
+	  res.redirect("/#/u/"+req.params.username);
+	});
 	/*app.get('/users', function(req, res) {
 		res.render('allusers.ejs');
 	});

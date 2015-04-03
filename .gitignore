@@ -4,6 +4,7 @@
 /bower_components/*
 /python/auth.dat
 /public/*
+!/public/templates/
 /models/*
 /data/*
 /mongod
