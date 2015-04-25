@@ -2,12 +2,6 @@
   <h3 class="modal-title">Modwatch Search</h3>
 </div>
 <div class="modal-body">
-  <form class="form-inline" action="/usersearch" method="post">
-    <div class="form-group">
-    	<input type="text" class="form-control" name="username" placeholder="Username"/>
-    	<button class="btn btn-default vert-margin" type="submit" style="margin:10px 0px">Find a load order!</button>
-    </div>
-  </form>
   <form class="form-inline" ng-submit="searchModlists(searchQuery)">
     <div class="form-group">
       <input type="text" class="form-control" name="searchQuery" ng-model="searchQuery" placeholder="Mod to look for"/>
@@ -15,9 +9,9 @@
     </div>
   </form>
   <br />
-  <form class="form-inline" action="/usersearch" method="post">
+  <form class="form-inline" ng-submit="findUser(search.username)">
     <div class="form-group">
-  	<select class="form-control" id="userlist" name="username">
+  	<select class="form-control" ng-model="search.username" id="userlist" name="username">
   		<option ng-repeat="username in users">{{::username}}</option>
   	</select>
   	<button type="submit" ng-disabled="users.length==1" class="btn btn-default vert-margin">Go</button>

@@ -5,7 +5,7 @@
     .factory('Main', ['$http', function($http) {
 
       var api = "http://modwatchapi-ansballard.rhcloud.com";
-          api = "http://localhost:8080";
+          api = "http://localhost:3000";
 
         return {
 
@@ -29,13 +29,13 @@
               ;
             },
             setTag: function(username, tag, success, error) {
-              $http.post(api+'/newTag/'+username, {"tag":tag})
+              $http.post(api+'/api/newTag/'+username, {"tag":tag})
                 .success(success)
                 .error(error)
               ;
             },
             setENB: function(username, enb, success, error) {
-              $http.post(api+'/newENB/'+username, {"enb":enb})
+              $http.post(api+'/api/newENB/'+username, {"enb":enb})
                 .success(success)
                 .error(error)
               ;

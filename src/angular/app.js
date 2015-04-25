@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('modwatchApp', ["LocalStorageModule", "ngRoute", "ui.bootstrap"])
+  angular.module('modwatchApp', ["LocalStorageModule", "ngRoute", "ngAnimate", "ui.bootstrap"])
 
   .config(function (localStorageServiceProvider, $routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
