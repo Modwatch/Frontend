@@ -5,10 +5,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">-->
-    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 
-    <link href="/stylesheets/home.min.css" rel="stylesheet">
+		<!-- bower:css -->
+		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css?2183d05f5a0a9a3b" />
+		<link rel="stylesheet" href="/bower_components/animate.css/animate.css?56848eb884e1ac34" />
+		<!-- endbower -->
+
+		<!-- injector:css -->
+		<link rel="stylesheet" type="text/css" href="/css/all.css?2f2a53da3ed42fd5"/>
+		<!-- endinjector -->
+
     <title>Modwat.ch</title>
     <base href="/">
 </head>
@@ -25,7 +31,7 @@
 			<button ng-if="authenticated" class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button>
 			<button class="btn" title="Search" style="border-radius:50%" ng-click="openSearch()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 		</span>
-		
+
 	</div>
 	<script>
 
@@ -38,20 +44,24 @@
 	  ga('send', 'pageview');*/
 
 	</script>
-  
-	<link rel="stylesheet" href="/bower_components/animate.css/animate.min.css">
 
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>-->
-	<!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js"></script>-->
-	<script src="/bower_components/angular/angular.min.js"></script>
-	<script src="/bower_components/angular-route/angular-route.min.js"></script>
-	<script src="/bower_components/angular-animate/angular-animate.min.js"></script>
-	<script src="/bower_components/angular-ui-bootstrap/dist/ui-bootstrap-custom-tpls-0.12.1.min.js"></script>
-	<!--<script src="/angular/angular.min.js"></script>-->
-	<!-- Local angular files -->
-	<script src="/bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
-	<script src="/bower_components/jsdiff/diff.js"></script>
-	<script src="/angular/app.min.js"></script>
+	<!-- bower:js -->
+	<script src="/bower_components/jquery/dist/jquery.js?107fbe9555bfc88e"></script>
+	<script src="/bower_components/bootstrap/dist/js/bootstrap.js?9cb0532955cf4d4f"></script>
+	<script src="/bower_components/angular/angular.js?725456ab8e9230e0"></script>
+	<script src="/bower_components/angular-local-storage/dist/angular-local-storage.js?4b5d8a3b9ded63d1"></script>
+	<script src="/bower_components/angular-route/angular-route.js?206186c5251ff09c"></script>
+	<script src="/bower_components/angular-animate/angular-animate.js?3e74c70aae2cc871"></script>
+	<script src="/bower_components/jsdiff/diff.js?4c3ad48b7cd1d64b"></script>
+	<!-- endbower -->
+
+	<!-- Custom -->
+	<script src="/bower_components/angular-ui-bootstrap/dist/ui-bootstrap-custom-tpls-0.12.1.min.js?5c65baae57c3919f"></script>
+	<!-- /Custom -->
+
+	<!-- injector:js -->
+	<script type="text/javascript" src="/angular/ng.js?0c70ca8472fe6c58"></script>
+	<!-- endinjector -->
 
 </body>
 </html>
