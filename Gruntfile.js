@@ -99,7 +99,10 @@ module.exports = function(grunt) { "use strict";
     bower_concat: {
       all: {
         dest: "tmp/bower/js/all.bower.js",
-        cssDest: "tmp/bower/css/all.bower.css"
+        cssDest: "tmp/bower/css/all.bower.css",
+        mainFiles: {
+          "angular-ui-bootstrap": ["dist/ui-bootstrap-custom-tpls-0.12.1.min.js"]
+        }
       }
     },
     injector: {
@@ -162,6 +165,12 @@ module.exports = function(grunt) { "use strict";
           logConcurrentOutput: true
         },
         tasks: ["watch", "nodemon:dev"]
+      },
+      dev: {
+        options: {
+          logConcurrentOutput: true
+        },
+        tasks: ["watch", "nodemon:dev", "karma:angular"]
       }
     },
     nodemon: {
@@ -171,6 +180,12 @@ module.exports = function(grunt) { "use strict";
     },
     eslint: {
       target: ["src/**/*.js"]
+    },
+    karma: {
+      angular: {
+        configFile: "karma.conf.js",
+        autoWatch: true
+      }
     },
     watch: {
       css: {
@@ -196,6 +211,7 @@ module.exports = function(grunt) { "use strict";
 
   grunt.registerTask("default", ["clean:tmp", "eslint", "bower_concat", "concurrent:minify", "concurrent:inject", "cacheBust:dist", "clean:tmp"]);
   grunt.registerTask("serve", ["default", "concurrent:serve"]);
+  grunt.registerTask("dev", ["default", "concurrent:dev"]);
   grunt.registerTask("ngMin", ["ngAnnotate:dist", "uglify:angular", "clean:angular"]);
   grunt.registerTask("buildBower", ["clean:bower", "bower_concat", "uglify:bower", "cssmin:bower", "injector:bowerJS", "injector:bowerCSS"]);
 };
