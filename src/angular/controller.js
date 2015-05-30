@@ -1,10 +1,10 @@
-(function() {
+(function() { "use strict";
 
-    angular.module('modwatchApp')
+    angular.module("modwatchApp")
 
-    .controller('MainCtrl', ['$scope', '$location', '$modal', 'localStorageService', 'Main', function($scope, $location, $modal, localStorageService, Main) {
+    .controller("MainCtrl", ["$scope", "$location", "$modal", "localStorageService", "Main", function($scope, $location, $modal, localStorageService, Main) {
 
-        $scope.users = ['Loading...'];
+        $scope.users = ["Loading..."];
         $scope.loading = true;
 
         $scope.plugins = {};
@@ -51,11 +51,11 @@
           clearToken();
           $scope.user.password = undefined;
         };
-        
+
         $scope.openLogin = function() {
           var modalInstance = $modal.open({
-            templateUrl: 'templates/LoginModal.html',
-            controller: 'LoginModalCtrl',
+            templateUrl: "templates/LoginModal.html",
+            controller: "LoginModalCtrl",
             size: "small",
             resolve: {
               username: function() {
@@ -71,9 +71,9 @@
         };
 
         $scope.openSearch = function() {
-          var modalInstance = $modal.open({
-            templateUrl: 'templates/SearchModal.html',
-            controller: 'SearchModalCtrl',
+          $modal.open({
+            templateUrl: "templates/SearchModal.html",
+            controller: "SearchModalCtrl",
             size: "large",
             resolve: {
               users: function() {
@@ -87,28 +87,28 @@
     /**
      *  Filters
      */
-    .filter('stripedList', function() {
+    .filter("stripedList", function() {
       return function(input, match) {
-        match = match?match.toLowerCase():undefined;
+        match = match ? match.toLowerCase() : undefined;
         var filtered = [];
         for(var i = 0, j = 0; i < input.length; i++) {
           if(!match || input[i].name.toLowerCase().indexOf(match) >= 0) {
             filtered.push(input[i]);
-            filtered[filtered.length-1].class = (j===0)?"whited":"greyed";
-            j = (j+1)%2;
+            filtered[filtered.length - 1].class = (j === 0) ? "whited" : "greyed";
+            j = (j + 1) % 2;
           }
         }
         return filtered;
       };
     })
-    .filter('checked', function() {
+    .filter("checked", function() {
       return function(input, toggle) {
         if(!toggle) {
           return input;
         } else {
           var filtered = [];
           for(var i = 0; i < input.length; i++) {
-            if(input[i].name.indexOf('-') !== 0) {
+            if(input[i].name.indexOf("-") !== 0) {
               filtered.push(input[i]);
             }
           }
@@ -116,14 +116,14 @@
         }
       };
     })
-    .filter('capitalize', function() {
+    .filter("capitalize", function() {
       return function(input) {
         return input ? input[0].toUpperCase() + input.substr(1).toLowerCase() : input;
       };
     })
-    .filter('modwatchLimitTo', function() {
+    .filter("modwatchLimitTo", function() {
       return function(input, limit) {
-        return (input && input.length > limit) ? (input.substr(0,limit) + '...') : input;
+        return (input && input.length > limit) ? (input.substr(0, limit) + "...") : input;
       };
     });
 

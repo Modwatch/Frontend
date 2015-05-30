@@ -1,11 +1,11 @@
-(function() {
+(function() { "use strict";
 
-    angular.module('modwatchApp')
-    .controller("LoginModalCtrl", ["$scope","$modalInstance", 'localStorageService', 'Main', "username", function($scope, $modalInstance, localStorageService, Main, username) {
+    angular.module("modwatchApp")
+    .controller("LoginModalCtrl", ["$scope", "$modalInstance", "localStorageService", "Main", "username", function($scope, $modalInstance, localStorageService, Main, username) {
       $scope.user = {};
       $scope.user.username = username;
       $scope.authenticated = false;
-      
+
       var clearToken = function() {
           localStorageService.remove("token");
           $scope.authenticated = false;
@@ -20,7 +20,7 @@
                 $scope.authenticated = true;
                 $modalInstance.close({"token": $scope.token, "username": $scope.user.username});
               }, function(err) {
-                console.log(res);
+                console.log(err);
               }
             );
           }
@@ -29,7 +29,7 @@
           $modalInstance.dismiss("cancel");
         };
     }])
-    .controller("SearchModalCtrl", ["$scope","$modalInstance", "$location", "Main", "users", function($scope, $modalInstance, $location, Main, users) {
+    .controller("SearchModalCtrl", ["$scope", "$modalInstance", "$location", "Main", "users", function($scope, $modalInstance, $location, Main, users) {
         $scope.users = users;
 
         $scope.searchModlists = function(query) {
@@ -54,9 +54,9 @@
             }
           );
         };
-        
+
         getUsers();
-        
+
         $scope.findUser = function(searchUser) {
           $location.path("/u/" + searchUser);
           $scope.cancel();

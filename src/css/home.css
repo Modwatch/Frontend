@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Muli'), url(/fonts/z6c3Zzm51I2zB_Gi7146Bg.woff2) format('woff2'), url(/fonts/kU4XYdV4jtS72BIidPtqyw.woff) format('woff');
+}
+
 body {
 	font-family:"Muli", Helvetica-Neue, sans-serif;
 	color:#000000;

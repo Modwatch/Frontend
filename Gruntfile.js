@@ -1,4 +1,16 @@
-module.exports = function(grunt) {
+module.exports = function(grunt) { "use strict";
+
+  var transformInjected = function transformInjected(path, index, length) {
+    if(length > 0 && path !== undefined) {
+      if(path.indexOf(".css") > 0) {
+        return "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + path.replace("/public/", "/") + "\"/>";
+      } else {
+        return "<script type=\"text/javascript\" src=\"" + path.replace("/public/", "/") + "\"></script>";
+      }
+    } else {
+      return "";
+    }
+  };
 
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
@@ -20,7 +32,8 @@ module.exports = function(grunt) {
       },
       angular: {
         options: {
-          banner: "/*! <%= pkg.name %> <%= grunt.template.today(\"dd-mm-yyyy\") %> */\n"
+          banner: "/*! <%= pkg.name %> <%= grunt.template.today(\"dd-mm-yyyy\") %> */\n",
+          sourceMap: true
         },
         files: [
           {
@@ -28,12 +41,29 @@ module.exports = function(grunt) {
             dest: "public/angular/ng.js"
           }
         ]
+      },
+      bower: {
+        options: {
+          banner: "/*! <%= pkg.name %> <%= grunt.template.today(\"dd-mm-yyyy\") %> */\n",
+          sourceMap: true
+        },
+        files: [
+          {
+            src: "tmp/bower/js/all.bower.js",
+            dest: "public/bower/js/all.bower.js"
+          }
+        ]
       }
     },
     cssmin: {
-      dist: {
+      local: {
         files: {
           "public/css/all.css": "src/css/*.css"
+        }
+      },
+      bower: {
+        files: {
+          "public/bower/css/all.bower.css": "tmp/bower/css/all.bower.css"
         }
       }
     },
@@ -63,35 +93,49 @@ module.exports = function(grunt) {
     },
     clean: {
       tmp: ["tmp"],
-      angular: ["tmp/angular"]
+      angular: ["tmp/angular"],
+      bower: ["tmp/bower"]
     },
-    wiredep: {
-      dist: {
-        options: {
-          ignorePath: "\.\./public"
-        },
-        src: [
-          "views/home.html"
-        ]
+    bower_concat: {
+      all: {
+        dest: "tmp/bower/js/all.bower.js",
+        cssDest: "tmp/bower/css/all.bower.css"
       }
     },
     injector: {
-      dist: {
+      local: {
         files: {
-          "views/home.html": ["public/angular/ng.js", "public/css/all.css"]
+          "views/home.html": [
+            "public/angular/ng.js",
+            "public/css/all.css"
+          ]
         },
         options: {
-          transform: function(path, index, length) {
-            if(length > 0 && path !== undefined) {
-              if(path.indexOf(".css") > 0) {
-                return "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + path.replace("/public/", "/") + "\"/>";
-              } else {
-                return "<script type=\"text/javascript\" src=\"" + path.replace("/public/", "/") + "\"></script>";
-              }
-            } else {
-              return "";
-            }
-          }
+          transform: transformInjected
+        }
+      },
+      bowerJS: {
+        files: {
+          "views/home.html": [
+            "public/bower/js/all.bower.js"
+          ]
+        },
+        options: {
+          transform: transformInjected,
+          starttag: "<!-- injector:bowerjs -->",
+          endtag: "<!-- endinjector -->"
+        }
+      },
+      bowerCSS: {
+        files: {
+          "views/home.html": [
+            "public/bower/css/all.bower.css"
+          ]
+        },
+        options: {
+          transform: transformInjected,
+          starttag: "<!-- injector:bowercss -->",
+          endtag: "<!-- endinjector -->"
         }
       }
     },
@@ -111,8 +155,8 @@ module.exports = function(grunt) {
       }
     },
     concurrent: {
-      inject: ["wiredep:dist", "injector:dist"],
-      minify: ["cssmin:dist", "imagemin:dist", "ngMin", "uglify:node"],
+      inject: ["injector:local", "injector:bowerJS", "injector:bowerCSS"],
+      minify: ["cssmin:local", "cssmin:bower", "imagemin:dist", "ngMin", "uglify:node", "uglify:bower"],
       serve: {
         options: {
           logConcurrentOutput: true
@@ -125,25 +169,33 @@ module.exports = function(grunt) {
         script: "app.min.js"
       }
     },
+    eslint: {
+      target: ["src/**/*.js"]
+    },
     watch: {
       css: {
         files: ["src/css/*.css"],
-        tasks: ["cssmin:dist"]
+        tasks: ["cssmin:local"]
       },
       backend: {
         files: ["src/root/*.js"],
-        tasks: ["uglify:node"]
+        tasks: ["eslint", "uglify:node"]
       },
       angular: {
         files: ["src/angular/*.js"],
-        tasks: ["ngMin"]
+        tasks: ["eslint", "ngMin"]
+      },
+      bower: {
+        files: ["bower.json"],
+        tasks: ["buildBower"]
       }
     }
   });
 
-  require('jit-grunt')(grunt);
+  require("jit-grunt")(grunt);
 
-  grunt.registerTask("default", ["clean:tmp", "concurrent:minify", "concurrent:inject", "cacheBust:dist", "clean:tmp"]);
-  grunt.registerTask("serve", ["concurrent:serve"]);
-  grunt.registerTask("ngMin", ["ngAnnotate:dist", "uglify:angular", "clean:angular"])
+  grunt.registerTask("default", ["clean:tmp", "eslint", "bower_concat", "concurrent:minify", "concurrent:inject", "cacheBust:dist", "clean:tmp"]);
+  grunt.registerTask("serve", ["default", "concurrent:serve"]);
+  grunt.registerTask("ngMin", ["ngAnnotate:dist", "uglify:angular", "clean:angular"]);
+  grunt.registerTask("buildBower", ["clean:bower", "bower_concat", "uglify:bower", "cssmin:bower", "injector:bowerJS", "injector:bowerCSS"]);
 };
