@@ -3,14 +3,17 @@
     angular.module("modwatchApp")
 
     .factory("Main", ["$http", function($http) {
-
-      var api = "http://modwatchapi-ansballard.rhcloud.com";
-          api = "http://localhost:3000";
+    	
+    	var api = "";
+    	if(process.env.OPENSHIFT_NODEJS_PORT || process.env.OPENSHIFT_NODEJS_IP) {
+    		api = "http://modwatchapi-ansballard.rhcloud.com";
+    	} else {
+    		api = api = "http://localhost:3000";
+    	}
 
         return {
 
             getFile: function(username, filename, success, error) {
-              //console.log(username);
               $http.get(api + "/api/user/" + username + "/" + filename)
                 .success(success)
                 .error(error)
