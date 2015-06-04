@@ -214,4 +214,5 @@ module.exports = function(grunt) { "use strict";
   grunt.registerTask("dev", ["default", "concurrent:dev"]);
   grunt.registerTask("ngMin", ["ngAnnotate:dist", "uglify:angular", "clean:angular"]);
   grunt.registerTask("buildBower", ["clean:bower", "bower_concat", "uglify:bower", "cssmin:bower", "injector:bowerJS", "injector:bowerCSS"]);
+  grunt.registerTask("buildNotBower", ["clean:tmp", "ngMin", "cssmin:local", "uglify:node", "imagemin:dist", "injector:local", "cacheBust:dist"]);
 };
