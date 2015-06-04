@@ -20,6 +20,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 require("./routes.min.js")(app);
 
-http.createServer(app).listen(app.get("port"), function() { "use strict";
+http.createServer(app).listen(app.get("port"), app.get("ip"), function() { "use strict";
   console.log("Express server listening on port " + app.get("port"));
 });
