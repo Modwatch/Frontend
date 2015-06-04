@@ -37,7 +37,7 @@
               $scope.authenticated = true;
             }, function(err) {
               $scope.logout();
-              console.log("invalid token");
+              //console.log("invalid token");
             }
           );
         }

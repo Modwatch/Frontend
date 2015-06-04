@@ -28,7 +28,7 @@
         },
         "responseError": function(response) {
           if(response.status === 401 || response.status === 403) {
-            $window.console("signin");
+            //$window.console("signin");
           }
           return $q.reject(response);
         }

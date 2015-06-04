@@ -10,7 +10,7 @@
         return {
 
             getFile: function(username, filename, success, error) {
-              console.log(username);
+              //console.log(username);
               $http.get(api + "/api/user/" + username + "/" + filename)
                 .success(success)
                 .error(error)

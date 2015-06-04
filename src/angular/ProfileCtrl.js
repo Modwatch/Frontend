@@ -75,7 +75,7 @@
             for(i = 0; i < res.length; i++) {
               tmpIniString.push(res[i].name);
             }
-            console.log(JsDiff.diffTrimmedLines(defaultIni, tmpIniString.join("\n")));
+            //console.log(JsDiff.diffTrimmedLines(defaultIni, tmpIniString.join("\n")));
             $scope.ini = res;
           } else if($scope.currentFilename === "prefsini") {
             addDesc(res);
@@ -126,12 +126,12 @@
                   $scope.tag = getProfileRes.tag;
                 },
                 function(getProfileRes) {
-                  console.log(getProfileRes);
+                  //console.log(getProfileRes);
                 }
               );
             },
             function(res) {
-              console.log(res);
+              //console.log(res);
             }
           );
         };
@@ -159,7 +159,7 @@
               //console.log(res)
             },
             function(res) {
-              console.log(res);
+              //console.log(res);
             }
           );
         };
@@ -170,7 +170,7 @@
               //
             },
             function(res) {
-              console.log(res);
+              //console.log(res);
             }
           );
         };
