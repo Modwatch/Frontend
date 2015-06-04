@@ -5,11 +5,8 @@
     .factory("Main", ["$http", function($http) {
     	
     	var api = "";
-    	if(process.env.OPENSHIFT_NODEJS_PORT || process.env.OPENSHIFT_NODEJS_IP) {
-    		api = "http://modwatchapi-ansballard.rhcloud.com";
-    	} else {
-    		api = api = "http://localhost:3000";
-    	}
+    	api = "http://modwatchapi-ansballard.rhcloud.com";
+    	//api = "http://localhost:3000";
 
         return {
 
