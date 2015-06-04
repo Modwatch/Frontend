@@ -1,23 +1,21 @@
 var express = require("express");
   var bodyParser = require("body-parser");
-  //var cookieParser = require("cookie-parser");
-  //var favicon = require("serve-favicon");
   var methodOverride = require("method-override");
-  //var session = require("express-session");
 var app = express();
 
 var http = require("http");
 var path = require("path");
-//var bcrypt = require("bcrypt-nodejs");
 
-app.set("port", process.env.PORT || 3001);
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+
+app.set("port", port);
+app.set("ip", ipaddress);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride());
-//app.use(cookieParser());
-//app.use(session({secret: process.env.DBEXPRESSSECRET, resave: false, saveUninitialized: false}));
 app.use(express.static(path.join(__dirname, "public")));
 
 require("./routes.min.js")(app);

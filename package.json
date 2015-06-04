@@ -7,6 +7,7 @@
     "dev": "grunt & DBEXPRESSSECRET=swag nodemon app.min.js & grunt watch",
     "devWindows": "grunt & set DBEXPRESSSECRET=swag & nodemon app.min.js & grunt watch"
   },
+  "main": "app.min.js",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.12.0",
