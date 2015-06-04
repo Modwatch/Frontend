@@ -5,6 +5,7 @@
       $scope.user = {};
       $scope.user.username = username;
       $scope.authenticated = false;
+      $scope.loadingModlistSearch = false;
 
       var clearToken = function() {
           localStorageService.remove("token");
@@ -16,11 +17,12 @@
           if($scope.user.username && $scope.user.password) {
             Main.signIn($scope.user.username, $scope.user.password,
               function(res) {
+              	$scope.loginError = undefined;
                 localStorageService.set("token", res.token);
                 $scope.authenticated = true;
                 $modalInstance.close({"token": $scope.token, "username": $scope.user.username});
               }, function(err) {
-                console.log(err);
+                $scope.loginError = "Oh no, that login didn't work!";
               }
             );
           }
@@ -33,11 +35,14 @@
         $scope.users = users;
 
         $scope.searchModlists = function(query) {
+        	$scope.loadingModlistSearch = true;
           Main.searchModlists(query,
             function(list) {
-              //console.log(list);
+              $scope.modlistSearchResult = list.users;
+              $scope.loadingModlistSearch = false;
             }, function(err) {
-              console.log(err);
+              //console.log(err);
+              $scope.loadingModlistSearch = false;
             }
           );
         };
@@ -49,7 +54,7 @@
                 $scope.loading = false;
             },
             function(res) {
-                console.log(res);
+                //console.log(res);
                 $scope.loading = false;
             }
           );
@@ -77,7 +82,7 @@
               //console.log(res)
             },
             function(res) {
-              console.log(res);
+              //console.log(res);
             }
           );
         };
@@ -88,7 +93,7 @@
               //
             },
             function(res) {
-              console.log(res);
+              //console.log(res);
             }
           );
         };
