@@ -91,10 +91,40 @@ module.exports = function(grunt) { "use strict";
         }
       }
     },
+    copy: {
+    	templates: {
+    		files: [{
+    			expand: true,
+    			flatten: true,
+    			src: ["src/templates/*"],
+    			dest: "public/templates/",
+    			filter: "isFile"
+    		}]
+    	},
+    	fonts: {
+    		files: [{
+    			expand: true,
+    			flatten: true,
+    			src: ["src/fonts/*"],
+    			dest: "public/fonts/",
+    			filter: "isFile"
+    		}]
+    	},
+    	bootstrap: {
+    		files: [{
+    			expand: true,
+    			flatten: true,
+    			src: ["public/bower_components/bootstrap/fonts/*"],
+    			dest: "public/bower/fonts/",
+    			filter: "isFile"
+    		}]
+    	}
+    },
     clean: {
       tmp: ["tmp"],
       angular: ["tmp/angular"],
-      bower: ["tmp/bower"]
+      bower: ["tmp/bower"],
+      build: ["public/bower", "public/angular", "public/images", "public/fonts", "public/templates", "public/css"]
     },
     bower_concat: {
       all: {
@@ -159,7 +189,8 @@ module.exports = function(grunt) { "use strict";
     },
     concurrent: {
       inject: ["injector:local", "injector:bowerJS", "injector:bowerCSS"],
-      minify: ["cssmin:local", "cssmin:bower", "imagemin:dist", "ngMin", "uglify:node", "uglify:bower"],
+      minify: ["cssmin:local", "cssmin:bower", "imagemin:dist", "copy:templates", "copy:fonts", "copy:bootstrap", "ngMin", "uglify:node", "uglify:bower"],
+      miniminify: ["cssmin:local", "ngMin", "uglify:node"],
       serve: {
         options: {
           logConcurrentOutput: true
@@ -209,9 +240,13 @@ module.exports = function(grunt) { "use strict";
 
   require("jit-grunt")(grunt);
 
-  grunt.registerTask("default", ["clean:tmp", "eslint", "bower_concat", "concurrent:minify", "concurrent:inject", "cacheBust:dist", "clean:tmp"]);
+  grunt.registerTask("default", ["clean:tmp", "clean:build", "eslint", "bower_concat", "concurrent:minify", "concurrent:inject", "cacheBust:dist", "clean:tmp"]);
+  grunt.registerTask("minibuild", ["clean:tmp", "eslint", "concurrent:miniminify", "concurrent:inject", "cacheBust:dist", "clean:tmp"]);
+
   grunt.registerTask("serve", ["default", "concurrent:serve"]);
+  grunt.registerTask("miniserve", ["minibuild", "concurrent:serve"]);
   grunt.registerTask("dev", ["default", "concurrent:dev"]);
+
   grunt.registerTask("ngMin", ["ngAnnotate:dist", "uglify:angular", "clean:angular"]);
   grunt.registerTask("buildBower", ["clean:bower", "bower_concat", "uglify:bower", "cssmin:bower", "injector:bowerJS", "injector:bowerCSS"]);
   grunt.registerTask("buildNotBower", ["clean:tmp", "ngMin", "cssmin:local", "uglify:node", "imagemin:dist", "injector:local", "cacheBust:dist"]);

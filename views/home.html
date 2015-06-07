@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width">
 
 	<!-- injector:bowerCSS -->
-	<link rel="stylesheet" type="text/css" href="/bower/css/all.bower.css?0caf8a26e3b62932"/>
+	<link rel="stylesheet" type="text/css" href="/bower/css/all.bower.css"/>
 	<!-- endinjector -->
 
 	<!-- injector:css -->
@@ -20,15 +20,16 @@
 
 	<div id="full-wrapper" class="container">
 		<div id="ng-app" class="row" ng-app="modwatchApp" ng-controller="MainCtrl" ng-init="getUsers()">
-		<h1 id="header" class="col-xs-10 col-xs-offset-1"><a href="/">MODWAT.CH</a></h1>
-		<span id="content-wrapper" class="col-xs-10 col-sm-offset-1 ng-view-class" ng-view>
-		</span>
-		<span class="col-xs-1">
-			<button ng-if="!authenticated" title="Login" class="btn nav-anim" style="border-radius:50%" ng-click="openLogin()"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>
-			<a ng-if="authenticated" class="nav-anim" href="/u/{{user.username}}"><button class="btn" title="Your Profile" style="border-radius:50%;color:blue" ng-click=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button></a>
-			<button ng-if="authenticated" class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button>
-			<button class="btn" title="Search" style="border-radius:50%" ng-click="openSearch()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-		</span>
+			<h1 id="header" class="col-xs-10 col-xs-offset-1"><a href="/">MODWAT.CH</a></h1>
+			<span id="content-wrapper" class="col-xs-10 col-sm-offset-1 ng-view-class" ng-view>
+			</span>
+			<span class="col-xs-1">
+				<button ng-if="!authenticated" title="Login" class="btn nav-anim" style="border-radius:50%" ng-click="openLogin()"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></button>
+				<a ng-if="authenticated" class="nav-anim" href="/u/{{user.username}}"><button class="btn" title="Your Profile" style="border-radius:50%;color:blue" ng-click=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button></a>
+				<button ng-if="authenticated" class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button>
+				<button class="btn" title="Search" style="border-radius:50%" ng-click="openSearch()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+			</span>
+		</div>
 
 	</div>
 	<script>
@@ -44,7 +45,7 @@
 	</script>
 
 	<!-- injector:bowerJS -->
-	<script type="text/javascript" src="/bower/js/all.bower.js?6aaa8e85c5b8acad"></script>
+	<script type="text/javascript" src="/bower/js/all.bower.js"></script>
 	<!-- endinjector -->
 
 	<!-- Custom -->
@@ -52,9 +53,8 @@
 	<!-- /Custom -->
 
 	<!-- injector:js -->
-	<script type="text/javascript" src="/angular/ng.js?7f7fb3b8de741d37"></script>
+	<script type="text/javascript" src="/angular/ng.js?6013ee6146de6cf6"></script>
 	<!-- endinjector -->
 
 </body>
 </html>
-l>

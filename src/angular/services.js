@@ -5,13 +5,13 @@
     .factory("Main", ["$http", function($http) {
     	
     	var api = "";
-    	api = "http://modwatchapi-ansballard.rhcloud.com";
-    	//api = "http://localhost:3000";
+    	//api = "http://modwatchapi-ansballard.rhcloud.com";
+    	api = "http://localhost:3001";
 
         return {
 
             getFile: function(username, filename, success, error) {
-              $http.get(api + "/api/user/" + username + "/" + filename)
+              $http.get(api + "/api/user/" + username + "/file/" + filename)
                 .success(success)
                 .error(error)
               ;
@@ -47,7 +47,13 @@
               ;
             },
             searchModlists: function(query, success, error) {
-              $http.get(api + "/api/search/modlist/" + query)
+              $http.get(api + "/api/search/file/modlist/" + query)
+                .success(success)
+                .error(error)
+              ;
+            },
+            searchPlugins: function(query, success, error) {
+              $http.get(api + "/api/search/file/plugins/" + query)
                 .success(success)
                 .error(error)
               ;

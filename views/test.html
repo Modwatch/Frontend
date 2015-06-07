@@ -1,0 +1,15 @@
+<html>
+<head>
+</head>
+<body>
+	<script type="text/javascript">
+		var r = new XMLHttpRequest();
+		r.open("POST", "path/to/api", true);
+		r.onreadystatechange = function () {
+		  if (r.readyState !== 4 || r.status !== 200) return;
+		  console.log("Success: " + r.responseText);
+		};
+		r.send("banana=yellow");
+	</script>
+</body>
+</html>

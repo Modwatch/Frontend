@@ -4,10 +4,7 @@
 /bower_components/*
 /python/auth.dat
 /public/*
-!/public/templates/
-!/public/fonts/
 !/public/bower_components/angular-ui-bootstrap/dist/ui-bootstrap-custom-tpls-0.12.1.min.js
-!/public/bower/
 /models/*
 /data/*
 /mongod
