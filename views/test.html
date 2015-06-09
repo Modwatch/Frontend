@@ -3,13 +3,45 @@
 </head>
 <body>
 	<script type="text/javascript">
+	
+		var plugins = [{
+			name: "skyrim.esm",
+			name: "dawnguard.esm",
+			name: "hearthfire.esm"
+		}];
+		
+		var ini = [{
+			name: "something=1",
+			name: "other=0"
+		}];
+	
+		var prefsini = [{
+			name: "something=1",
+			name: "other=0"
+		}];
+		
+		var toSend = {
+			plugins: plugins,
+			modlist: [],
+			ini: ini,
+			prefsini: prefsini,
+			skse: [],
+			enblocal: [],
+			username: "Peanut",
+			password: "motherfuckingGUI",
+			game: "skyrim",
+			tag: "",
+			enb: ""
+		}
+	
 		var r = new XMLHttpRequest();
-		r.open("POST", "path/to/api", true);
+		r.open("POST", "http://localhost:3001/loadorder", true);
+		r.setRequestHeader("Content-Type", "application/json");
 		r.onreadystatechange = function () {
 		  if (r.readyState !== 4 || r.status !== 200) return;
 		  console.log("Success: " + r.responseText);
 		};
-		r.send("banana=yellow");
+		r.send(JSON.stringify(toSend));
 	</script>
 </body>
 </html>
