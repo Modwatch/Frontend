@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.min.js"
+    "start": "node app.min.js",
+    "prepublish": "node -e 'require(\"./gulpfile.js\")()'"
   },
   "main": "app.min.js",
   "dependencies": {

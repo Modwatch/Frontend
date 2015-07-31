@@ -109,3 +109,5 @@ gulp.task("copyImages", function() {
 
 gulp.task("copy", ["copyFonts", "copyImages", "injectTemplates"]);
 gulp.task("default", ["copy", "buildNode", "injectCSS", "injectNG"]);
+
+module.exports = function() { "use strict"; gulp.run("default"); };
