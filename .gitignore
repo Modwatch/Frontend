@@ -5,6 +5,7 @@
 /python/auth.dat
 /public/*
 !/public/bower_components/angular-ui-bootstrap/dist/ui-bootstrap-custom-tpls-0.12.1.min.js
+!public/static
 /models/*
 /data/*
 /mongod

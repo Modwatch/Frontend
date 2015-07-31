@@ -5,10 +5,10 @@
   .config(function (localStorageServiceProvider, $routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .when("/", {
-        templateUrl: "templates/HomeView.html"
+        templateUrl: "HomeView.html"
       })
       .when("/u/:username", {
-        templateUrl: "templates/ProfileView.html",
+        templateUrl: "ProfileView.html",
         controller: "ProfileCtrl"
       })
     ;
@@ -17,7 +17,7 @@
 
     localStorageServiceProvider.setPrefix("modwatch");
 
-    $httpProvider.interceptors.push(["$q", "$window", "localStorageService", function($q, $window, $location, localStorageService) {
+    $httpProvider.interceptors.push(["$q", "$window", "$location", "localStorageService", function($q, $window, $location, localStorageService) {
       return {
         "request": function (config) {
           config.headers = config.headers || {};

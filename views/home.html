@@ -5,13 +5,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width">
 
-	<!-- injector:bowerCSS -->
-	<link rel="stylesheet" type="text/css" href="/bower/css/all.bower.css?0caf8a26e3b62932"/>
-	<!-- endinjector -->
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css"/>
 
-	<!-- injector:css -->
-	<link rel="stylesheet" type="text/css" href="/css/all.css?4db592eb8468aa7b"/>
-	<!-- endinjector -->
+	<!-- inject:css -->
+	<link rel="stylesheet" type="text/css" href="/css/local.min.css"/>
+	<!-- endinject -->
 
 	<title>Modwat.ch</title>
 	<base href="/">
@@ -29,6 +27,177 @@
 				<button ng-if="authenticated" class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button>
 				<button class="btn" title="Search" style="border-radius:50%" ng-click="openSearch()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 			</span>
+
+			<!-- inject:html -->
+			<script type="text/ng-template" id="EditModal.html"><div class="modal-header">
+  <h3 class="modal-title">Edit</h3>
+</div>
+<div class="modal-body">
+  <form class="form-inline" id="enbPost">
+    <label class="sr-only" for="enb">Your ENB</label><input type="text" ng-model="enb" id="enb" class="form-control" name="enb" placeholder="Your ENB">
+    <button type="submit" class="btn btn-default vert-margin" ng-click="newENB()">Update</button>
+  </form>
+  <br />
+  <form class="form-inline" id="tagPost">
+    <label class="sr-only" for="tag">Your Tag</label><input ng-model="tag" type="text" id="tag" class="form-control" name="tag" placeholder="Your Tag">
+    <button type="submit" class="btn btn-default vert-margin" ng-click="newTag()">Update</button>
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" style="color:black" ng-click="cancel()">Close</button>
+</div></script>
+			<script type="text/ng-template" id="HomeView.html"><div>
+	<p id="download-header"><a href="http://www.nexusmods.com/skyrim/mods/56640/?tab=2&navtag=http%3A%2F%2Fwww.nexusmods.com%2Fskyrim%2Fajax%2Fmodfiles%2F%3Fid%3D56640&pUp=1#content">Download Here!</a></p>
+</div>
+<div class="update-block">
+	<div class="post-header">
+		<h3 class="post-title">BETA WEBSITE</h3>
+	</div>
+  <p class="post-body">
+    This site is currently in beta. Please report any issues to <a href="http://reddit.com/u/peanuttheguru">/u/peanuttheguru</a>.
+  </p>
+  <div class="post-header">
+		<h3 class="post-title">What is Modwatch?</h3>
+	</div>
+  <p class="post-body">
+    Modwatch is a site for uploading and sharing modlists for Skyrim (and eventually other games). If you want to view some of the 1000+ modlists, you can look through the dropdown to the right. Or if you have one in mind, you can view it at modwat.ch/username.
+  </p>
+  <div class="post-header">
+		<h3 class="post-title">Uploading Your Mods!</h3>
+	</div>
+  <p class="post-body">
+    If you want to upload your own modlist, you can download the script via the gigantic orange button at the top of the page. Instructions for uploading are detailed on the nexus page.
+  </p>
+  <div class="post-header">
+		<h3 class="post-title">Logging In!</h3>
+	</div>
+  <p class="post-body">
+    Finally, if you've uploaded your modlist, your can log in with the same username and password you used in the uploader to log in to the right. Eventually you'll have more options to customize, so stay tuned!
+  </p>
+  <p class="post-sig">-Peanut</p>
+</div></script>
+			<script type="text/ng-template" id="LoginModal.html"><div class="modal-header">
+  <h3 class="modal-title">Modwatch Login</h3>
+</div>
+<div class="modal-body">
+  <form class="form-inline"  ng-submit="login()">
+		<label class="sr-only" for="loginUsername">Username</label>
+		<input type="text" id="loginUsername" class="form-control" ng-model="user.username" name="username" placeholder="Username">
+		
+		<label class="sr-only" for="loginPassword">Password</label>
+		<input type="password" id="loginPassword" class="form-control" ng-class="{ 'error': loginError }" ng-model="user.password" name="password" placeholder="Password">
+		
+		<button type="submit" class="btn btn-primary" style="color: black">Login</button>
+    <button class="btn btn-warning" style="color:black" ng-click="cancel()">Cancel</button>
+	</form>
+	
+	<div ng-show="loginError" class="errorMessage">
+		<span>{{loginError}}</span>
+	</div>
+</div>
+<div class="modal-footer">
+</div></script>
+			<script type="text/ng-template" id="ProfileView.html"><span id="list-container">
+  <div id="nav-wrapper" class="row">
+    <h1 ng-if="enb" id="enbText" class="col-xs-12">ENB: {{ enb }}</h1>
+    <h1 ng-if="tag" id="tagText" class="col-xs-12">"{{ tag }}"</h1>
+    <div style="/*overflow-x:scroll;white-space:nowrap*/" class="col-xs-12">
+      <span ng-if="hasPlugins"><button class="btn" id="pluginsNav" ng-click="switchFiles('plugins')">Plugins</button></span>
+      <span ng-if="hasModlist"><button class="btn" id="modlistNav" ng-click="switchFiles('modlist')">Modlist</button></span>
+      <span ng-if="hasIni"><button class="btn" id="iniNav" ng-click="switchFiles('ini')">{{ ::game | capitalize}}</button></span>
+      <span ng-if="hasPrefsIni"><button class="btn" id="prefsiniNav" ng-click="switchFiles('prefsini')">{{ ::game | capitalize}}Prefs</button></span>
+      <span ng-if="hasSKSE"><button class="btn" id="skseNav" ng-click="switchFiles('skse')">SKSE</button></span>
+      <span ng-if="hasENBLocal"><button class="btn" id="enblocalNav" ng-click="switchFiles('enblocal')">ENB Local</button></span>
+    </div>
+  </div>
+  <span id="search-container" style="position:relative;" class="col-xs-12">
+    <span id="username" class="col-xs-3 col-xs-offset-1" ng-attr-title="{{::timestamp|date}}">
+      <span ng-if="$parent.authenticated && user.isOwner && false" ng-click="openEdit()" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {{ ::user.username }}
+    </span>
+    <span class="col-xs-5 col-xs-offset-2"><input type="text" class="form-control" ng-model="filterMods" id="filter-mods" placeholder="Filter by..."/></span>
+    <button ng-show="!modlistChecked && currentFilename == 'modlist'" ng-click="modlistChecked = true" class="btn" id="filter-checked">Show Only Running Mods</button>
+    <button ng-show="modlistChecked && currentFilename == 'modlist'" ng-click="modlistChecked = false" class="btn" id="filter-checked">Show All Mods</button>
+  </span>
+  <div style="min-height:500px" class="col-sm-10 col-sm-offset-1 col-xs-12">
+    <ul id="plugins" ng-show="currentFilename == 'plugins'">
+      <li ng-repeat="item in plugins | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span class='row-body'>{{::item.name}}</span><span class='row-footer {{item.name|limitTo:-3}}'>{{item.name|limitTo:-3}}</span></li>
+    </ul>
+    <ul class="" id="modlist" ng-show="currentFilename == 'modlist'">
+      <li ng-repeat="item in modlist | checked:modlistChecked | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span class='row-body'>{{::item.name}}</span></li>
+    </ul>
+    <ul class="" id="ini" ng-show="currentFilename == 'ini'">
+      <li ng-repeat="item in ini | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item.name}}</span></li>
+    </ul>
+    <ul class="" id="prefsini" ng-show="currentFilename == 'prefsini'">
+      <li ng-repeat="item in prefsini | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item.name}}</span></li>
+    </ul>
+    <ul class="" id="skse" ng-show="currentFilename == 'skse'">
+      <li ng-repeat="item in skse | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item.name}}</span></li>
+    </ul>
+    <ul class="" id="enblocal" ng-show="currentFilename == 'enblocal'">
+      <li ng-repeat="item in enblocal | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item.name}}</span></li>
+    </ul>
+  </div>
+</span>
+</script>
+			<script type="text/ng-template" id="SearchModal.html"><div class="modal-header">
+  <h3 class="modal-title">Modwatch Search</h3>
+</div>
+<div class="modal-body">
+  <form class="form-horizontal" ng-submit="searchModlists(searchQuery)">
+    <div class="form-group">
+    	<label for="searchQuery" class="control-label col-xs-4">Mods to Search For</label>
+    	<div class="col-xs-8">
+      	<input type="text" class="form-control" name="searchQuery" ng-model="searchQuery" placeholder="Mod to look for"/>
+      </div>
+      <label class="control-label col-xs-4 sr-only">Search</label>
+      <div class="col-xs-8" style="text-align: left">
+      	<button class="btn btn-default vert-margin" type="submit">Search</button>
+    	</div>
+    </div>
+  </form>
+  <div class="loadingText" ng-show="loadingModlistSearch">
+  	<span>Searching for lists containing "{{searchQuery}}"</span>
+  </div>
+  <span ng-show="modlistSearchResult && !loadingModlistSearch">
+	  <br />
+	  <form class="form-horizontal" ng-submit="findUser(searchModlist.mod)">
+	    <div class="form-group">
+	    	<label for="mod" class="control-label col-xs-4">Lists using "{{searchQuery}}"</label>
+	    	<div class="col-xs-8">
+		      <select class="form-control" ng-model="searchModlist.mod" id="userlist" name="mod">
+		      	<option disabled>{{modlistSearchResult.length}} Results!</option>
+			  		<option ng-repeat="username in modlistSearchResult">{{::username}}</option>
+			  	</select>
+			  </div>
+			  <label class="control-label col-xs-4 sr-only">Search</label>
+      	<div class="col-xs-8" style="text-align: left">
+	  			<button type="submit" ng-disabled="modlistSearchResult.length === 1" class="btn btn-default vert-margin col-offset-xs-4">Go</button>
+	  		</div>
+	    </div>
+	  </form>
+	</span>
+  <br />
+  <form class="form-horizontal" ng-submit="findUser(search.username)" style="border-top: 1px solid #e5e5e5;padding-top: 15px;">
+    <div class="form-group">
+    	<label for="username" class="control-label col-xs-4">All Modlists</label>
+    	<div class="col-xs-8">
+		  	<select class="form-control" ng-model="search.username" id="userlist" name="username">
+		  		<option ng-repeat="username in users">{{::username}}</option>
+		  	</select>
+		  </div>
+	  	<label class="control-label col-xs-4 sr-only">Search</label>
+    	<div class="col-xs-8" style="text-align: left">
+  			<button type="submit" ng-disabled="users.length === 1" class="btn btn-default vert-margin">Go</button>
+  		</div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" style="color:black" ng-click="cancel()">Cancel</button>
+</div></script>
+			<!-- endinject -->
+
 		</div>
 
 	</div>
@@ -44,17 +213,15 @@
 
 	</script>
 
-	<!-- injector:bowerJS -->
-	<script type="text/javascript" src="/bower/js/all.bower.js?6687f82ab6725195"></script>
-	<!-- endinjector -->
+	<script type="text/javascript" src="/static/angular.min.js"></script>
+	<script type="text/javascript" src="/static/angular-local-storage.min.js"></script>
+	<script type="text/javascript" src="/static/angular-animate.min.js"></script>
+	<script type="text/javascript" src="/static/angular-route.min.js"></script>
+	<script type="text/javascript" src="/static/ui-bootstrap-custom-tpls-0.12.1.min.js"></script>
 
-	<!-- Custom -->
-	<script src="/bower_components/angular-ui-bootstrap/dist/ui-bootstrap-custom-tpls-0.12.1.min.js?5c65baae57c3919f"></script>
-	<!-- /Custom -->
-
-	<!-- injector:js -->
-	<script type="text/javascript" src="/angular/ng.js?9411f6bdaa71aefa"></script>
-	<!-- endinjector -->
+	<!-- inject:js -->
+	<script type="text/javascript" src="/angular/ng.min.js"></script>
+	<!-- endinject -->
 
 </body>
 </html>

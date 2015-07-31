@@ -3,10 +3,10 @@
     angular.module("modwatchApp")
 
     .factory("Main", ["$http", function($http) {
-    	
+
     	var api = "";
-    	//api = "http://modwatchapi-ansballard.rhcloud.com";
-    	api = "http://localhost:3001";
+    	api = "http://modwatchapi-ansballard.rhcloud.com";
+    	//api = "http://localhost:3001";
 
         return {
 
