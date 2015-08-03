@@ -21,22 +21,22 @@
   </span>
   <div style="min-height:500px" class="col-sm-10 col-sm-offset-1 col-xs-12">
     <ul id="plugins" ng-show="currentFilename == 'plugins'">
-      <li ng-repeat="item in plugins | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span class='row-body'>{{::item.name}}</span><span class='row-footer {{item.name|limitTo:-3}}'>{{item.name|limitTo:-3}}</span></li>
+      <li ng-repeat="item in plugins | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span class='row-body'>{{::item}}</span><span class='row-footer {{item|limitTo:-3}}'>{{item|limitTo:-3}}</span></li>
     </ul>
     <ul class="" id="modlist" ng-show="currentFilename == 'modlist'">
-      <li ng-repeat="item in modlist | checked:modlistChecked | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span class='row-body'>{{::item.name}}</span></li>
+      <li ng-repeat="item in modlist | checked:modlistChecked | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span class='row-body'>{{::item}}</span></li>
     </ul>
     <ul class="" id="ini" ng-show="currentFilename == 'ini'">
-      <li ng-repeat="item in ini | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item.name}}</span></li>
+      <li ng-repeat="item in ini | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item}}</span></li>
     </ul>
     <ul class="" id="prefsini" ng-show="currentFilename == 'prefsini'">
-      <li ng-repeat="item in prefsini | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item.name}}</span></li>
+      <li ng-repeat="item in prefsini | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item}}</span></li>
     </ul>
     <ul class="" id="skse" ng-show="currentFilename == 'skse'">
-      <li ng-repeat="item in skse | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item.name}}</span></li>
+      <li ng-repeat="item in skse | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item}}</span></li>
     </ul>
     <ul class="" id="enblocal" ng-show="currentFilename == 'enblocal'">
-      <li ng-repeat="item in enblocal | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item.name}}</span></li>
+      <li ng-repeat="item in enblocal | stripedList:filterMods" ng-class="item.class"><span class='row-header'>{{$index+1}}.</span><span title="{{item.desc}}" ng-style="item.style" class='row-body'>{{::item}}</span></li>
     </ul>
   </div>
 </span>
