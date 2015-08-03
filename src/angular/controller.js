@@ -87,20 +87,6 @@
     /**
      *  Filters
      */
-    .filter("stripedList", function() {
-      return function(input, match) {
-        match = match ? match.toLowerCase() : undefined;
-        var filtered = [];
-        for(var i = 0, j = 0; i < input.length; i++) {
-          if(!match || input[i].toLowerCase().indexOf(match) >= 0) {
-            filtered.push(input[i]);
-            filtered[filtered.length - 1].class = (j === 0) ? "whited" : "greyed";
-            j = (j + 1) % 2;
-          }
-        }
-        return filtered;
-      };
-    })
     .filter("checked", function() {
       return function(input, toggle) {
         if(!toggle) {
