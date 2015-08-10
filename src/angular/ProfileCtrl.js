@@ -30,8 +30,6 @@
         $scope.user.username = $routeParams.username;
         $scope.user.isOwner = $scope.user.username === $scope.$parent.user.username;
 
-        //var defaultIni = "[General]\nsLanguage=ENGLISH\n\nuExterior Cell Buffer=36\n\n[Display]\nfShadowLODMaxStartFade=1000.0\nfSpecularLODMaxStartFade=2000.0\nfLightLODMaxStartFade=3500.0\niShadowMapResolutionPrimary=2048\nbAllowScreenshot=1\n\n[Audio]\nfMusicDuckingSeconds=6.0\nfMusicUnDuckingSeconds=8.0\nfMenuModeFadeOutTime=3.0\nfMenuModeFadeInTime=1.0\n\n[Grass]\nbAllowCreateGrass=1\nbAllowLoadGrass=0\n\n[GeneralWarnings]\nSGeneralMasterMismatchWarning=One or more plugins could not find the correct versions of the master files they depend on. Errors may occur during load or game play. Check the \"Warnings.txt\" file for more information.\n\n[Archive]\nsResourceArchiveList=Skyrim - Misc.bsa, Skyrim - Shaders.bsa, Skyrim - Textures.bsa, Skyrim - Interface.bsa, Skyrim - Animations.bsa, Skyrim - Meshes.bsa, Skyrim - Sounds.bsa\nsResourceArchiveList2=Skyrim - Voices.bsa, Skyrim - VoicesExtra.bsa\n\n[Combat]\nfMagnetismStrafeHeadingMult=0.0\nfMagnetismLookingMult=0.0\n\n[Papyrus]\nfPostLoadUpdateTimeMS=500.0\nbEnableLogging=0\nbEnableTrace=0\nbLoadDebugInformation=0\n[Water]\nbReflectLODObjects=1\nbReflectLODLand=1\nbReflectSky=1\nbReflectLODTrees=1";
-
         var token = localStorageService.get("token");
 
         var i = 0;

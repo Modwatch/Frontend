@@ -1,3 +1,5 @@
+var request = require("request");
+
 module.exports = function(app) { "use strict";
 
 	app.get("/", function(req, res) {
@@ -14,6 +16,17 @@ module.exports = function(app) { "use strict";
 		res.sendFile("test.html", {root: "views/"}, function(err) {
 			if(err) {
 				res.sendStatus(500);
+			}
+		});
+	});
+	app.post("/fullloadorder", function(req, res) {
+		request.post("http://modwatchapi-ansballard.rhcloud.com/fullloadorder", {form: req.body}, function(err, proxyRes, body) {
+			if(err) {
+				res.setStatus = 500;
+				res.end();
+			} else {
+				res.statusCode = 200;
+				res.end();
 			}
 		});
 	});
