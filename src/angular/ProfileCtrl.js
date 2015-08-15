@@ -49,6 +49,12 @@
         var getFile = function(res) {
           if($scope.currentFilename === "plugins") {
             $scope.plugins = res;
+            for(var i = 0; i < res.length; i++) {
+              if(res[i].indexOf("#") === 0) {
+                res.splice(i,1);
+                i--;
+              }
+            }
           } else if($scope.currentFilename === "modlist") {
             var reversed = [];
             for (i = 0, j = res.length - 1; i < res.length; i++, j--) {
