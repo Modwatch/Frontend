@@ -27,6 +27,7 @@
             $scope.listOrder.field = field;
             $scope.listOrder.reverse = false;
           }
+          filterLocked = false;
         };
 
         var paginateDataFunction = function paginateDataFunction() {
@@ -62,7 +63,6 @@
         $scope.getUserlist();
 
         $scope.$watch("listFilter", function(newVal, oldVal) {
-          console.log("ok?");
           if(newVal !== oldVal) {
             filterLocked = false;
           }

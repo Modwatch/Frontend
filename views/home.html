@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="modwatchApp" >
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,13 +11,13 @@
 	<link rel="stylesheet" type="text/css" href="/css/local.min.css"/>
 	<!-- endinject -->
 
-	<title>Modwat.ch</title>
+	<title ng-bind="pageTitle">Modwat.ch</title>
 	<base href="/">
 </head>
 <body>
 
 	<div id="full-wrapper" class="container">
-		<div id="ng-app" class="row" ng-app="modwatchApp" ng-controller="MainCtrl" ng-init="getUsers()">
+		<div id="ng-app" class="row" ng-controller="MainCtrl" ng-init="getUsers()">
 			<h1 id="header" class="col-xs-10 col-xs-offset-1"><a href="/">MODWAT.CH</a></h1>
 			<span id="content-wrapper" class="col-xs-10 col-sm-offset-1 ng-view-class" ng-view>
 			</span>

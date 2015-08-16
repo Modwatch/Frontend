@@ -15,13 +15,10 @@ module.exports = function(app) { "use strict";
 	app.get("/userlist", function(req, res) {
 		res.redirect("/#userlist");
 	});
-	app.get("/test", function(req, res) {
-		res.sendFile("test.html", {root: "views/"}, function(err) {
-			if(err) {
-				res.sendStatus(500);
-			}
-		});
-	});
+
+	/**
+	 *  Legacy uploader redirect
+	 */
 	app.post("/fullloadorder", function(req, res) {
 		request.post("http://modwatchapi-ansballard.rhcloud.com/fullloadorder", {form: req.body}, function(err, proxyRes, body) {
 			if(err) {
@@ -32,6 +29,13 @@ module.exports = function(app) { "use strict";
 				res.end();
 			}
 		});
+	});
+
+	/**
+	 *  Legacy redirect, keep this after all the other routes
+	 */
+	app.get("/:username", function(req, res) {
+		res.redirect("/#/u/" + req.params.username);
 	});
 
 };

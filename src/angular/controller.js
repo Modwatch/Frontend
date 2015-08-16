@@ -2,29 +2,12 @@
 
     angular.module("modwatchApp")
 
-    .controller("MainCtrl", ["$scope", "$location", "$modal", "localStorageService", "Main", function($scope, $location, $modal, localStorageService, Main) {
+    .controller("MainCtrl", ["$rootScope", "$scope", "$location", "$modal", "localStorageService", "Main", function($rootScope, $scope, $location, $modal, localStorageService, Main) {
 
         $scope.users = ["Loading..."];
         $scope.loading = true;
+        $rootScope.pageTitle = "Modwat.ch";
 
-        $scope.plugins = {};
-        $scope.modlist = {};
-        $scope.ini = {};
-        $scope.prefsini = {};
-        $scope.skse = {};
-        $scope.enblocal = {};
-
-        $scope.hasPlugins = false;
-        $scope.hasModlist = false;
-        $scope.hasIni = false;
-        $scope.hasPrefsIni = false;
-        $scope.skse = false;
-        $scope.enblocal = false;
-
-        var files = [];
-
-        $scope.currentFilename = "plugins";
-        $scope.modlistChecked = true;
         $scope.authenticated = false;
         $scope.user = {};
 
@@ -37,7 +20,6 @@
               $scope.authenticated = true;
             }, function(err) {
               $scope.logout();
-              //console.log("invalid token");
             }
           );
         }
@@ -83,34 +65,14 @@
           });
         };
 
-    }])
-    /**
-     *  Filters
-     */
-    .filter("checked", function() {
-      return function(input, toggle) {
-        if(!toggle) {
-          return input;
-        } else {
-          var filtered = [];
-          for(var i = 0; i < input.length; i++) {
-            if(input[i].indexOf("-") !== 0) {
-              filtered.push(input[i]);
-            }
+        $scope.$on("$routeChangeSuccess", function(ev, route) {
+          if(route.$$route.originalPath === "/") {
+            $rootScope.pageTitle = "Modwat.ch - Home";
+          } else if(route.$$route.originalPath === "/userlist") {
+            $rootScope.pageTitle = "Modwat.ch - Search Users";
           }
-          return filtered;
-        }
-      };
-    })
-    .filter("capitalize", function() {
-      return function(input) {
-        return input ? input[0].toUpperCase() + input.substr(1).toLowerCase() : input;
-      };
-    })
-    .filter("modwatchLimitTo", function() {
-      return function(input, limit) {
-        return (input && input.length > limit) ? (input.substr(0, limit) + "...") : input;
-      };
-    });
+        });
+
+    }]);
 
 }());

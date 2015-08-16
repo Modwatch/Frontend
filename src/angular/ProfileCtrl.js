@@ -2,7 +2,7 @@
 
     angular.module("modwatchApp")
 
-    .controller("ProfileCtrl", ["$scope", "$location", "$modal", "localStorageService", "Main", "$routeParams", function($scope, $location, $modal, localStorageService, Main, $routeParams) {
+    .controller("ProfileCtrl", ["$rootScope", "$scope", "$location", "$modal", "localStorageService", "Main", "$routeParams", function($rootScope, $scope, $location, $modal, localStorageService, Main, $routeParams) {
 
         $scope.loading = true;
 
@@ -28,6 +28,7 @@
         $scope.user = {};
 
         $scope.user.username = $routeParams.username;
+        $rootScope.pageTitle = "Modwat.ch - " + $scope.user.username;
         $scope.user.isOwner = $scope.user.username === $scope.$parent.user.username;
 
         var token = localStorageService.get("token");
@@ -92,7 +93,6 @@
                   $scope.hasENBLocal = true;
                 }
               }
-              //$location.path($scope.currentFilename);
 
               Main.getFile($scope.user.username, $scope.currentFilename,
                 getFile,
