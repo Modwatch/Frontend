@@ -9,7 +9,7 @@
         } else {
           var filtered = [];
           for(var i = 0; i < input.length; i++) {
-            if(input[i].indexOf("-") !== 0) {
+            if(input[i].display.indexOf("-") !== 0) {
               filtered.push(input[i]);
             }
           }

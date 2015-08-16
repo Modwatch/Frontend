@@ -48,10 +48,13 @@
         }
 
         var getFile = function(res) {
+          for(i = 0; i < res.length; i++) {
+            res[i] = {id: "index" + i, display: res[i]};
+          }
           if($scope.currentFilename === "plugins") {
             $scope.plugins = res;
             for(i = 0; i < res.length; i++) {
-              if(res[i].indexOf("#") === 0) {
+              if(res[i].display.indexOf("#") === 0) {
                 res.splice(i, 1);
                 i--;
               }
