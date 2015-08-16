@@ -84,14 +84,14 @@
   <form class="form-inline"  ng-submit="login()">
 		<label class="sr-only" for="loginUsername">Username</label>
 		<input type="text" id="loginUsername" class="form-control" ng-model="user.username" name="username" placeholder="Username">
-
+		
 		<label class="sr-only" for="loginPassword">Password</label>
 		<input type="password" id="loginPassword" class="form-control" ng-class="{ 'error': loginError }" ng-model="user.password" name="password" placeholder="Password">
-
+		
 		<button type="submit" class="btn btn-primary" style="color: black">Login</button>
     <button class="btn btn-warning" style="color:black" ng-click="cancel()">Cancel</button>
 	</form>
-
+	
 	<div ng-show="loginError" class="errorMessage">
 		<span>{{loginError}}</span>
 	</div>

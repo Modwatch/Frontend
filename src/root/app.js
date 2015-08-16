@@ -12,7 +12,7 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 app.set("port", port);
 app.set("ip", ipaddress);
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+app.set("view engine", "html");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride());
