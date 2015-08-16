@@ -49,9 +49,9 @@
         var getFile = function(res) {
           if($scope.currentFilename === "plugins") {
             $scope.plugins = res;
-            for(var i = 0; i < res.length; i++) {
+            for(i = 0; i < res.length; i++) {
               if(res[i].indexOf("#") === 0) {
-                res.splice(i,1);
+                res.splice(i, 1);
                 i--;
               }
             }

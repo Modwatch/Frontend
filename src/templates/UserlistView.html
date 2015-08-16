@@ -1,0 +1,34 @@
+
+
+<div class="form-inline" style="margin-top: 20px;">
+  <input class="form-control" placeholder="Search" type="text" ng-model="listFilter" ng-model-options="{debounce: 250}"/>
+  <span ng-if="pList.getNumPages() > 1">
+    <button class="btn" type="button" ng-click="pList.prevPage()" ng-disabled="pList.getIsFirstPage()">Prev</button>
+      {{pList.getPage() + 1}} / {{pList.getNumPages()}}
+    <button class="btn" type="button" ng-click="pList.nextPage()" ng-disabled="pList.getIsLastPage()">Next</button>
+  </span>
+  <span ng-if="cachedList">Getting most recent list...</span>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr style="font-size: 20px;">
+      <th style="cursor: pointer;" ng-click="sortCol('username')">
+        Username
+        <span ng-show="listOrder.field === 'username' && listOrder.reverse === false" class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>
+        <span ng-show="listOrder.field === 'username' && listOrder.reverse === true" class="glyphicon glyphicon-sort-by-alphabet-alt" aria-hidden="true"></span>
+      </th>
+      <th style="cursor: pointer;" ng-click="sortCol('timestamp')">
+        Timestamp
+        <span ng-show="listOrder.field === 'timestamp' && listOrder.reverse === false" class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span>
+        <span ng-show="listOrder.field === 'timestamp' && listOrder.reverse === true" class="glyphicon glyphicon-sort-by-order-alt" aria-hidden="true"></span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in pList.getVisibleContent()">
+      <td><a href="/u/{{user.username}}" style="color: #000">{{user.username}}</a></td>
+      <td>{{user.timestamp | date}}</td>
+    </tr>
+  </tbody>
+</table>

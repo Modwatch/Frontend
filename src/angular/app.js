@@ -11,6 +11,13 @@
         templateUrl: "ProfileView.html",
         controller: "ProfileCtrl"
       })
+      .when("/userlist", {
+        templateUrl: "UserlistView.html",
+        controller: "UserlistCtrl"
+      })
+      .otherwise({
+        redirectTo: "/"
+      })
     ;
 
     $locationProvider.html5Mode(true);

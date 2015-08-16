@@ -109,5 +109,15 @@ gulp.task("copyImages", function() {
 
 gulp.task("copy", ["copyFonts", "copyImages", "injectTemplates"]);
 gulp.task("default", ["copy", "buildNode", "injectCSS", "injectNG"]);
+gulp.task("watch", ["default"], function() {
+  "use strict";
+
+  gulp.watch("src/templates/*.html", ["injectTemplates"]);
+  gulp.watch("src/angular/*.js", ["injectNG"]);
+  gulp.watch("src/css/*.css", ["injectCSS"]);
+  gulp.watch("src/images/*", ["copyImages"]);
+  gulp.watch("src/fonts/*", ["copyFonts"]);
+  gulp.watch("src/root/*.js", ["buildNode"]);
+});
 
 module.exports = function() { "use strict"; gulp.run("default"); };

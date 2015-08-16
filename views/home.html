@@ -26,6 +26,7 @@
 				<a ng-if="authenticated" class="nav-anim" href="/u/{{user.username}}"><button class="btn" title="Your Profile" style="border-radius:50%;color:blue" ng-click=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button></a>
 				<button ng-if="authenticated" class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button>
 				<button class="btn" title="Search" style="border-radius:50%" ng-click="openSearch()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+				<a href="/userlist" class="nav-anim"><button class="btn" title="Users" style="border-radius:50%"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button></a>
 			</span>
 
 			<!-- inject:html -->
@@ -83,14 +84,14 @@
   <form class="form-inline"  ng-submit="login()">
 		<label class="sr-only" for="loginUsername">Username</label>
 		<input type="text" id="loginUsername" class="form-control" ng-model="user.username" name="username" placeholder="Username">
-		
+
 		<label class="sr-only" for="loginPassword">Password</label>
 		<input type="password" id="loginPassword" class="form-control" ng-class="{ 'error': loginError }" ng-model="user.password" name="password" placeholder="Password">
-		
+
 		<button type="submit" class="btn btn-primary" style="color: black">Login</button>
     <button class="btn btn-warning" style="color:black" ng-click="cancel()">Cancel</button>
 	</form>
-	
+
 	<div ng-show="loginError" class="errorMessage">
 		<span>{{loginError}}</span>
 	</div>
@@ -196,6 +197,41 @@
 <div class="modal-footer">
     <button class="btn btn-warning" style="color:black" ng-click="cancel()">Cancel</button>
 </div></script>
+			<script type="text/ng-template" id="UserlistView.html">
+
+<div class="form-inline" style="margin-top: 20px;">
+  <input class="form-control" placeholder="Search" type="text" ng-model="listFilter" ng-model-options="{debounce: 250}"/>
+  <span ng-if="pList.getNumPages() > 1">
+    <button class="btn" type="button" ng-click="pList.prevPage()" ng-disabled="pList.getIsFirstPage()">Prev</button>
+      {{pList.getPage() + 1}} / {{pList.getNumPages()}}
+    <button class="btn" type="button" ng-click="pList.nextPage()" ng-disabled="pList.getIsLastPage()">Next</button>
+  </span>
+  <span ng-if="cachedList">Getting most recent list...</span>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr style="font-size: 20px;">
+      <th style="cursor: pointer;" ng-click="sortCol('username')">
+        Username
+        <span ng-show="listOrder.field === 'username' && listOrder.reverse === false" class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>
+        <span ng-show="listOrder.field === 'username' && listOrder.reverse === true" class="glyphicon glyphicon-sort-by-alphabet-alt" aria-hidden="true"></span>
+      </th>
+      <th style="cursor: pointer;" ng-click="sortCol('timestamp')">
+        Timestamp
+        <span ng-show="listOrder.field === 'timestamp' && listOrder.reverse === false" class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span>
+        <span ng-show="listOrder.field === 'timestamp' && listOrder.reverse === true" class="glyphicon glyphicon-sort-by-order-alt" aria-hidden="true"></span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in pList.getVisibleContent()">
+      <td><a href="/u/{{user.username}}" style="color: #000">{{user.username}}</a></td>
+      <td>{{user.timestamp | date}}</td>
+    </tr>
+  </tbody>
+</table>
+</script>
 			<!-- endinject -->
 
 		</div>
@@ -213,6 +249,7 @@
 
 	</script>
 
+	<script type="text/javascript" src="/static/paginate.min.js"></script>
 	<script type="text/javascript" src="/static/angular.min.js"></script>
 	<script type="text/javascript" src="/static/angular-local-storage.min.js"></script>
 	<script type="text/javascript" src="/static/angular-animate.min.js"></script>
