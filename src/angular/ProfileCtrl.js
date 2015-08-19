@@ -110,6 +110,7 @@
                   $scope.game = getProfileRes.game;
                   $scope.enb = getProfileRes.enb;
                   $scope.tag = getProfileRes.tag;
+                  $scope.score = getProfileRes.score;
                 },
                 function(getProfileRes) {
                   //console.log(getProfileRes);
@@ -138,10 +139,10 @@
           );
         };
 
-        $scope.newTag = function() {
-          Main.setTag($scope.user.username, $scope.tag,
+        $scope.newTag = function(tag) {
+          Main.setTag($scope.user.username, tag || $scope.tag,
             function(res) {
-              //console.log(res)
+              console.log(res);
             },
             function(res) {
               //console.log(res);
@@ -149,10 +150,10 @@
           );
         };
 
-        $scope.newENB = function() {
-          Main.setENB($scope.user.username, $scope.enb,
+        $scope.newENB = function(enb) {
+          Main.setENB($scope.user.username, enb || $scope.enb,
             function(res) {
-              //
+              console.log(res);
             },
             function(res) {
               //console.log(res);
@@ -162,7 +163,7 @@
 
         $scope.openEdit = function() {
           $modal.open({
-            templateUrl: "templates/EditModal.html",
+            templateUrl: "EditModal.html",
             controller: "EditModalCtrl",
             size: "large",
             resolve: {
@@ -174,6 +175,19 @@
         };
         init();
 
+        /**
+         *  Scoring Logic
+         */
+
+         $scope.upvote = function upvote(votee) {
+           Main.upvote(votee || $scope.user.username, token,
+            function(res) {
+              $scope.score = res.score;
+            }, function(err) {
+              console.log(err);
+            }
+          );
+         };
     }]);
 
 }());

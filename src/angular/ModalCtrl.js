@@ -17,7 +17,7 @@
           if($scope.user.username && $scope.user.password) {
             Main.signIn($scope.user.username, $scope.user.password,
               function(res) {
-              	$scope.loginError = undefined;
+                $scope.loginError = undefined;
                 localStorageService.set("token", res.token);
                 $scope.authenticated = true;
                 $modalInstance.close({"token": $scope.token, "username": $scope.user.username});
@@ -35,7 +35,7 @@
         $scope.users = users;
 
         $scope.searchModlists = function(query) {
-        	$scope.loadingModlistSearch = true;
+          $scope.loadingModlistSearch = true;
           Main.searchModlists(query,
             function(list) {
               $scope.modlistSearchResult = list.users;

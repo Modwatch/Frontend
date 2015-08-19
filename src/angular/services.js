@@ -4,9 +4,8 @@
 
     .factory("Main", ["$http", function($http) {
 
-    	var api = "";
-    	api = "http://modwatchapi-ansballard.rhcloud.com";
-    	//api = "http://localhost:3001";
+      var api = "http://modwatchapi-ansballard.rhcloud.com";
+      api = "http://127.0.0.1:3001";
 
         return {
 
@@ -66,6 +65,18 @@
             },
             checkToken: function(token, success, error) {
               $http.post(api + "/auth/checkToken", {"token": token})
+                .success(success)
+                .error(error)
+              ;
+            },
+            upvote: function upvote(votee, token, success, error) {
+              $http.post(api + "/auth/upvote/" + votee, {"token": token})
+                .success(success)
+                .error(error)
+              ;
+            },
+            downvote: function downvote(votee, token, success, error) {
+              $http.post(api + "/auth/downvote/" + votee, {"token": token})
                 .success(success)
                 .error(error)
               ;
