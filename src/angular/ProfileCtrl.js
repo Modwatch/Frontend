@@ -26,6 +26,7 @@
         $scope.modlistChecked = true;
         $scope.authenticated = false;
         $scope.user = {};
+        $scope.voting = false;
 
         $scope.user.username = $routeParams.username;
         $rootScope.pageTitle = "Modwat.ch - " + $scope.user.username;
@@ -180,10 +181,25 @@
          */
 
          $scope.upvote = function upvote(votee) {
+           $scope.voting = true;
            Main.upvote(votee || $scope.user.username, token,
             function(res) {
+              $scope.voting = false;
               $scope.score = res.score;
             }, function(err) {
+              $scope.voting = false;
+              console.log(err);
+            }
+          );
+         };
+         $scope.downvote = function downvote(votee) {
+           $scope.voting = true;
+           Main.downvote(votee || $scope.user.username, token,
+            function(res) {
+              $scope.voting = false;
+              $scope.score = res.score;
+            }, function(err) {
+              $scope.voting = false;
               console.log(err);
             }
           );

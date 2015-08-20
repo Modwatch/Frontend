@@ -5,7 +5,7 @@
     .factory("Main", ["$http", function($http) {
 
       var api = "http://modwatchapi-ansballard.rhcloud.com";
-      api = "http://127.0.0.1:3001";
+      //api = "http://127.0.0.1:3001";
 
         return {
 

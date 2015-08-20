@@ -11,9 +11,9 @@
       <span ng-if="hasENBLocal"><button class="btn" id="enblocalNav" ng-click="switchFiles('enblocal')">ENB Local</button></span>
     </div>
     <div class="vote-wrapper">
-      <button type="button" ng-click="upvote()">Upvote</button>
-      <span>{{score}}</span>
-      <button type="button" ng-click="downvote()">Downvote</button>
+      <button ng-show="$parent.authenticated && !user.isOwner" ng-disabled="voting" style="border-radius: 50%;" class="btn btn-default btn-sm" type="button" ng-click="upvote()"><span style="color:green" class="glyphicon glyphicon-upload"></span></button>
+      <span style="font-size: 16px; font-weight: bold;" title="Modlist Score">{{score}}</span>
+      <button ng-show="$parent.authenticated && !user.isOwner" ng-disabled="voting" style="border-radius: 50%;" class="btn btn-default btn-sm" type="button" ng-click="downvote()"><span style="color:red" class="glyphicon glyphicon-download"></span></button>
     </div>
   </div>
   <span id="search-container" style="position:relative;" class="col-xs-12">
