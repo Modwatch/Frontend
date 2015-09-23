@@ -5,14 +5,14 @@
   .config(function (localStorageServiceProvider, $routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .when("/", {
-        templateUrl: "HomeView.html"
+        templateUrl: "HomeView.template.html"
       })
       .when("/u/:username", {
-        templateUrl: "ProfileView.html",
+        templateUrl: "ProfileView.template.html",
         controller: "ProfileCtrl"
       })
       .when("/userlist", {
-        templateUrl: "UserlistView.html",
+        templateUrl: "UserlistView.template.html",
         controller: "UserlistCtrl"
       })
       .otherwise({

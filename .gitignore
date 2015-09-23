@@ -13,3 +13,6 @@
 /*.min.js
 /*.min.js.map
 /tmp
+/dist
+/server
+!/server/views
