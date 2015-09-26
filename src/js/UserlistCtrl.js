@@ -16,8 +16,8 @@
         $scope.cachedList = currentList.length === 0 ? false : true;
         $scope.listFilter = ""; // filter input
         $scope.listOrder = {
-          field: "username",
-          reverse: false
+          field: "timestamp",
+          reverse: true
         };
 
         $scope.sortCol = function sortCol(field) {
