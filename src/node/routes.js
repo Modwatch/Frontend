@@ -6,8 +6,8 @@
   module.exports = (app) => {
 
     app.get("/", (req, res) => {
-      res.sendFile("home.html", {
-        root: "server/views/"
+      res.sendFile("index.html", {
+        root: "server/"
       }, (err) => {
         if (err) {
 					console.log(err);

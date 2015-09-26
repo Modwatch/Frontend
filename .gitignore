@@ -15,4 +15,4 @@
 /tmp
 /dist
 /server
-!/server/views
+!/server/index.html

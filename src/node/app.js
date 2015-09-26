@@ -21,9 +21,9 @@
     extended: false
   }));
   app.use(methodOverride());
-  app.use(express.static(path.join(__dirname, "public")));
+  app.use(express.static("public"));
 
-  require("./routes.min.js")(app);
+  require("./routes.js")(app);
 
   http.createServer(app).listen(app.get("port"), app.get("ip"), () => {
     console.log("Express server listening on port " + app.get("port"));

@@ -3,7 +3,7 @@
 
   //var argv = require("yargs").argv;
 
-  var distFolder = "./dist/";
+  var distFolder = "./public/dist/";
   var srcFolder = {
     "main": "./src/",
     "js": "./src/js/",
@@ -19,9 +19,9 @@
     "template": "./tmp/templates/",
     "css": distFolder + "style.min.css",
     "node": "./server/",
-    "fonts": distFolder + "images/",
-    "images": distFolder + "fonts/",
-    "inject": "./server/home.html",
+    "fonts": "./public/fonts/",
+    "images": "./public/images/",
+    "inject": "./server/index.html",
     "module": "modwatchApp"
   };
 

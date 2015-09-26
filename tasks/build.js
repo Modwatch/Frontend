@@ -43,6 +43,6 @@
     ;
   });
 
-  gulp.task("build", ["buildJS", "buildCSS"]);
+  gulp.task("build", ["buildJS", "buildCSS", "buildNode"]);
 
 })();

@@ -1,3 +1,3 @@
-require("./server/app.min.js");
+require("./server/app.js");
 
 console.log("server.js");

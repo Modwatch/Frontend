@@ -9,7 +9,7 @@
   gulp.task("copyFonts", function() {
     return gulp.src(config.src.fonts)
       .pipe(plumber())
-      .pipe(gulp.dest(config.dest.fonts))
+      .pipe(gulp.dest(config.dist.fonts))
     ;
   });
 

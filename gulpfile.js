@@ -20,11 +20,13 @@
 
   requireDir("./tasks");
 
-  gulp.task("default", ["inject"]);
+  gulp.task("default", ["inject", "buildNode", "copy"]);
 
   gulp.task("watch", ["default"], function() {
 
     gulp.watch(config.src.js, ["injectJS"]);
+    gulp.watch(config.src.template, ["cacheTemplates"]);
+    gulp.watch(config.src.node, ["buildNode"]);
     gulp.watch(config.src.css, ["injectCSS"]);
   });
 
