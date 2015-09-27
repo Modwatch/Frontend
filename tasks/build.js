@@ -12,7 +12,7 @@
 
   var config = require("../gulpconfig");
 
-  gulp.task("buildJS", ["cleanJS", "cacheTemplates"], () => {
+  gulp.task("buildJS", ["cleanJS", "cacheTemplates"], function() {
     return gulp.src(config.src.js)
       .pipe(plumber())
       .pipe(sourcemaps.init())
@@ -25,7 +25,7 @@
     ;
   });
 
-  gulp.task("buildNode", ["cleanNode"], () => {
+  gulp.task("buildNode", ["cleanNode"], function() {
     return gulp.src(config.src.node)
       .pipe(plumber())
       .pipe(babel())
@@ -34,7 +34,7 @@
     ;
   });
 
-  gulp.task("buildCSS", ["cleanCSS"], () => {
+  gulp.task("buildCSS", ["cleanCSS"], function() {
     return gulp.src(config.src.css)
       .pipe(plumber())
       .pipe(cssmin())

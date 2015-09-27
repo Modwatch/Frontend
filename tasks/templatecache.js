@@ -7,12 +7,12 @@
 
   var config = require("../gulpconfig");
 
-  gulp.task("cacheTemplates", () => {
+  gulp.task("cacheTemplates", function() {
     return gulp.src(config.src.template)
       .pipe(plumber())
       .pipe(templateCache({
         module: config.dist.module,
-        transformUrl: (url) => {
+        transformUrl: function(url) {
           if(url.indexOf("/") !== -1) {
             return url.split("/")[url.split("/").length - 1];
           } else if(url.indexOf("\\") !== -1) {
