@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-app="modwatchApp">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css" />
+
+	<!-- inject:css -->
+	<link rel="stylesheet" type="text/css" href="dist/style.min.css?hash=6a6a1d141580c601e0e7b5276c0922ab"/>
+	<!-- endinject -->
+
+	<title ng-bind="pageTitle">Modwat.ch</title>
+	<base href="/">
+</head>
+
+<body>
+
+	<div id="full-wrapper" class="container">
+		<div id="ng-app" class="row" ng-controller="MainCtrl" ng-init="getUsers()">
+			<h1 id="header" class="col-xs-10 col-xs-offset-1"><a href="/">MODWAT.CH</a></h1>
+			<span id="content-wrapper" class="col-xs-10 col-sm-offset-1 ng-view-class" ng-view>
+			</span>
+			<span class="col-xs-1">
+				<button ng-if="!authenticated" title="Login" class="btn nav-anim" style="border-radius:50%" ng-click="openLogin()">
+					<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+				</button>
+				<a ng-if="authenticated" class="nav-anim" href="/u/{{user.username}}">
+					<button class="btn" title="Your Profile" style="border-radius:50%;color:blue" ng-click="">
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+					</button>
+				</a>
+				<button ng-if="authenticated" class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="logout()">
+					<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+				</button>
+				<button class="btn" title="Search" style="border-radius:50%" ng-click="openSearch()">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+				<a href="/userlist" class="nav-anim">
+					<button class="btn" title="Users" style="border-radius:50%">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					</button>
+				</a>
+			</span>
+
+			<!-- inject:html -->
+			<!-- endinject -->
+
+		</div>
+
+	</div>
+	<script>
+		(function(i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-53199250-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+
+	<script type="text/javascript" src="/static/paginate.min.js"></script>
+	<script type="text/javascript" src="/static/angular.min.js"></script>
+	<script type="text/javascript" src="/static/angular-local-storage.min.js"></script>
+	<script type="text/javascript" src="/static/angular-animate.min.js"></script>
+	<script type="text/javascript" src="/static/angular-route.min.js"></script>
+	<script type="text/javascript" src="/static/ui-bootstrap-custom-tpls-0.12.1.min.js"></script>
+
+	<!-- inject:js -->
+	<script type="text/javascript" src="dist/script.min.js?hash=d18695bda460faa530c0a11e87ad16bf"></script>
+	<!-- endinject -->
+
+</body>
+
+</html>

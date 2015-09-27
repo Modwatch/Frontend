@@ -14,5 +14,5 @@
 /*.min.js.map
 /tmp
 /dist
-/server
-!/server/index.html
+/server/app.js
+/server/routes.js
