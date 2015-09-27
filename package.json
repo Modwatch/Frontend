@@ -6,7 +6,7 @@
     "start": "node app.min.js",
     "prepublish": "node -e 'require(\"./gulpfile.js\")()'"
   },
-  "main": "app.min.js",
+  "main": "server.js",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.12.0",
