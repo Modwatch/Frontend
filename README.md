@@ -15,7 +15,7 @@ TO BUILD
 2. `npm install`
 3. `bower install`
 4. `gulp`
-5. `node start`
+5. `npm start`
 
 GENERAL
 ==

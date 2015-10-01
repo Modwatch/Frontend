@@ -6,6 +6,7 @@
 
 - Added Changelog
 - Refactored Readme
+ - `node start` to `npm start`
 
 **Fixed Bugs**
 
