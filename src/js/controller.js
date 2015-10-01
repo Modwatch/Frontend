@@ -36,7 +36,7 @@
 
         $scope.openLogin = function() {
           var modalInstance = $modal.open({
-            templateUrl: "LoginModal.html",
+            templateUrl: "LoginModal.template.html",
             controller: "LoginModalCtrl",
             size: "small",
             resolve: {
@@ -54,7 +54,7 @@
 
         $scope.openSearch = function() {
           $modal.open({
-            templateUrl: "SearchModal.html",
+            templateUrl: "SearchModal.template.html",
             controller: "SearchModalCtrl",
             size: "large",
             resolve: {
