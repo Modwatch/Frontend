@@ -1,18 +1,13 @@
-# Change Log
+# Changelog
 
-**Features**
+## 0.0.2 (9/30/2015)
 
-- none
+**Implemented Enhancements**
 
-***
+- Added Changelog
+- Refactored Readme
+ - `node start` to `npm start`
 
-**Fixes**
+**Fixed Bugs**
 
-- Refactored angular code to John Papa styleguide (lots of modules)
-
-***
-
-**Bugs**
-
-- Sorting sucks
-- removed console logs from gulp
+- Modals all pointed to the home view

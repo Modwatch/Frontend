@@ -43,7 +43,7 @@
               $scope.user.isOwner = $scope.user.username === res.username;
               $scope.authenticated = true;
             }, function(err) {
-              //
+              console.log(err);
             }
           );
         }
@@ -164,7 +164,7 @@
 
         $scope.openEdit = function() {
           $modal.open({
-            templateUrl: "EditModal.html",
+            templateUrl: "EditModal.template.html",
             controller: "EditModalCtrl",
             size: "large",
             resolve: {

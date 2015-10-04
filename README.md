@@ -1,37 +1,47 @@
 [![Build Status](https://travis-ci.org/ansballard/SkyrimModWatcher.svg?branch=master)](https://travis-ci.org/ansballard/SkyrimModWatcher)
 
-http://modwat.ch
-
-http://nexusmods.com/skyrim/mods/56640
-
 TO BUILD
-========
+==
 
-The only missing files are in /node_modules and /config. You can fill out /node_modules via `npm install` in the root directory of the project (possibly `sudo npm install`, consult your physician). /config needs a file called db.js, which contains the connection information for the mongodb database. The file without credentials, using a mongolab account, looks like:
+### Dependencies
 
-```
-module.exports = {
+1. [NodeJS/NPM](https://nodejs.org) (Latest Stable Version)
+2. [Bower](http://bower.io) (`sudo npm install -g bower`)
+3. [Gulp](http://gulpjs.com) (`sudo npm install -g gulp`)
 
-	'url' : 'mongodb://<username>:<password>@<url>/<database name>'
+### Setup
 
-};
-```
+1. `cd` to this directory
+2. `npm install`
+3. `bower install`
+4. `gulp`
+5. `npm start`
 
-Using a different service or local dev should be easy to find in a bsic mongoose tutorial.
+GENERAL
+==
 
-After both of those, you should have a functional project that you can run with `node app.js` when in the root directory of the project. Navigating to `localhost:3000` will show you the web page.
+This site is a barebones MEAN stack web server without the M(ongo). It gets data from a decoupled [API server](http://github.com/ansballard/modwatchapi). The build system is GulpJS, frontend dependencies are handled with Bower (for now), and once I get to unit tests, they'll be written in karma/jasmine.
 
-GRUNT
-=====
+The frontend framework being used is Angular 1.x. Currently the goal for the Angular code is to move to the [John Papa styleguide](https://github.com/johnpapa/angular-styleguide). This will allow for much more modular code, and a cleaner path to Angular 2.
 
-The current grunt file is only for minifying and watching for changes while developing, I haven't thrown in any testing (bad dev). `grunt` will minify all the css, frontend js, and backend js. You can minify te images with `grunt imagemin` but they're already minified and I'm not planning on adding more images, so it shouldn't be needed. When developing, run `grunt watch` to minify as you go, it will watch for changes in `/src/*` and output them to their respective directories.
+Bootstrap 3 is the CSS library I use. I may move to Bootstrap 4 when it's stable, since I don't really worry about old browser support unless someone asks for it.
 
-BUILDING THE EXE
-================
+CONTRIBUTING
+==
 
-I compile the python script in /python/ using https://github.com/pyinstaller/pyinstaller/wiki.
-After downloading the latest version for Python 2.X, you can compile the exe yourself via 
-```
-python /path/to/pyinstaller.py --onefile --windowed /path/to/readloadorder.py
-```
-That should build the exe and put it somewhere in your pyinstaller directory.
+1. Fork this repo
+2. Open an issue for the problem/enhancement you want to work on
+3. Create a branch that has to do with the issue you want to fix
+4. Implement your changes
+5. Make a pull request to this repo
+6. If there are no merge conflicts, and I've already approved the issue you created, I'll most likely merge your changes in
+
+When making changes, do your best to follow the standards already set in other parts of the repo. Changes should not be noticeable when looking through source code. I would prefer all changes pass `eslint` with the `.eslintrc` in the root directory.
+
+LINKS
+==
+
+- [The Live Site](http://www.modwat.ch)
+- [The Nexus Mods Page](http://nexusmods.com/skyrim/mods/56640)
+- [The API](http://github.com/ansballard/modwatchapi)
+- [The Uploader](http://github.com/ansballard/modwatchuploader)
