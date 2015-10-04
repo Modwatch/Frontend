@@ -1,0 +1,40 @@
+
+
+<div class="form-inline" style="margin-top: 20px;">
+  <input class="form-control" placeholder="Search" type="text" ng-model="vm.listFilter" ng-change="vm.unlockFilter()" ng-model-options="{debounce: 250}"/>
+  <span ng-if="vm.pList.getNumPages() > 1">
+    <button class="btn" type="button" ng-click="vm.pList.prevPage()" ng-disabled="vm.pList.getIsFirstPage()">Prev</button>
+      {{vm.pList.getPage() + 1}} / {{vm.pList.getNumPages()}}
+    <button class="btn" type="button" ng-click="vm.pList.nextPage()" ng-disabled="vm.pList.getIsLastPage()">Next</button>
+  </span>
+  <span ng-if="vm.cachedList">Getting most recent list...</span>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr style="font-size: 20px;">
+      <th style="cursor: pointer;" ng-click="vm.sortCol('username')">
+        Username
+        <span ng-show="vm.listOrder.field === 'username' && vm.listOrder.reverse === false" class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span>
+        <span ng-show="vm.listOrder.field === 'username' && vm.listOrder.reverse === true" class="glyphicon glyphicon-sort-by-alphabet-alt" aria-hidden="true"></span>
+      </th>
+      <th style="cursor: pointer;" ng-click="vm.sortCol('timestamp')">
+        Timestamp
+        <span ng-show="vm.listOrder.field === 'timestamp' && vm.listOrder.reverse === false" class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span>
+        <span ng-show="vm.listOrder.field === 'timestamp' && vm.listOrder.reverse === true" class="glyphicon glyphicon-sort-by-order-alt" aria-hidden="true"></span>
+      </th>
+      <th style="cursor: pointer;" ng-click="vm.sortCol('score')">
+        Score
+        <span ng-show="vm.listOrder.field === 'score' && vm.listOrder.reverse === false" class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span>
+        <span ng-show="vm.listOrder.field === 'score' && vm.listOrder.reverse === true" class="glyphicon glyphicon-sort-by-order-alt" aria-hidden="true"></span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in vm.pList.getVisibleContent()">
+      <td><a href="/u/{{user.username}}" style="color: #000">{{user.username}}</a></td>
+      <td>{{user.timestamp | date}}</td>
+      <td>{{user.score | number}}</td>
+    </tr>
+  </tbody>
+</table>

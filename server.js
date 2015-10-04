@@ -1,3 +1,6 @@
-require("./server/app.js");
+(() => {
+  "use strict";
 
-console.log("server.js");
+  require("./server/app.js");
+
+})();

@@ -12,7 +12,6 @@
         if (err) {
 					console.log(err);
 					res.writeHead(500);
-					res.write(err);
         }
       });
     });

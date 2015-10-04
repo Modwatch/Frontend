@@ -12,12 +12,10 @@
   var config = require("../gulpconfig");
 
   gulp.task("injectJS", ["buildJS"], function() {
-    console.log("injecting...");
     return gulp.src(config.dist.inject)
       .pipe(plumber())
       .pipe(inject(gulp.src(config.dist.js, {read: false}), {
         transform: function(filepath) {
-          console.log(filepath);
           var hash = crypto.createHash("md5").update(fs.readFileSync(path.join(__dirname, "..", filepath))).digest("hex");
           var fp = filepath.split("/");
           return "<script type=\"text/javascript\" src=\"dist/" + fp[fp.length - 1] + "?hash=" + hash + "\"></script>";

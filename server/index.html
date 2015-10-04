@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="modwatchApp">
+<html ng-app="modwatch" ng-jq>
 
 <head>
 	<meta charset="utf-8">
@@ -19,23 +19,23 @@
 <body>
 
 	<div id="full-wrapper" class="container">
-		<div id="ng-app" class="row" ng-controller="MainCtrl" ng-init="getUsers()">
+		<div id="ng-app" class="row" ng-controller="WrapperCtrl as vm" ng-init="vm.getUsers()">
 			<h1 id="header" class="col-xs-10 col-xs-offset-1"><a href="/">MODWAT.CH</a></h1>
 			<span id="content-wrapper" class="col-xs-10 col-sm-offset-1 ng-view-class" ng-view>
 			</span>
 			<span class="col-xs-1">
-				<button ng-if="!authenticated" title="Login" class="btn nav-anim" style="border-radius:50%" ng-click="openLogin()">
+				<button ng-if="!vm.authenticated" title="Login" class="btn nav-anim" style="border-radius:50%" ng-click="vm.openLogin()">
 					<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
 				</button>
-				<a ng-if="authenticated" class="nav-anim" href="/u/{{user.username}}">
+				<a ng-if="vm.authenticated" class="nav-anim" href="/u/{{vm.user.username}}">
 					<button class="btn" title="Your Profile" style="border-radius:50%;color:blue" ng-click="">
 						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					</button>
 				</a>
-				<button ng-if="authenticated" class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="logout()">
+				<button ng-if="vm.authenticated" class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="vm.logout()">
 					<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
 				</button>
-				<button class="btn" title="Search" style="border-radius:50%" ng-click="openSearch()">
+				<button class="btn" title="Search" style="border-radius:50%" ng-click="vm.openSearch()">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</button>
 				<a href="/userlist" class="nav-anim">
@@ -44,9 +44,6 @@
 					</button>
 				</a>
 			</span>
-
-			<!-- inject:html -->
-			<!-- endinject -->
 
 		</div>
 
@@ -76,7 +73,7 @@
 	<script type="text/javascript" src="/static/ui-bootstrap-custom-tpls-0.12.1.min.js"></script>
 
 	<!-- inject:js -->
-	<script type="text/javascript" src="dist/script.min.js?hash=d18695bda460faa530c0a11e87ad16bf"></script>
+	<script type="text/javascript" src="dist/script.min.js?hash=e87d6d926430a1211f163b68171f1e89"></script>
 	<!-- endinject -->
 
 </body>

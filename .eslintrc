@@ -14,9 +14,10 @@
     "process": true
   },
   "rules": {
+    "no-console": 0,
+    "no-use-before-define": 0,
     "camelcase": 1,
     "dot-notation": 1,
-    "no-console": 0,
     "space-infix-ops": 1,
     "quotes": 1,
     "key-spacing": 1,
