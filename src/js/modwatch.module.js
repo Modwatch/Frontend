@@ -1,52 +1,34 @@
-(() => {
-  "use strict";
+import AppConfig from "./config/appConfig";
 
-  angular.module("modwatch", [
-    "LocalStorageModule", "ngRoute", "ngAnimate", "ui.bootstrap",
-    "modwatch.api", "modwatch.wrapper"//, "modwatch.homeview",// "modwatch.userlist", "modwatch.profileview",
-  ])
+import "angular";
+import "angular-route";
+import "angular-animate";
 
-  .config((localStorageServiceProvider, $routeProvider, $locationProvider, $httpProvider) => {
-    $routeProvider
-      .when("/", {
-        templateUrl: "HomeView.template.html"
-      })
-      .when("/u/:username", {
-        templateUrl: "ProfileView.template.html",
-        controller: "ProfileCtrl",
-        controllerAs: "vm"
-      })
-      .when("/userlist", {
-        templateUrl: "UserlistView.template.html",
-        controller: "UserlistCtrl",
-        controllerAs: "vm"
-      })
-      .otherwise({
-        redirectTo: "/"
-      })
-    ;
+import "angular-local-storage";
+import "../../libs/ui-bootstrap-custom-tpls-0.14.3.min.js";
 
-    $locationProvider.html5Mode(true);
+import "./services/api/api.module";
+import "./modals/modals.module";
 
-    localStorageServiceProvider.setPrefix("modwatch");
+import "./routes/wrapper/wrapper.module";
+import "./routes/userlist/userlist.module";
+import "./routes/profile/profile.module";
+import "./routes/home/home.module";
 
-    $httpProvider.interceptors.push(["$q", "$window", "$location", "localStorageService", ($q, $window, $location, localStorageService) => {
-      return {
-        "request": (config) => {
-          config.headers = config.headers || {};
-          if (localStorageService.get("token")) {
-            config.headers.Authorization = "Bearer " + localStorageService.get("token");
-          }
-          return config;
-        },
-        "responseError": (response) => {
-          if(response.status === 401 || response.status === 403) {
-            //$window.console("signin");
-          }
-          return $q.reject(response);
-        }
-      };
-    }]);
-  });
-
-})();
+angular.module("modwatch", [
+  /** 1st Party **/
+  "ngRoute",
+  "ngAnimate",
+  /** 3rd Party **/
+  "LocalStorageModule",
+  "ui.bootstrap",
+    /** Services **/
+    "modwatch.api",
+    "modwatch.modals",
+    /** Routes **/
+    "modwatch.wrapper",
+    "modwatch.home",
+    "modwatch.userlist",
+    "modwatch.profile",
+])
+.config(AppConfig);
