@@ -1,16 +1,16 @@
 (() => {
   "use strict";
 
-  let express = require("express");
-  let bodyParser = require("body-parser");
-  let methodOverride = require("method-override");
-  let app = express();
+  const express = require("express");
+  const bodyParser = require("body-parser");
+  const methodOverride = require("method-override");
+  const app = express();
 
-  let http = require("http");
-  let path = require("path");
+  const http = require("http");
+  const path = require("path");
 
-  let ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
-  let port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+  const ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+  const port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
   app.set("port", port);
   app.set("ip", ipaddress);

@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  let request = require("request");
+  const request = require("request");
 
   module.exports = (app) => {
 
