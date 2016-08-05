@@ -1,6 +1,6 @@
 *.private
 /config/*
 /node_modules/*
-/public/dist
 /.c9/*
 /server/*.js
+.DS_Store

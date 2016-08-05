@@ -5,7 +5,7 @@ import "angular-route";
 import "angular-animate";
 
 import "angular-local-storage";
-import "../../libs/ui-bootstrap-custom-tpls-0.14.3.min.js";
+import "./libs/ui-bootstrap-custom-tpls-0.14.3.min.js";
 
 import "./services/api/api.module";
 import "./modals/modals.module";
@@ -22,13 +22,13 @@ angular.module("modwatch", [
   /** 3rd Party **/
   "LocalStorageModule",
   "ui.bootstrap",
-    /** Services **/
-    "modwatch.api",
-    "modwatch.modals",
-    /** Routes **/
-    "modwatch.wrapper",
-    "modwatch.home",
-    "modwatch.userlist",
-    "modwatch.profile",
+  /** Services **/
+  "modwatch.api",
+  "modwatch.modals",
+  /** Routes **/
+  "modwatch.wrapper",
+  "modwatch.home",
+  "modwatch.userlist",
+  "modwatch.profile"
 ])
 .config(AppConfig);

@@ -4,7 +4,7 @@ import SearchModalController from "./search/searchmodal.controller";
 import ModalService from "./modals.service";
 
 angular.module("modwatch.modals", [])
-  .controller("LoginModalController", LoginModalController)
-  .controller("EditModalController", EditModalController)
-  .controller("SearchModalController", SearchModalController)
-  .factory("ModalService", ModalService);
+.controller("LoginModalController", LoginModalController)
+.controller("EditModalController", EditModalController)
+.controller("SearchModalController", SearchModalController)
+.factory("ModalService", ModalService);
