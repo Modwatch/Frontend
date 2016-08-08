@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html ng-app="modwatch" ng-jq ng-strict-di>
-
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,23 +7,27 @@
 	<link rel="stylesheet" type="text/css" href="/dist/styles.css" />
 	<title ng-bind="pageTitle">Modwat.ch</title>
 	<base href="/">
+	<style type="text/css">
+	[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	  display: none !important;
+	}
+</style>
 </head>
 <body>
 	<div id="full-wrapper" class="container">
 		<div class="row" ng-controller="WrapperController as vm" ng-init="vm.getUsers()">
 			<h1 id="header" class="col-xs-10 col-xs-offset-1"><a href="/">MODWAT.CH</a></h1>
-			<span id="content-wrapper" class="col-xs-10 col-sm-offset-1 ng-view-class" ng-view>
-			</span>
+			<span id="content-wrapper" class="col-xs-10 col-sm-offset-1 ng-view-class" ng-view></span>
 			<span class="col-xs-1">
-				<button ng-if="!vm.authenticated" title="Login" class="btn nav-anim" style="border-radius:50%" ng-click="vm.openLogin()">
+				<button ng-if="!vm.authenticated" ng-cloak title="Login" class="btn nav-anim" style="border-radius:50%" ng-click="vm.openLogin()">
 					<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
 				</button>
-				<a ng-if="vm.authenticated" class="nav-anim" href="/u/{{vm.user.username}}">
+				<a ng-if="vm.authenticated" ng-cloak class="nav-anim" href="/u/{{vm.user.username}}">
 					<button class="btn" title="Your Profile" style="border-radius:50%;color:blue" ng-click="">
 						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					</button>
 				</a>
-				<button ng-if="vm.authenticated" class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="vm.logout()">
+				<button ng-if="vm.authenticated" ng-cloak class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="vm.logout()">
 					<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
 				</button>
 				<button class="btn" title="Search" style="border-radius:50%" ng-click="vm.openSearch()">
@@ -54,7 +57,7 @@
 		ga('create', 'UA-53199250-1', 'auto');
 		ga('send', 'pageview');
 	</script>
-	<script type="text/javascript" src="/dist/bundle.js" async></script>
+	<script type="text/javascript" src="/dist/bundle.js"></script>
 </body>
 
 </html>

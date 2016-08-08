@@ -1,0 +1,56 @@
+body {
+	font-family:"Muli", Helvetica-Neue, sans-serif;
+	color: #000000;
+	text-align:center;
+	background: #EBEBEB;
+	background-image: url("/images/congruent_outline.png");
+}
+.nav-anim.ng-enter {
+  -webkit-animation: flipInY 1s;
+  -moz-animation: flipInY 1s;
+  -ms-animation: flipInY 1s;
+  animation: flipInY 1s;
+}
+/*.nav-anim.ng-leave {
+  -webkit-animation: flipOutY 1s;
+  -moz-animation: flipOutY 1s;
+  -ms-animation: flipOutY 1s;
+  animation: flipOutY 1s;
+}*/
+.input-group, .form-group {
+	margin: auto;
+}
+.vert-margin {
+	margin: 10px auto;
+}
+#header {
+	font-size: 12vw;
+	font-weight: bold;
+	color:#D0D0D0;
+}
+#download-header {
+	width:100%;
+	font-size: 4em;
+	text-align: center;
+	font-weight: bold;
+	margin-top: 10px;
+	background-color: #E3A853;
+	border-radius: 10px;
+	color: #EBEBEB;
+}
+#header a {
+	color:#D0D0D0;
+	text-decoration:none;
+}
+#download-header a {
+	color: #EBEBEB;
+	text-decoration: none;
+}
+#content-wrapper {
+	text-align: left;
+	border-radius: 10px;
+	background-color: #D0D0D0;
+}
+.btn {
+	background-color: #E0E0E0;
+}

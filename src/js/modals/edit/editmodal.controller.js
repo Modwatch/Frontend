@@ -1,35 +1,33 @@
-EditModalController.$inject = ["$scope", "$modalInstance", "Main", "user"];
+EditModalController.$inject = ["$modalInstance", "Main", "user"];
 
 export default EditModalController;
 
-function EditModalController($scope, $modalInstance, Main, user) {
-  $scope.user = {
+function EditModalController($modalInstance, Main, user) {
+  vm.user = {
     "username": user
   };
 
-  $scope.newTag = function() {
-    Main.setTag(user, $scope.tag,
-      function(res) {
-        //console.log(res)
-      },
-      function(res) {
-        //console.log(res);
-      }
-    );
+  vm.newTag = function() {
+    Main.setTag(user, vm.tag)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(e => {
+      console.log(e);
+    });
   };
 
-  $scope.newENB = function() {
-    Main.setENB(user, $scope.enb,
-      function(res) {
-        //
-      },
-      function(res) {
-        //console.log(res);
-      }
-    );
+  vm.newENB = function() {
+    Main.setENB(user, vm.enb)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(e => {
+      console.log(e);
+    });
   };
 
-  $scope.cancel = function() {
+  vm.cancel = function() {
     $modalInstance.dismiss("cancel");
   };
 }

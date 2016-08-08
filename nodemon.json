@@ -1,4 +1,0 @@
-{
-  "verbose": true,
-  "ignore": ["src/js/*", "src/css/*", "src/images/*", "src/fonts/*", "public/*", "libs/*", "node_modules/*"]
-}

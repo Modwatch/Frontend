@@ -1,45 +1,43 @@
-SearchModalController.$inject = ["$scope", "$modalInstance", "$location", "APIService", "users"];
+SearchModalController.$inject = ["$uibModalInstance", "$location", "APIService", "users"];
 
 export default SearchModalController;
 
-function SearchModalController($scope, $modalInstance, $location, APIService, users) {
-  $scope.users = users;
+function SearchModalController($uibModalInstance, $location, APIService, users) {
+  const vm = this;
+  vm.users = users;
 
-  $scope.searchModlists = function(query) {
-    $scope.loadingModlistSearch = true;
-    APIService.searchModlists(query,
-      function(list) {
-        $scope.modlistSearchResult = list.users;
-        $scope.loadingModlistSearch = false;
-      },
-      function(err) {
-        //console.log(err);
-        $scope.loadingModlistSearch = false;
-      }
-    );
+  vm.searchModlists = function(query) {
+    vm.loadingModlistSearch = true;
+    APIService.searchModlists(query)
+    .then(users => {
+      vm.modlistSearchResult = users.map(user => user.username);
+      vm.loadingModlistSearch = false;
+    })
+    .catch(e => {
+      //console.log(err);
+      vm.loadingModlistSearch = false;
+    });
   };
 
-  var getUsers = function() {
-    APIService.getUsers(
-      function(res) {
-        $scope.users = res.usernames;
-        $scope.loading = false;
-      },
-      function(res) {
-        //console.log(res);
-        $scope.loading = false;
-      }
-    );
-  };
+  function getUsers() {
+    APIService.getUsers()
+    .then(users => {
+      vm.users = users.map(user => user.username);
+      vm.loading = false;
+    })
+    .catch(e => {
+      vm.loading = false;
+    });
+  }
 
   getUsers();
 
-  $scope.findUser = function(searchUser) {
-    $location.path("/u/" + searchUser);
-    $scope.cancel();
+  vm.findUser = function(searchUser) {
+    $location.path(`/u/${searchUser}`);
+    vm.cancel();
   };
 
-  $scope.cancel = function() {
-    $modalInstance.dismiss("cancel");
+  vm.cancel = function() {
+    $uibModalInstance.dismiss("cancel");
   };
 }

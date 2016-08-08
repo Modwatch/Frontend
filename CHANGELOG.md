@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.3.0 (08/07/2016)
+
+**Implemented Enhancements**
+
+- switch to firebase hosting
+- remove express code
+- dev server with `http-server`
+- modals are all now bindToController
+- service maps to `.data`
+- es6 where I found old code
+- fixed uncss where it missed things (modals, fade)
+- split out css
+- fixed api calls on basically everything
+- removed unused assets
+
+**Fixed Bugs**
+
+- replace rollup with browserify
+
 ## 0.2.0 (08/03/2016)
 
 **Implemented Enhancements**

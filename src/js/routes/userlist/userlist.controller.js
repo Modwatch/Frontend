@@ -6,7 +6,7 @@ export default UserlistController;
 
 function UserlistController(localStorageService, $filter, APIService) {
 
-  let vm = this;
+  const vm = this;
 
   vm.loading = true;
 
@@ -46,25 +46,22 @@ function UserlistController(localStorageService, $filter, APIService) {
   };
   vm.pList = paginate(10, paginateDataFunction);
 
-  let i = 0;
-  let j = 0;
-
   vm.getUserlist = () => {
-    APIService.getUsers().then(
-      (userlist) => {
-        vm.users = userlist.data;
-        for (i = 0; i < vm.users.length; i++) {
-          if (vm.users[i].username === "") {
-            vm.users.splice(i, 1);
-            i--;
-          }
+    APIService.getUsers()
+    .then(userlist => {
+      vm.users = userlist;
+      for (let i = 0; i < vm.users.length; i++) {
+        if (vm.users[i].username === "") {
+          vm.users.splice(i, 1);
+          i--;
         }
-        localStorageService.set("userlist", userlist);
-        filterLocked = vm.cachedList = false;
-      }, (err) => {
-        console.log(err);
       }
-    );
+      localStorageService.set("userlist", userlist);
+      filterLocked = vm.cachedList = false;
+    })
+    .catch(err => {
+      console.log(err);
+    });
   };
   vm.getUserlist();
 }

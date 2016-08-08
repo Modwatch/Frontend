@@ -1,38 +1,39 @@
-LoginModalController.$inject = ["$scope", "$modalInstance", "localStorageService", "APIService", "username"];
+LoginModalController.$inject = ["$uibModalInstance", "localStorageService", "APIService", "username"];
 
 export default LoginModalController;
 
-function LoginModalController($scope, $modalInstance, localStorageService, APIService, username) {
-  $scope.user = {};
-  $scope.user.username = username;
-  $scope.authenticated = false;
-  $scope.loadingModlistSearch = false;
+function LoginModalController($uibModalInstance, localStorageService, APIService, username) {
+  const vm = this;
+  vm.user = {
+    username
+  };
+  vm.authenticated = false;
+  vm.loadingModlistSearch = false;
 
   var clearToken = function() {
     localStorageService.remove("token");
-    $scope.authenticated = false;
+    vm.authenticated = false;
   };
 
-  $scope.login = function() {
+  vm.login = function() {
     clearToken();
-    if ($scope.user.username && $scope.user.password) {
-      APIService.signIn($scope.user.username, $scope.user.password,
-        function(res) {
-          $scope.loginError = undefined;
-          localStorageService.set("token", res.token);
-          $scope.authenticated = true;
-          $modalInstance.close({
-            "token": $scope.token,
-            "username": $scope.user.username
-          });
-        },
-        function(err) {
-          $scope.loginError = "Oh no, that login didn't work!";
-        }
-      );
+    if (vm.user.username && vm.user.password) {
+      APIService.signIn(vm.user.username, vm.user.password)
+      .then(token => {
+        vm.loginError = undefined;
+        localStorageService.set("token", token);
+        vm.authenticated = true;
+        $uibModalInstance.close({
+          "token": vm.token,
+          "username": vm.user.username
+        });
+      })
+      .catch(e => {
+        vm.loginError = "Oh no, that login didn't work!";
+      });
     }
   };
-  $scope.cancel = function() {
-    $modalInstance.dismiss("cancel");
+  vm.cancel = function() {
+    $uibModalInstance.dismiss("cancel");
   };
 }

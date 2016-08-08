@@ -16,15 +16,16 @@ function WrapperController($rootScope, $scope, $location, ModalService, localSto
   let token = localStorageService.get("token");
 
   if (token) {
-    APIService.checkToken(token).then(
-      (res) => {
-        vm.user.username = res.data.username;
-        vm.authenticated = true;
-      }, (err) => {
-        console.log("Token error", err);
-        vm.logout();
-      }
-    );
+    APIService.checkToken(token)
+    .then(res => {
+      console.log(res);
+      vm.user.username = res.data.username;
+      vm.authenticated = true;
+    })
+    .catch(e => {
+      console.log("Token error", e);
+      vm.logout();
+    });
   }
 
   let clearToken = () => {
@@ -43,6 +44,7 @@ function WrapperController($rootScope, $scope, $location, ModalService, localSto
           return vm.user.username;
         }
       }, (res) => {
+        console.log(res);
         vm.token = res.token;
         vm.user.username = res.username;
         vm.authenticated = true;

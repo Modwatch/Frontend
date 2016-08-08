@@ -8,19 +8,19 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
 
   vm.loading = true;
 
-  vm.plugins = {};
-  vm.modlist = {};
-  vm.ini = {};
-  vm.prefsini = {};
-  vm.skse = {};
-  vm.enblocal = {};
+  // vm.plugins = [];
+  // vm.modlist = [];
+  // vm.ini = [];
+  // vm.prefsini = [];
+  // vm.skse = [];
+  // vm.enblocal = [];
 
   vm.hasPlugins = false;
   vm.hasModlist = false;
   vm.hasIni = false;
   vm.hasPrefsIni = false;
-  vm.skse = false;
-  vm.enblocal = false;
+  vm.hasSKSE = false;
+  vm.hasENBLocal = false;
 
   let files = [];
 
@@ -31,7 +31,7 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
   vm.voting = false;
 
   vm.user.username = $routeParams.username;
-  $rootScope.pageTitle = "Modwat.ch - " + vm.user.username;
+  $rootScope.pageTitle = `Modwat.ch - ${vm.user.username}`;
   //vm.user.isOwner = vm.user.username === vm.$parent.user.username;
 
   let token = localStorageService.get("token");
@@ -40,48 +40,44 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
   let j = 0;
 
   if (token) {
-    APIService.checkToken(token).then(
-      function(res) {
-        vm.user.isOwner = vm.user.username === res.data.username;
-        vm.authenticated = true;
-      },
-      function(err) {
-        console.log(err);
-      }
-    );
+    APIService.checkToken(token)
+    .then(res => {
+      vm.user.isOwner = vm.user.username === res.username;
+      vm.authenticated = true;
+    })
+    .catch(e => {
+      console.log(err);
+    });
   }
 
   vm.switchFiles = function(filename) {
     vm.filterMods = undefined;
     vm.currentFilename = filename;
-    APIService.getFile(vm.user.username, filename).then(
-      getFile,
-      function(res) {
-        //console.log(res);
-      }
-    );
+    APIService.getFile(vm.user.username, filename)
+    .then(getFile)
+    .catch(e => {
+      //console.log(res);
+    });
   };
 
   vm.newTag = function(tag) {
-    APIService.setTag(vm.user.username, tag || vm.tag).then(
-      function(res) {
-        console.log(res.data);
-      },
-      function(res) {
-        //console.log(res);
-      }
-    );
+    APIService.setTag(vm.user.username, tag || vm.tag)
+    .then(res => {
+      // console.log(res);
+    })
+    .catch(e => {
+      // console.log(e);
+    });
   };
 
   vm.newENB = function(enb) {
-    APIService.setENB(vm.user.username, enb || vm.enb).then(
-      function(res) {
-        console.log(res.data);
-      },
-      function(res) {
-        //console.log(res);
-      }
-    );
+    APIService.setENB(vm.user.username, enb || vm.enb)
+    .then(res => {
+      // console.log(res);
+    })
+    .catch(e => {
+      // console.log(e);
+    });
   };
 
   vm.openEdit = () => {
@@ -99,35 +95,33 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
 
   vm.upvote = function upvote(votee) {
     vm.voting = true;
-    APIService.upvote(votee || vm.user.username, token).then(
-      function(res) {
-        vm.voting = false;
-        vm.score = res.data.score;
-      },
-      function(err) {
-        vm.voting = false;
-        console.log(err);
-      }
-    );
+    APIService.upvote(votee || vm.user.username, token)
+    .then(res => {
+      vm.voting = false;
+      vm.score = res.score;
+    })
+    .catch(e => {
+      vm.voting = false;
+      console.log(e);
+    });
   };
   vm.downvote = function downvote(votee) {
     vm.voting = true;
-    APIService.downvote(votee || vm.user.username, token).then(
-      function(res) {
-        vm.voting = false;
-        vm.score = res.data.score;
-      },
-      function(err) {
-        vm.voting = false;
-        console.log(err);
-      }
-    );
+    APIService.downvote(votee || vm.user.username, token)
+    .then(res => {
+      vm.voting = false;
+      vm.score = res.score;
+    })
+    .catch(e => {
+      vm.voting = false;
+      console.log(e);
+    });
   };
 
   function init() {
-    APIService.getFileNames(vm.user.username).then(
-      function(res) {
-        files = res.data;
+    APIService.getFileNames(vm.user.username)
+    .then(files => {
+      if(files.length > 0) {
         for (i = 0; i < files.length; i++) {
           //vm.currentFilename = ($location.path().substr(1) === files[i]) ? files[i] : vm.currentFilename;
           if (files[i] === "plugins") {
@@ -145,30 +139,30 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
           }
         }
 
-        APIService.getFile(vm.user.username, vm.currentFilename).then(
-          getFile,
-          function(getFileRes) {
-            //console.log(getFileRes);
-          }
-        );
-        APIService.getProfile(vm.user.username).then(
-          function(getProfileRes) {
-            vm.badge = getProfileRes.data.badge;
-            vm.timestamp = getProfileRes.data.timestamp;
-            vm.game = getProfileRes.data.game;
-            vm.enb = getProfileRes.data.enb;
-            vm.tag = getProfileRes.data.tag;
-            vm.score = getProfileRes.data.score;
-          },
-          function(getProfileRes) {
-            //console.log(getProfileRes);
-          }
-        );
-      },
-      function(res) {
-        //console.log(res);
+        APIService.getFile(vm.user.username, vm.currentFilename)
+        .then(getFile)
+        .catch(getFileRes => {
+          //console.log(getFileRes);
+        });
+        APIService.getProfile(vm.user.username)
+        .then(getProfileRes => {
+          vm.badge = getProfileRes.badge;
+          vm.timestamp = getProfileRes.timestamp;
+          vm.game = getProfileRes.game;
+          vm.enb = getProfileRes.enb;
+          vm.tag = getProfileRes.tag;
+          vm.score = getProfileRes.score;
+        })
+        .catch(getProfileErr => {
+          //console.log(getProfileErr);
+        });
+      } else {
+        vm.noFiles = true;
       }
-    );
+    })
+    .catch(e => {
+      //console.log(e);
+    });
   }
 
   function clearToken() {
@@ -176,11 +170,10 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
     vm.authenticated = false;
   }
 
-  function getFile(res) {
-    let data = res.data || res;
+  function getFile(data) {
     for (i = 0; i < data.length; i++) {
       data[i] = {
-        id: "index" + i,
+        id: `index${i}`,
         display: data[i]
       };
     }

@@ -5,8 +5,8 @@ import denodeify from "denodeify";
 import { writeFile } from "fs";
 import { dirname } from "path";
 
-import javascript from "../lib/javascript.rollup";
-import css from "../lib/css";
+import javascript from "./javascript";
+import css from "./css";
 
 const writeFileAsync = denodeify(writeFile);
 

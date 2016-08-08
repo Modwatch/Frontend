@@ -2,5 +2,5 @@
 /config/*
 /node_modules/*
 /.c9/*
-/server/*.js
 .DS_Store
+/public/sw.js

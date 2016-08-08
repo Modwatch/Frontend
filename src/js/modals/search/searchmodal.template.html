@@ -2,7 +2,7 @@
   <h3 class="modal-title">Modwatch Search</h3>
 </div>
 <div class="modal-body">
-  <form class="form-horizontal" ng-submit="searchModlists(searchQuery)">
+  <form class="form-horizontal" ng-submit="vm.searchModlists(searchQuery)">
     <div class="form-group">
     	<label for="searchQuery" class="control-label col-xs-4">Mods to Search For</label>
     	<div class="col-xs-8">
@@ -14,43 +14,42 @@
     	</div>
     </div>
   </form>
-  <div class="loadingText" ng-show="loadingModlistSearch">
+  <div class="loadingText" ng-show="vm.loadingModlistSearch">
   	<span>Searching for lists containing "{{searchQuery}}"</span>
   </div>
-  <span ng-show="modlistSearchResult && !loadingModlistSearch">
+  <span ng-show="vm.modlistSearchResult && !vm.loadingModlistSearch">
 	  <br />
-	  <form class="form-horizontal" ng-submit="findUser(searchModlist.mod)">
+	  <form class="form-horizontal" ng-submit="vm.findUser(vm.searchModlist.mod)">
 	    <div class="form-group">
 	    	<label for="mod" class="control-label col-xs-4">Lists using "{{searchQuery}}"</label>
 	    	<div class="col-xs-8">
-		      <select class="form-control" ng-model="searchModlist.mod" id="userlist" name="mod">
-		      	<option disabled>{{modlistSearchResult.length}} Results!</option>
-			  		<option ng-repeat="username in modlistSearchResult">{{::username}}</option>
+		      <select class="form-control" ng-model="vm.searchModlist.mod" id="userlist" name="mod">
+			  		<option ng-repeat="username in vm.modlistSearchResult">{{::username}}</option>
 			  	</select>
 			  </div>
 			  <label class="control-label col-xs-4 sr-only">Search</label>
       	<div class="col-xs-8" style="text-align: left">
-	  			<button type="submit" ng-disabled="modlistSearchResult.length === 1" class="btn btn-default vert-margin col-offset-xs-4">Go</button>
+	  			<button type="submit" ng-disabled="vm.modlistSearchResult.length === 1" class="btn btn-default vert-margin col-offset-xs-4">Go</button>
 	  		</div>
 	    </div>
 	  </form>
 	</span>
   <br />
-  <form class="form-horizontal" ng-submit="findUser(search.username)" style="border-top: 1px solid #e5e5e5;padding-top: 15px;">
+  <form class="form-horizontal" ng-submit="vm.findUser(vm.search.username)" style="border-top: 1px solid #e5e5e5;padding-top: 15px;">
     <div class="form-group">
     	<label for="username" class="control-label col-xs-4">All Modlists</label>
     	<div class="col-xs-8">
-		  	<select class="form-control" ng-model="search.username" id="userlist" name="username">
-		  		<option ng-repeat="username in users">{{::username}}</option>
+		  	<select class="form-control" ng-model="vm.search.username" id="userlist" name="username">
+		  		<option ng-repeat="username in vm.users track by $index">{{::username}}</option>
 		  	</select>
 		  </div>
 	  	<label class="control-label col-xs-4 sr-only">Search</label>
     	<div class="col-xs-8" style="text-align: left">
-  			<button type="submit" ng-disabled="users.length === 1" class="btn btn-default vert-margin">Go</button>
+  			<button type="submit" ng-disabled="vm.users.length === 1" class="btn btn-default vert-margin">Go</button>
   		</div>
     </div>
   </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-warning" style="color:black" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-warning" style="color:black" ng-click="vm.cancel()">Cancel</button>
 </div>

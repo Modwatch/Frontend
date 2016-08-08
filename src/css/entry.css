@@ -1,2 +1,4 @@
 @import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "./global.css";
 @import "./home.css";
+@import "./modlist.css";
