@@ -4,7 +4,7 @@
 
   function APIService($http) {
 
-    const api = "http://modwatchapi-ansballard.rhcloud.com";
+    const api = "https://modwatchapi-ansballard.rhcloud.com";
     // const api = "http://127.0.0.1:3001"; // local debug
 
     return {
