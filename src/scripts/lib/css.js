@@ -32,13 +32,13 @@ export default function css(opts = {}) {
         })
     )
     .then(result => result.css)
-    .then(css => globAsync("./src/js/**/*.html")
-      .then(files => opts.minify ? uncssAsync(["./public/index.html"].concat(files), {
-        ignore: uncssIgnores,
-        raw: css,
-        ignoreSheets: [/\/dist\/styles\.css/]
-      }) : css)
-    )
+    // .then(css => globAsync("./src/js/**/*.html")
+    //   .then(files => opts.minify ? uncssAsync(["./public/index.html"].concat(files), {
+    //     ignore: uncssIgnores,
+    //     raw: css,
+    //     ignoreSheets: [/\/dist\/styles\.css/]
+    //   }) : css)
+    // )
     .then(css => opts.minify ? cssnano.process(css) : {css})
     .then(css => Promise.all([
       writeFileAsync(opts.out, css.css),

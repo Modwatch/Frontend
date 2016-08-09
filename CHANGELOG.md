@@ -9,6 +9,8 @@
 - added user and mod queries to userlist page
 - added options to APIService.getUsers (querying, limiting)
 - turned on serviceworkers
+- removed uncss (for now) in favor of bootstrap CDN
+- removed angular refs in favor of CDN
 
 **Fixed Bugs**
 
