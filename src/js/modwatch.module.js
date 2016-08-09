@@ -2,7 +2,7 @@ import AppConfig from "./config/appConfig";
 
 import "angular";
 import "angular-route";
-import "angular-animate";
+// import "angular-animate";
 
 import "angular-local-storage";
 import "./libs/ui-bootstrap-custom-tpls-0.14.3.min.js";
@@ -18,7 +18,7 @@ import "./routes/home/home.module";
 angular.module("modwatch", [
   /** 1st Party **/
   "ngRoute",
-  "ngAnimate",
+  // "ngAnimate",
   /** 3rd Party **/
   "LocalStorageModule",
   "ui.bootstrap",

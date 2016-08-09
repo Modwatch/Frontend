@@ -1,15 +1,10 @@
-
-
-<div class="form-inline" style="margin-top: 20px;">
-  <input class="form-control" placeholder="Search" type="text" ng-model="vm.listFilter" ng-change="vm.unlockFilter()" ng-model-options="{debounce: 250}"/>
-  <span ng-if="vm.pList.getNumPages() > 1">
-    <button class="btn" type="button" ng-click="vm.pList.prevPage()" ng-disabled="vm.pList.getIsFirstPage()">Prev</button>
-      {{vm.pList.getPage() + 1}} / {{vm.pList.getNumPages()}}
-    <button class="btn" type="button" ng-click="vm.pList.nextPage()" ng-disabled="vm.pList.getIsLastPage()">Next</button>
-  </span>
-  <span ng-if="vm.cachedList">Getting most recent list...</span>
-</div>
-
+<h3>Only 100 latest profiles shown after filtering</h3>
+<form class="form-inline" style="margin-top: 20px;" ng-submit="vm.searchUsers(listFilter)">
+  <input class="form-control" placeholder="Search" type="text" ng-model="listFilter"/>
+  <button type="submit" class="btn">Search Users</button>
+  <button type="button" class="btn" ng-click="vm.searchModlists(listFilter)">Search Mods</button>
+  <button type="button" class="btn" ng-click="listFilter='';vm.searchUsers()">Clear</button>
+</form>
 <table class="table table-striped">
   <thead>
     <tr style="font-size: 20px;">
@@ -32,9 +27,16 @@
   </thead>
   <tbody>
     <tr ng-repeat="user in vm.pList.getVisibleContent()">
-      <td><a href="/u/{{user.username}}" style="color: #000">{{user.username}}</a></td>
-      <td>{{user.timestamp | date}}</td>
-      <td>{{user.score | number}}</td>
+      <td><a href="/u/{{::user.username}}" style="color: #000">{{::user.username}}</a></td>
+      <td>{{::user.timestamp | date}}</td>
+      <td>{{::user.score | number}}</td>
     </tr>
   </tbody>
 </table>
+<div class="form-inline">
+  <span ng-if="vm.pList.getNumPages() > 1">
+    <button class="btn" type="button" ng-click="vm.pList.prevPage()" ng-disabled="vm.pList.getIsFirstPage()">Prev</button>
+      {{vm.pList.getPage() + 1}} / {{vm.pList.getNumPages()}}
+    <button class="btn" type="button" ng-click="vm.pList.nextPage()" ng-disabled="vm.pList.getIsLastPage()">Next</button>
+  </span>
+</div>

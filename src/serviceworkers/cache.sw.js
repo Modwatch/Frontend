@@ -2,6 +2,8 @@ import { version as vers } from "../../package.json";
 
 const version = `v${vers}::`;
 
+const dontCache =	/https:\/\/modwatchapi\-ansballard\.rhcloud\.com\/api\/.+/;
+
 self.addEventListener("install", event => {
 	event.waitUntil(
 		caches
@@ -16,7 +18,8 @@ self.addEventListener("install", event => {
 });
 
 self.addEventListener("fetch", event => {
-	if (event.request.method !== "GET") {
+	console.log(event.request);
+	if (dontCache.test(event.request.url) || event.request.method !== "GET") {
 		return;
 	}
 	event.respondWith(

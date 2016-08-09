@@ -30,9 +30,14 @@
           enb
         });
       },
-      getUsers() {
-        return $http.get(`${api}/api/users/list`)
-        .then(res => res.data || []);
+      getUsers(opts = {}) {
+        if(opts.query) {
+          return $http.get(`${api}/api/search/users/${opts.query}/${opts.limit || ""}`)
+          .then(res => res.data);
+        } else {
+          return $http.get(`${api}/api/users/list/${opts.limit || ""}`)
+          .then(res => res.data || []);
+        }
       },
       searchModlists(query) {
         return $http.get(`${api}/api/search/file/modlist/${query}`)

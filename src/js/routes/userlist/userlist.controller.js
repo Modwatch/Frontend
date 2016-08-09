@@ -9,15 +9,15 @@ function UserlistController(localStorageService, $filter, APIService) {
   const vm = this;
 
   vm.loading = true;
+  vm.searchUsers = searchUsers;
+  vm.searchModlists = searchModlists;
 
   let filter = $filter("filter");
   let orderBy = $filter("orderBy");
   let currentList = [];
   let filterLocked = false;
 
-  vm.users = currentList = localStorageService.get("userlist") || [];
-  vm.cachedList = currentList.length === 0 ? false : true;
-  vm.listFilter = ""; // filter input
+  vm.users = currentList = [];
   vm.listOrder = {
     field: "timestamp",
     reverse: true
@@ -26,6 +26,31 @@ function UserlistController(localStorageService, $filter, APIService) {
   vm.unlockFilter = () => {
     vm.filterLocked = false;
   };
+  function searchUsers(query) {
+    vm.loading = true;
+    APIService.getUsers({query, limit: 100})
+    .then(users => {
+      vm.users = currentList = users;
+      vm.loading = false;
+      filterLocked = false;
+    })
+    .catch(e => {
+      vm.loading = false;
+    });
+  }
+  function searchModlists(query) {
+    vm.loading = true;
+    APIService.searchModlists(query)
+    .then(res => {
+      vm.users = currentList = res.newUsers;
+      vm.loading = false;
+      filterLocked = false;
+    })
+    .catch(e => {
+      vm.loading = false;
+    });
+  };
+  searchUsers();
 
   vm.sortCol = (field) => {
     if (field === vm.listOrder.field) {
@@ -39,29 +64,10 @@ function UserlistController(localStorageService, $filter, APIService) {
 
   let paginateDataFunction = () => {
     if (!filterLocked) {
-      currentList = orderBy(filter(vm.users, vm.listFilter), vm.listOrder.field, vm.listOrder.reverse);
+      currentList = orderBy(vm.users, vm.listOrder.field, vm.listOrder.reverse);
     }
     filterLocked = true;
     return currentList;
   };
   vm.pList = paginate(10, paginateDataFunction);
-
-  vm.getUserlist = () => {
-    APIService.getUsers()
-    .then(userlist => {
-      vm.users = userlist;
-      for (let i = 0; i < vm.users.length; i++) {
-        if (vm.users[i].username === "") {
-          vm.users.splice(i, 1);
-          i--;
-        }
-      }
-      localStorageService.set("userlist", userlist);
-      filterLocked = vm.cachedList = false;
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  };
-  vm.getUserlist();
 }

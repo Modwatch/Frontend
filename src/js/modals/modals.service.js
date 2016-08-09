@@ -1,5 +1,4 @@
 import loginModalTemplate from "./login/loginmodal.template.html";
-import searchModalTemplate from "./search/searchmodal.template.html";
 import editModalTemplate from "./edit/editmodal.template.html";
 
 ModalService.$inject = ["$uibModal"];
@@ -27,16 +26,6 @@ function ModalService($uibModal) {
         bindToController: true,
         size: "small",
         resolve: resolve
-      });
-    },
-    search(resolve) {
-      $uibModal.open({
-        template: searchModalTemplate,
-        controller: "SearchModalController",
-        controllerAs: "vm",
-        bindToController: true,
-        size: "small",
-        resolve
       });
     }
   };

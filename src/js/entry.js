@@ -1,2 +1,2 @@
 import "./modwatch.module";
-// import "./serviceworker";
+import "./serviceworker";

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.4.0 (08/08/2016)
+
+**Implemented Enhancements**
+
+- moved search functionality to userlist route
+- removed ngAnimate
+- added user and mod queries to userlist page
+- added options to APIService.getUsers (querying, limiting)
+- turned on serviceworkers
+
+**Fixed Bugs**
+
+- fixed header font size
+
 ## 0.3.0 (08/07/2016)
 
 **Implemented Enhancements**
