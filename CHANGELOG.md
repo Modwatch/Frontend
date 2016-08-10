@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.0 (08/09/2016)
+
+**Implemented Enhancements**
+
+- add firebase serve and deploy to cli
+- add promise return to run()
+
+**Fixed Bugs**
+
+- fix cli -- -w
+  - replaced chokidar with graceful-fs.watch
+- clean dev deps
+
 ## 0.4.2 (08/09/2016)
 
 **Implemented Enhancements**

@@ -1,9 +1,11 @@
 "use strict";
 
-import { watch } from "chokidar";
+import { watch } from "graceful-fs";
 import denodeify from "denodeify";
 import { writeFile } from "fs";
 import { dirname } from "path";
+import { serve } from "firebase-tools";
+import { red } from "chalk";
 
 import javascript from "./javascript";
 import css from "./css";
@@ -15,20 +17,33 @@ let watcher = {
 };
 
 export function run(program = {}) {
+
+  const processes = [];
+
   if(program.watch) {
+    if(program.serve) {
+      console.log = () => undefined;
+      serve({
+        host: "0.0.0.0",
+        port: "8080"
+      });
+    }
     program.onquit(() => {
       watcher.close();
     });
   }
 
   if(program.all || program.javascript) {
-    javascript({
+    processes.push(javascript({
       entry: "src/js/entry.js",
       minify: program.minify,
       out: "public/dist/bundle.js"
     })
     .catch(e => {
       console.log(e);
+      if(program.deploy) {
+        throw e;
+      }
     })
     .then(opts => {
       if(program.watch) {
@@ -37,14 +52,21 @@ export function run(program = {}) {
           build: javascript
         }));
       }
-    });
+      return opts;
+    }));
   }
 
   if(program.all || program.serviceworkers) {
-    javascript({
+    processes.push(javascript({
       entry: "src/serviceworkers/cache.sw.js",
       minify: program.minify,
       out: "./public/sw.js"
+    })
+    .catch(e => {
+      console.log(e);
+      if(program.deploy) {
+        throw e;
+      }
     })
     .then(opts => {
       if(program.watch) {
@@ -53,14 +75,21 @@ export function run(program = {}) {
           build: javascript
         }));
       }
-    });
+      return opts;
+    }));
   }
 
   if(program.all || program.css) {
-    css({
+    processes.push(css({
       entry: "src/css/entry.css",
       minify: program.minify,
       out: "public/dist/styles.css"
+    })
+    .catch(e => {
+      console.log(e);
+      if(program.deploy) {
+        throw e;
+      }
     })
     .then(opts => {
       if(program.watch) {
@@ -69,14 +98,17 @@ export function run(program = {}) {
           build: css
         }));
       }
-    });
+      return opts;
+    }));
   }
+
+  return Promise.all(processes);
 
   function watchFileType(opts = {}) {
     watcher = watch(opts.strictWatch || dirname(opts.entry), {
-      persistent: true
-    })
-    .on("all", (event, filename) => {
+      persistent: true,
+      recursive: true
+    }, (event, filename) => {
       program.building && program.building(opts);
       opts.build(opts)
       .then(() => {

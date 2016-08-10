@@ -1,5 +1,10 @@
 {
   "env": {
     "serviceworker": true
+  },
+  "globals": {
+    "Response": true,
+    "Headers": true,
+    "fetch": true
   }
 }

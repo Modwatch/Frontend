@@ -4,7 +4,11 @@
 import program from "commander";
 import ora from "ora";
 import keypress from "keypress";
+import clear from "clear";
+import { red } from "chalk";
+import { deploy } from "firebase-tools";
 
+import { version } from "../../../package.json";
 import { run } from "../lib/utils";
 
 program
@@ -12,20 +16,25 @@ program
 .option("-j, --javascript", "Build Javascript")
 .option("-c, --css", "Build CSS")
 .option("-s, --serviceworkers", "Build Service Workers")
+.option("-S, --serve", "Serve")
+.option("-d, --deploy", "Deploy")
 .option("-a, --all", "All (JS, CSS)")
 .option("-w, --watch", "Watch for Changes")
 .parse(process.argv);
 
-const restingSpinnerMessage = "Watching: `Q` to quit";
+let restingSpinnerMessage = `${program.serve ? `Serving at ${red("0.0.0.0:8080")}` : "Watching"}: \`Q\` to quit`;
 const spinner = ora(restingSpinnerMessage);
 
 if(program.watch) {
-  if(program.post) {
-    console.log("Can't watch and post at the same time");
-    process.exit(0);
-  }
   spinner.start();
   keypress(process.stdin);
+  process.stdin.on("keypress", (ch, key) => {
+    if(key && key.name === "c") {
+      spinner.stop();
+      clear();
+      spinner.start();
+    }
+  });
 }
 run(Object.assign({}, program, {
   building(args) {
@@ -43,14 +52,21 @@ run(Object.assign({}, program, {
   },
   onquit(stopWatching) {
     process.stdin.on("keypress", (ch, key) => {
-      if (key && (key.name === "q" || (key.ctrl && key.name === "c"))) {
+      if(key && (key.name === "q" || (key.ctrl && key.name === "c"))) {
         spinner.stop();
         stopWatching();
         process.exit(0);
       }
     });
   }
-}));
+}))
+.then(res => {
+  if(program.deploy && !program.watch) {
+    deploy({
+      message: `Package Version: ${version}`
+    });
+  }
+});
 
 if(program.watch) {
   process.stdin.setRawMode(true);
