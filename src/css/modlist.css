@@ -1,9 +1,9 @@
-span#list-container {
+#list-container {
   border-radius: 25px;
   background-color: #E0E0E0;
   text-align: left;
 }
-span#search-container {
+#search-container {
   text-align: center;
   /*width: 100%;*/
   padding: 10px 40px;

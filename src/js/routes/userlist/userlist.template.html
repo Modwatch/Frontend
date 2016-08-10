@@ -1,9 +1,14 @@
 <h3>Only 100 latest profiles shown after filtering</h3>
-<form class="form-inline" style="margin-top: 20px;" ng-submit="vm.searchUsers(listFilter)">
-  <input class="form-control" placeholder="Search" type="text" ng-model="listFilter"/>
-  <button type="submit" class="btn">Search Users</button>
-  <button type="button" class="btn" ng-click="vm.searchModlists(listFilter)">Search Mods</button>
-  <button type="button" class="btn" ng-click="listFilter='';vm.searchUsers()">Clear</button>
+<form class="form-inline" style="margin-top: 20px;" ng-submit="vm.searchUsers(listFilter, filterMode)">
+  <div class="search-group input-group">
+    <input class="form-control" placeholder="Search" type="text" ng-model="listFilter"/>
+    <select class="form-control" ng-init="filterMode='profiles'" ng-model="filterMode">
+      <option value="profiles">Profiles</option>
+      <option value="mods">Mods</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+  <button type="button" class="btn btn-warning" ng-click="listFilter='';filterMode='profiles';vm.searchUsers()">Clear</button>
 </form>
 <h3 ng-show="vm.users.length === 0">No profiles found</h3>
 <table class="table table-striped" ng-show="vm.users.length > 0">

@@ -1,6 +1,6 @@
 {
   "name": "modwatch",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "private": true,
   "scripts": {
     "start": "firebase serve -o 0.0.0.0 -p 8080",

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.2 (08/09/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- refactored search in userlist page, still needs loading animation
+- removed .btn color, was jacking up buttons
+  - check for places that may have actually been used
+- ignore firebase debug file
+
 ## 0.4.1 (08/09/2016)
 
 **Implemented Enhancements**

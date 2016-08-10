@@ -26,17 +26,21 @@ function UserlistController(localStorageService, $filter, APIService) {
   vm.unlockFilter = () => {
     vm.filterLocked = false;
   };
-  function searchUsers(query) {
-    vm.loading = true;
-    APIService.getUsers({query, limit: 100})
-    .then(users => {
-      vm.users = currentList = users;
-      vm.loading = false;
-      filterLocked = false;
-    })
-    .catch(e => {
-      vm.loading = false;
-    });
+  function searchUsers(query, mode = "profiles") {
+    if(mode === "profiles") {
+      vm.loading = true;
+      APIService.getUsers({query, limit: 100})
+      .then(users => {
+        vm.users = currentList = users;
+        vm.loading = false;
+        filterLocked = false;
+      })
+      .catch(e => {
+        vm.loading = false;
+      });
+    } else {
+      searchModlists(query);
+    }
   }
   function searchModlists(query) {
     vm.loading = true;
@@ -49,7 +53,7 @@ function UserlistController(localStorageService, $filter, APIService) {
     .catch(e => {
       vm.loading = false;
     });
-  };
+  }
   searchUsers();
 
   vm.sortCol = (field) => {
