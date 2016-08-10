@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.1 (08/09/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- refactored login modal
+- added header when no users foud at /userlist
+
 ## 0.4.0 (08/08/2016)
 
 **Implemented Enhancements**

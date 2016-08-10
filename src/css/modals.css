@@ -1,0 +1,12 @@
+.btn-wrapper {
+  text-align: left;
+}
+.btn-wrapper .btn {
+  color: #000000;
+}
+.btn-wrapper .btn:hover {
+  color: #FFFFFF;
+}
+.modal-body .form-group {
+  padding: 5px 0;
+}

@@ -1,9 +1,10 @@
 {
   "name": "modwatch",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "scripts": {
-    "start": "http-server ./public",
+    "start": "firebase serve -o 0.0.0.0 -p 8080",
+    "deploy": "firebase deploy",
     "cli": "node scripts/cli.js",
     "build:cli": "browserify --no-bundle-external --node ./src/scripts/interfaces/cli.js -t [babelify --presets es2015] -o ./scripts/cli.js",
     "prepublish": "npm run build:cli && npm run cli -- -am"

@@ -5,7 +5,8 @@
   <button type="button" class="btn" ng-click="vm.searchModlists(listFilter)">Search Mods</button>
   <button type="button" class="btn" ng-click="listFilter='';vm.searchUsers()">Clear</button>
 </form>
-<table class="table table-striped">
+<h3 ng-show="vm.users.length === 0">No profiles found</h3>
+<table class="table table-striped" ng-show="vm.users.length > 0">
   <thead>
     <tr style="font-size: 20px;">
       <th style="cursor: pointer;" ng-click="vm.sortCol('username')">
