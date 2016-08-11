@@ -11,12 +11,6 @@ body {
   -ms-animation: flipInY 1s;
   animation: flipInY 1s;
 }
-/*.nav-anim.ng-leave {
-  -webkit-animation: flipOutY 1s;
-  -moz-animation: flipOutY 1s;
-  -ms-animation: flipOutY 1s;
-  animation: flipOutY 1s;
-}*/
 .input-group, .form-group {
 	margin: auto;
 }
@@ -53,6 +47,3 @@ body {
 	padding-bottom: 10px;
 	margin-bottom: 25px;
 }
-/*.btn {
-	background-color: #E0E0E0;
-}*/

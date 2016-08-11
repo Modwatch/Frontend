@@ -15,28 +15,42 @@
 </style>
 </head>
 <body>
-	<div id="full-wrapper" class="container">
+	<div id="full-wrapper" class="container-fluid">
 		<div class="row" ng-controller="WrapperController as vm" ng-init="vm.getUsers()">
-			<h1 id="header" class="col-xs-10 col-xs-offset-1"><a href="/">MODWAT.CH</a></h1>
-			<span id="content-wrapper" class="col-xs-10 col-sm-offset-1 ng-view-class" ng-view></span>
-			<span class="col-xs-1">
-				<button ng-if="!vm.authenticated" ng-cloak title="Login" class="btn nav-anim" style="border-radius:50%" ng-click="vm.openLogin()">
-					<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-				</button>
-				<a ng-if="vm.authenticated" ng-cloak class="nav-anim" href="/u/{{vm.user.username}}">
-					<button class="btn" title="Your Profile" style="border-radius:50%;color:blue" ng-click="">
-						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-					</button>
-				</a>
-				<button ng-if="vm.authenticated" ng-cloak class="btn nav-anim" title="Logout" style="border-radius:50%;color:red" ng-click="vm.logout()">
-					<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-				</button>
-				<a href="/userlist" class="nav-anim">
-					<button class="btn" title="Users" style="border-radius:50%">
-						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					</button>
-				</a>
-			</span>
+			<h1 id="header" class="col-xs-12 col-sm-10 col-sm-offset-1"><a href="/">MODWAT.CH</a></h1>
+			<span id="content-wrapper" class="col-xs-12 col-sm-10 col-sm-offset-1 ng-view-class" ng-view></span>
+			<div class="menu-wrapper" ng-class="{'menu-open': menuShow}">
+				<div class="menu-main" ng-cloak>
+					<div class="menu-hamburger" ng-click="menuShow = menuShow ? false : true">
+						<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true">
+					</div>
+					<div class="menu-sub menu-login menu-dir-w">
+						<button ng-if="!vm.authenticated" title="Login" class="btn nav-anim" ng-click="vm.openLogin()">
+							<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+						</button>
+					</div>
+					<div class="menu-sub menu-login menu-dir-w">
+						<a ng-if="vm.authenticated" ng-cloak class="nav-anim" href="/u/{{vm.user.username}}">
+							<button class="btn" title="Your Profile">
+								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+							</button>
+						</a>
+					</div>
+					<div class="menu-sub menu-logout menu-dir-sw">
+						<button class="btn">
+							<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+						</button>
+					</div>
+					<div class="menu-sub menu-list menu-dir-s">
+						<a href="/userlist">
+							<button class="btn">
+								<span class="glyphicon glyphicon-th-list" aria-hidden="true">
+								</span>
+							</button>
+						</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script>

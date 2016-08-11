@@ -1,0 +1,43 @@
+.menu-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  & button {
+    transition: opacity 0.3s;
+    border-radius: 50%;
+    opacity: 0;
+  }
+  & .menu-sub {
+    transition: transform 0.3s;
+  }
+  & .menu-hamburger {
+    cursor: pointer;
+    z-index: 1001;
+    font-size: 28px;
+    color: #E3A853;
+  }
+  & a,
+  & button {
+    color: #000000;
+  }
+  &.menu-open {
+    & .menu-dir-w {
+      transform: translateX(-70px);
+    }
+    & .menu-dir-s {
+      transform: translateY(70px);
+    }
+    & .menu-dir-sw {
+      transform: translateX(-50px) translateY(50px);
+    }
+    & button {
+      opacity: 1;
+    }
+  }
+}
+.menu-main {
+  position: relative;
+  & > div {
+    position: absolute;
+  }
+}

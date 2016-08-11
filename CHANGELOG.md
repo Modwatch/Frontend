@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.0 (08/10/2016)
+
+**Implemented Enhancements**
+
+- moved nav to fancy burger menu
+
+**Fixed Bugs**
+
+- none
+
 ## 0.5.0 (08/09/2016)
 
 **Implemented Enhancements**
@@ -35,7 +45,7 @@
 **Fixed Bugs**
 
 - refactored login modal
-- added header when no users foud at /userlist
+- added header when no users found at /userlist
 
 ## 0.4.0 (08/08/2016)
 
