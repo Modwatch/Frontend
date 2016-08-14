@@ -4,7 +4,7 @@ import { watch } from "graceful-fs";
 import denodeify from "denodeify";
 import { writeFile } from "fs";
 import { dirname } from "path";
-import { serve } from "firebase-tools";
+import { server } from "superstatic";
 import { red } from "chalk";
 
 import javascript from "./javascript";
@@ -22,10 +22,18 @@ export function run(program = {}) {
 
   if(program.watch) {
     if(program.serve) {
-      console.log = () => undefined;
-      serve({
+      server({
+        config: {
+          public: "./public"
+        },
+        cwd: process.cwd(),
         host: "0.0.0.0",
-        port: "8080"
+        port: "8080",
+        debug: false
+      }).listen(err => {
+        if(err) {
+          console.log(err);
+        }
       });
     }
     program.onquit(() => {

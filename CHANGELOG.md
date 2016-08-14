@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.1 (08/12/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- replaced firebase with superstatic, removed deploy option
+
 ## 0.6.0 (08/10/2016)
 
 **Implemented Enhancements**

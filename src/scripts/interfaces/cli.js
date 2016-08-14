@@ -6,7 +6,6 @@ import ora from "ora";
 import keypress from "keypress";
 import clear from "clear";
 import { red } from "chalk";
-import { deploy } from "firebase-tools";
 
 import { version } from "../../../package.json";
 import { run } from "../lib/utils";
@@ -59,14 +58,7 @@ run(Object.assign({}, program, {
       }
     });
   }
-}))
-.then(res => {
-  if(program.deploy && !program.watch) {
-    deploy({
-      message: `Package Version: ${version}`
-    });
-  }
-});
+}));
 
 if(program.watch) {
   process.stdin.setRawMode(true);

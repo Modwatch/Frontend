@@ -1,6 +1,6 @@
 {
   "name": "modwatch",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "private": true,
   "scripts": {
     "cli": "node scripts/cli.js",
@@ -26,7 +26,6 @@
     "core-js": "^2.3.0",
     "cssnano": "^3.5.2",
     "denodeify": "^1.2.1",
-    "firebase-tools": "^3.0.6",
     "glob": "^7.0.0",
     "graceful-fs": "^4.1.5",
     "keypress": "^0.2.1",
@@ -36,6 +35,7 @@
     "postcss-cli": "^2.5.1",
     "postcss-cssnext": "^2.4.0",
     "postcss-import": "^8.0.2",
+    "superstatic": "^4.0.3",
     "uglify-js": "^2.6.2",
     "uglifyify": "^3.0.2",
     "uncss": "^0.13.0"
