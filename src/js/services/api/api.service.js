@@ -1,8 +1,8 @@
-  APIService.$inject = ["$http"];
+  APIService.$inject = ["$http", "localStorageService"];
 
   export default APIService;
 
-  function APIService($http) {
+  function APIService($http, localStorageService) {
 
     const api = "https://modwatchapi-ansballard.rhcloud.com";
     // const api = "http://127.0.0.1:3001"; // local debug
@@ -51,7 +51,8 @@
         return $http.post(`${api}/auth/signin`, {
           username,
           password
-        });
+        })
+        .then(r => r.data.token);
       },
       checkToken(token) {
         return $http.post(`${api}/auth/checkToken`, {
@@ -67,6 +68,12 @@
       downvote(votee, token) {
         return $http.post(`${api}/auth/downvote/${votee}`, {
           token
+        });
+      },
+      changepass(password) {
+        return $http.post(`${api}/auth/changepass`, {
+          password,
+          token: localStorageService.get("token")
         });
       }
     };

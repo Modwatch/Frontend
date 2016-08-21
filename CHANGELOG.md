@@ -1,14 +1,16 @@
 # Changelog
 
-## 0.6.2 (08/18/2016)
+## 0.7.0 (08/21/2016)
 
 **Implemented Enhancements**
 
-- none
+- added settings page
+- profile link now goes to settings page
+- logout works now
 
 **Fixed Bugs**
 
-- fixed service worker activation, have to skip to update
+- better handling of token response
 
 ## 0.6.2 (08/18/2016)
 

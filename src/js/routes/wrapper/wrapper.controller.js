@@ -8,6 +8,7 @@ function WrapperController($rootScope, $scope, $location, ModalService, localSto
 
   vm.users = ["Loading..."];
   vm.loading = true;
+  vm.clearToken = clearToken;
   $rootScope.pageTitle = "Modwat.ch";
 
   vm.authenticated = false;
@@ -18,8 +19,7 @@ function WrapperController($rootScope, $scope, $location, ModalService, localSto
   if (token) {
     APIService.checkToken(token)
     .then(res => {
-      console.log(res);
-      vm.user.username = res.data.username;
+      vm.user.username = res.username;
       vm.authenticated = true;
     })
     .catch(e => {
@@ -28,9 +28,10 @@ function WrapperController($rootScope, $scope, $location, ModalService, localSto
     });
   }
 
-  let clearToken = () => {
+  function clearToken() {
     localStorageService.remove("token");
     vm.authenticated = false;
+    console.log("logged out");
   };
 
   vm.logout = () => {

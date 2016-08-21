@@ -30,14 +30,14 @@
 						</button>
 					</div>
 					<div class="menu-sub menu-login menu-dir-w">
-						<a ng-if="vm.authenticated" ng-cloak class="nav-anim" href="/u/{{vm.user.username}}">
-							<button class="btn" title="Your Profile">
+						<a ng-if="vm.authenticated" ng-cloak class="nav-anim" href="/settings">
+							<button class="btn" title="User Settings">
 								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 							</button>
 						</a>
 					</div>
 					<div class="menu-sub menu-logout menu-dir-sw">
-						<button class="btn">
+						<button ng-if="vm.authenticated" class="btn" ng-click="vm.clearToken()">
 							<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
 						</button>
 					</div>
