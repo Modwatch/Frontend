@@ -8,6 +8,16 @@
 
 **Fixed Bugs**
 
+- fixed service worker activation, have to skip to update
+
+## 0.6.2 (08/18/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
 - fixed eslint errors in editor
 - replaced download url with new redirect
 

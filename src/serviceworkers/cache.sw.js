@@ -14,11 +14,13 @@ self.addEventListener("install", event => {
 			"/dist/bundle.js",
 			"/dist/styles.css"
 		]))
+		.then(() => {
+			return self.skipWaiting();
+		})
 	);
 });
 
 self.addEventListener("fetch", event => {
-	console.log(event.request);
 	if (dontCache.test(event.request.url) || event.request.method !== "GET") {
 		return;
 	}
@@ -57,12 +59,12 @@ self.addEventListener("activate", event => {
 	event.waitUntil(
 		caches
 		.keys()
-		.then(keys =>
-			Promise.all(
+		.then(keys => {
+			return Promise.all(
 				keys
 				.filter(key => !key.startsWith(version))
 				.map(key => caches.delete(key))
 			)
-		)
+		})
 	);
 });
