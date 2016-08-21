@@ -148,7 +148,7 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
         .then(getProfileRes => {
           vm.badge = getProfileRes.badge;
           vm.timestamp = getProfileRes.timestamp;
-          vm.game = getProfileRes.game;
+          vm.game = getProfileRes.game || "skyrim";
           vm.enb = getProfileRes.enb;
           vm.tag = getProfileRes.tag;
           vm.score = getProfileRes.score;

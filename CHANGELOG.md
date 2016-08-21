@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.1 (08/21/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- fixed missing game in profile page
+
 ## 0.7.0 (08/21/2016)
 
 **Implemented Enhancements**
