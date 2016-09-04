@@ -1,11 +1,18 @@
 .menu-wrapper {
   position: absolute;
   top: 20px;
-  right: 50px;
+  right: 76px;
   & button {
-    transition: opacity 0.3s;
+    transition: all 0.3s;
     border-radius: 50%;
+    font-size: 30px;
+    color: #D0D0D0 !important;
+    background: none;
+    box-shadow: 0 0 10px #E3A853;
     opacity: 0;
+  }
+  & button:hover {
+    box-shadow: 0 0 5px #E3A853;
   }
   & .menu-sub {
     transition: transform 0.3s;
@@ -13,7 +20,7 @@
   & .menu-hamburger {
     cursor: pointer;
     z-index: 1001;
-    font-size: 28px;
+    font-size: 48px;
     color: #E3A853;
   }
   & a,
@@ -22,13 +29,13 @@
   }
   &.menu-open {
     & .menu-dir-w {
-      transform: translateX(-70px);
+      transform: translateX(-76px);
     }
     & .menu-dir-s {
-      transform: translateY(70px);
+      transform: translateY(76px);
     }
     & .menu-dir-sw {
-      transform: translateX(-50px) translateY(50px);
+      transform: translateX(-57px) translateY(57px);
     }
     & button {
       opacity: 1;

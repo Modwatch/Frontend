@@ -13,7 +13,6 @@ import "./modals/modals.module";
 import "./routes/wrapper/wrapper.module";
 import "./routes/userlist/userlist.module";
 import "./routes/profile/profile.module";
-import "./routes/home/home.module";
 import "./routes/settings/settings.module";
 
 angular.module("modwatch", [
@@ -28,7 +27,6 @@ angular.module("modwatch", [
   "modwatch.modals",
   /** Routes **/
   "modwatch.wrapper",
-  "modwatch.home",
   "modwatch.settings",
   "modwatch.userlist",
   "modwatch.profile"
