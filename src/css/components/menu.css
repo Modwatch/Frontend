@@ -1,0 +1,56 @@
+.menu-wrapper {
+
+  --menu-offset: 20px;
+  --button-offset: 10px;
+  --anim-delay: 0.3s;
+  --icon-size: 48px;
+  --icon-subsize: 30px;
+  --color-primary: #E3A853;
+  --color-icon: #000000;
+  --color-background: #D0D0D0AA;
+
+  position: absolute;
+  top: var(--menu-offset);
+  right: var(--menu-offset);
+  padding: calc(var(--menu-offset) / 2);
+  transition: all var(--anim-delay);
+  & button {
+    transition: all var(--anim-delay);
+    border-radius: 50%;
+    font-size: var(--icon-subsize);
+    background: none;
+    opacity: 0;
+  }
+  & button:hover {
+    color: var(--color-primary);
+  }
+  & .menu-sub {
+    transition: all var(--anim-delay);
+  }
+  & .menu-hamburger {
+    cursor: pointer;
+    z-index: 1001;
+    font-size: var(--icon-size);
+    color: var(--color-primary);
+  }
+  & a,
+  & button {
+    color: var(--color-icon);
+  }
+  &.menu-open {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    border-radius: 3px;
+    & .menu-hamburger {
+      border-bottom: 1px solid var(--color-primary);
+      /*margin-bottom: 10px;*/
+    }
+    & button {
+      opacity: 1;
+      margin-top: var(--button-offset);
+    }
+  }
+}
+.menu-main {
+  position: relative;
+}

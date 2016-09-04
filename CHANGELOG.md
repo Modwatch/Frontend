@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.2 (08/21/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- refactored menu layout
+- refactored css directories
+- menu.css now uses variables (yay)
+
 ## 0.7.1 (08/21/2016)
 
 **Implemented Enhancements**

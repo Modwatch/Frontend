@@ -1,7 +1,7 @@
 /*@import "../../node_modules/bootstrap/dist/css/bootstrap.css";*/
 @import "./global.css";
-@import "./home.css";
-@import "./modlist.css";
-@import "./userlist.css";
-@import "./modals.css";
-@import "./menu.css";
+@import "./pages/home.css";
+@import "./pages/modlist.css";
+@import "./pages/userlist.css";
+@import "./components/modals.css";
+@import "./components/menu.css";
