@@ -1,6 +1,27 @@
 # Changelog
 
-## 0.7.2 (08/21/2016)
+## 0.7.4 (09/04/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- properly hid menu items
+
+## 0.7.3 (09/04/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- removed unnecessary home.module
+- added home page content
+
+## 0.7.2 (09/04/2016)
 
 **Implemented Enhancements**
 

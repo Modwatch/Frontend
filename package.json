@@ -1,6 +1,6 @@
 {
   "name": "modwatch",
-  "version": "0.7.2",
+  "version": "0.7.4",
   "private": true,
   "scripts": {
     "cli": "node scripts/cli.js",

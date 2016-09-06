@@ -24,26 +24,26 @@
 					<div class="menu-hamburger" ng-click="menuShow = menuShow ? false : true">
 						<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true">
 					</div>
-					<div class="menu-sub menu-login">
-						<button ng-if="!vm.authenticated" title="Login" class="btn nav-anim" ng-click="vm.openLogin(); menuShow = false">
+					<div class="menu-sub menu-login" ng-show="menuShow && !vm.authenticated" ng-cloak>
+						<button title="Login" class="btn nav-anim" ng-click="vm.openLogin(); menuShow = false">
 							<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
 						</button>
 					</div>
-					<div class="menu-sub menu-login">
-						<a ng-if="vm.authenticated" ng-cloak class="nav-anim" href="/settings">
+					<div class="menu-sub menu-settings" ng-if="menuShow && vm.authenticated" ng-cloak>
+						<a class="nav-anim" href="/settings">
 							<button class="btn" title="User Settings">
 								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 							</button>
 						</a>
 					</div>
-					<div class="menu-sub menu-list">
+					<div class="menu-sub menu-list" ng-show="menuShow" ng-cloak>
 						<a href="/userlist">
 							<button class="btn">
 								<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 							</button>
 						</a>
 					</div>
-					<div class="menu-sub menu-logout">
+					<div class="menu-sub menu-logout" ng-show="menuShow" ng-cloak>
 						<button ng-if="vm.authenticated" class="btn" ng-click="vm.clearToken(); menuShow = false">
 							<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
 						</button>
