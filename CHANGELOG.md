@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.5 (09/05/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- Added links to blog from home page
+
 ## 0.7.4 (09/04/2016)
 
 **Implemented Enhancements**
