@@ -31,7 +31,6 @@ function WrapperController($rootScope, $scope, $location, ModalService, localSto
   function clearToken() {
     localStorageService.remove("token");
     vm.authenticated = false;
-    console.log("logged out");
   };
 
   vm.logout = () => {

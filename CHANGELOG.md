@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.7.7 (09/14/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- Fixed broken download link
+
+## 0.7.6 (09/14/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- Fixed broken modlist sorting
+- Moved sort button to input-group
+- Added the profile button back into the nav
+
 ## 0.7.5 (09/05/2016)
 
 **Implemented Enhancements**

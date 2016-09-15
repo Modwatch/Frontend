@@ -25,9 +25,16 @@
 						<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true">
 					</div>
 					<div class="menu-sub menu-login" ng-show="menuShow && !vm.authenticated" ng-cloak>
-						<button title="Login" class="btn nav-anim" ng-click="vm.openLogin(); menuShow = false">
+						<button title="Login" class="btn nav-anim" ng-click="vm.openLogin()">
 							<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
 						</button>
+					</div>
+					<div class="menu-sub menu-settings" ng-if="menuShow && vm.authenticated" ng-cloak>
+						<a class="nav-anim" href="/u/{{vm.user.username}}">
+							<button class="btn" title="Profile">
+								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+							</button>
+						</a>
 					</div>
 					<div class="menu-sub menu-settings" ng-if="menuShow && vm.authenticated" ng-cloak>
 						<a class="nav-anim" href="/settings">

@@ -10,39 +10,37 @@
       <span ng-if="vm.hasSKSE"><button class="btn" id="skseNav" ng-click="vm.switchFiles('skse')">SKSE</button></span>
       <span ng-if="vm.hasENBLocal"><button class="btn" id="enblocalNav" ng-click="vm.switchFiles('enblocal')">ENB Local</button></span>
     </div>
-    <!-- <div class="vote-wrapper">
-      <button ng-show="$parent.authenticated && !vm.user.isOwner" ng-disabled="vm.voting" style="border-radius: 50%;" class="btn btn-default btn-sm" type="button" ng-click="vm.upvote()"><span style="color:green" class="glyphicon glyphicon-upload"></span></button>
-      <span style="font-size: 16px; font-weight: bold;" title="Modlist Score">{{vm.score}}</span>
-      <button ng-show="$parent.authenticated && !vm.user.isOwner" ng-disabled="vm.voting" style="border-radius: 50%;" class="btn btn-default btn-sm" type="button" ng-click="vm.downvote()"><span style="color:red" class="glyphicon glyphicon-download"></span></button>
-    </div> -->
   </div>
   <span id="search-container" style="position:relative;" class="col-xs-12">
     <span id="username" class="col-xs-3 col-xs-offset-1" ng-attr-title="{{::vm.timestamp|date}}">
       <span ng-if="$parent.authenticated && vm.user.isOwner" ng-click="vm.openEdit()" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {{ ::vm.user.username }}
     </span>
     <span class="col-xs-5 col-xs-offset-2">
-      <input type="text" class="form-control" ng-model="filterMods" ng-model-options="{debounce:250}" id="filter-mods" placeholder="Filter by..."/>
+      <div ng-class="{'input-group': vm.currentFilename === 'modlist'}">
+        <input type="text" class="form-control" ng-model="filterMods" ng-model-options="{debounce:250}" id="filter-mods" placeholder="Filter by..."/>
+        <span class="input-group-btn" ng-show="vm.currentFilename === 'modlist'">
+          <button class="btn" id="filter-checked" ng-click="vm.modlistChecked = !vm.modlistChecked">{{vm.modlistChecked ? "Running Mods" : "All Mods"}}</button>
+        </span>
+      </div>
     </span>
-    <button ng-show="!vm.modlistChecked && vm.currentFilename == 'modlist'" ng-click="vm.modlistChecked = true" class="btn" id="filter-checked">Show Only Running Mods</button>
-    <button ng-show="vm.modlistChecked && vm.currentFilename == 'modlist'" ng-click="vm.modlistChecked = false" class="btn" id="filter-checked">Show All Mods</button>
   </span>
   <div style="min-height:500px" class="col-sm-10 col-sm-offset-1 col-xs-12">
-    <ul class="striped-list" id="plugins" ng-show="vm.currentFilename == 'plugins'">
+    <ul class="striped-list" id="plugins" ng-if="vm.currentFilename == 'plugins'">
       <li ng-repeat="item in vm.plugins | filter:{display:filterMods} track by item.id"><span class="row-header">{{$index+1}}.</span><span class="row-body">{{::item.display}}</span><span class='row-footer {{item.display|limitTo:-3}}'>{{item.display|limitTo:-3}}</span></li>
     </ul>
-    <ul class="striped-list" id="modlist" ng-show="vm.currentFilename == 'modlist'">
-      <li ng-repeat="item in vm.modlist | checked:modlistChecked | filter:{display:filterMods} track by item.id"><span class="row-header">{{$index+1}}.</span><span class='row-body'>{{::item.display}}</span></li>
+    <ul class="striped-list" id="modlist" ng-if="vm.currentFilename == 'modlist'">
+      <li ng-repeat="item in vm.modlist | checked:vm.modlistChecked | filter:{display:filterMods} track by item.id"><span class="row-header">{{$index+1}}.</span><span class='row-body'>{{::item.display}}</span></li>
     </ul>
-    <ul class="striped-list" id="ini" ng-show="vm.currentFilename == 'ini'">
+    <ul class="striped-list" id="ini" ng-if="vm.currentFilename == 'ini'">
       <li ng-repeat="item in vm.ini | filter:{display:filterMods} track by item.id"><span class="row-header">{{$index+1}}.</span><span class="row-body">{{::item.display}}</span></li>
     </ul>
-    <ul class="striped-list" id="prefsini" ng-show="vm.currentFilename == 'prefsini'">
+    <ul class="striped-list" id="prefsini" ng-if="vm.currentFilename == 'prefsini'">
       <li ng-repeat="item in vm.prefsini | filter:{display:filterMods} track by item.id"><span class="row-header">{{$index+1}}.</span><span class="row-body">{{::item.display}}</span></li>
     </ul>
-    <ul class="striped-list" id="skse" ng-show="vm.currentFilename == 'skse'">
+    <ul class="striped-list" id="skse" ng-if="vm.currentFilename == 'skse'">
       <li ng-repeat="item in vm.skse | filter:{display:filterMods} track by item.id"><span class="row-header">{{$index+1}}.</span><span class="row-body">{{::item.display}}</span></li>
     </ul>
-    <ul class="striped-list" id="enblocal" ng-show="vm.currentFilename == 'enblocal'">
+    <ul class="striped-list" id="enblocal" ng-if="vm.currentFilename == 'enblocal'">
       <li ng-repeat="item in vm.enblocal | filter:{display:filterMods} track by item.id"><span class="row-header">{{$index+1}}.</span><span class="row-body">{{::item.display}}</span></li>
     </ul>
     <h2 ng-cloak ng-show="vm.noFiles" style="text-align:center;">
