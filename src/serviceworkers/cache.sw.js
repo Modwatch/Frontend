@@ -2,7 +2,7 @@ import { version as vers } from "../../package.json";
 
 const version = `v${vers}::`;
 
-const dontCache =	/https:\/\/modwatchapi\-ansballard\.rhcloud\.com\/api\/.+/;
+const dontCache =	/https:\/\/modwatchapi\-ansballard\.rhcloud\.com\/api\/.+|.+\.webmanifest/;
 
 self.addEventListener("install", event => {
 	event.waitUntil(
@@ -35,7 +35,7 @@ self.addEventListener("fetch", event => {
 			function fetchedFromNetwork(response) {
 				const cacheCopy = response.clone();
 				caches
-				.open(`${version}pages`)
+				.open(`${version}ansballard`)
 				.then(cache => {
 					cache.put(event.request, cacheCopy);
 				});

@@ -1,0 +1,18 @@
+{
+  "short_name": "Modwatch",
+  "name": "Modwatch",
+  "display": "standalone",
+  "background_color": "#333333",
+  "theme_color": "#E3A853",
+  "orientation": "landscape",
+  "icons": [{
+    "src": "images/mw_icon_144.png",
+    "type": "image/png",
+    "sizes": "144x144"
+  }, {
+    "src": "images/mw_icon_192.png",
+    "type": "image/png",
+    "sizes": "192x192"
+  }],
+  "start_url": "."
+}

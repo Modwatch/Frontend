@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.8 (09/25/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- Updated manifest file
+- Updated number of modlists
+- Updated ignore list in `cache.sw.js`
+
 ## 0.7.7 (09/14/2016)
 
 **Implemented Enhancements**
