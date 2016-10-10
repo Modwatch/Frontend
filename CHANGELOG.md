@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.7.8 (10/09/2016)
+
+**Implemented Enhancements**
+
+- none
+
+**Fixed Bugs**
+
+- clear sw, it's broken
+
 ## 0.7.8 (09/25/2016)
 
 **Implemented Enhancements**
