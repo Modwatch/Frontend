@@ -8,6 +8,12 @@ function UserlistController(localStorageService, $filter, APIService) {
 
   const vm = this;
 
+  const gameMap = {
+    "skyrimse": "Skyrim SE",
+    "skyrim": "Skyrim Classic",
+    "fallout4": "Fallout 4"
+  };
+
   vm.loading = true;
   vm.searchUsers = searchUsers;
   vm.searchModlists = searchModlists;
@@ -31,7 +37,9 @@ function UserlistController(localStorageService, $filter, APIService) {
       vm.loading = true;
       APIService.getUsers({query, limit: 100})
       .then(users => {
-        vm.users = currentList = users;
+        vm.users = currentList = users.map(user => angular.extend({}, user, {
+          displayGame: gameMap[user.game]
+        }));
         vm.loading = false;
         filterLocked = false;
       })
@@ -45,8 +53,10 @@ function UserlistController(localStorageService, $filter, APIService) {
   function searchModlists(query) {
     vm.loading = true;
     APIService.searchModlists(query)
-    .then(res => {
-      vm.users = currentList = res.newUsers;
+    .then(users => {
+      vm.users = currentList = users.map(user => angular.extend({}, user, {
+        displayGame: gameMap[user.game]
+      }));
       vm.loading = false;
       filterLocked = false;
     })

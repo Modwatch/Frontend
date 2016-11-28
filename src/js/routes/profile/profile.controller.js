@@ -37,6 +37,10 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
     }, "skyrim": {
       files: "skyrim",
       display: "Skyrim Classic"
+    },
+    "fallout4": {
+      files: "fallout4",
+      display: "Fallout 4"
     }
   };
 

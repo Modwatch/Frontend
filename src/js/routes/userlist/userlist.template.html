@@ -24,10 +24,10 @@
         <span ng-show="vm.listOrder.field === 'timestamp' && vm.listOrder.reverse === false" class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span>
         <span ng-show="vm.listOrder.field === 'timestamp' && vm.listOrder.reverse === true" class="glyphicon glyphicon-sort-by-order-alt" aria-hidden="true"></span>
       </th>
-      <th style="cursor: pointer;" ng-click="vm.sortCol('score')">
-        Score
-        <span ng-show="vm.listOrder.field === 'score' && vm.listOrder.reverse === false" class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span>
-        <span ng-show="vm.listOrder.field === 'score' && vm.listOrder.reverse === true" class="glyphicon glyphicon-sort-by-order-alt" aria-hidden="true"></span>
+      <th style="cursor: pointer;" ng-click="vm.sortCol('game')">
+        Game
+        <span ng-show="vm.listOrder.field === 'game' && vm.listOrder.reverse === false" class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span>
+        <span ng-show="vm.listOrder.field === 'game' && vm.listOrder.reverse === true" class="glyphicon glyphicon-sort-by-order-alt" aria-hidden="true"></span>
       </th>
     </tr>
   </thead>
@@ -35,7 +35,7 @@
     <tr ng-repeat="user in vm.pList.getVisibleContent()">
       <td><a href="/u/{{::user.username}}" style="color: #000">{{::user.username}}</a></td>
       <td>{{::user.timestamp | date}}</td>
-      <td>{{::user.score | number}}</td>
+      <td>{{::user.displayGame}}</td>
     </tr>
   </tbody>
 </table>

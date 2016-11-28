@@ -33,19 +33,31 @@
       getUsers(opts = {}) {
         if(opts.query) {
           return $http.get(`${api}/api/search/users/${opts.query}/${opts.limit || ""}`)
-          .then(res => res.data);
+          .then(res => res.data)
+          .then(data => data.map(profile => angular.extend({}, {
+            game: "skyrim"
+          }, profile)));
         } else {
           return $http.get(`${api}/api/users/list/${opts.limit || ""}`)
-          .then(res => res.data || []);
+          .then(res => res.data || [])
+          .then(data => data.map(profile => angular.extend({}, {
+            game: "skyrim"
+          }, profile)));
         }
       },
       searchModlists(query) {
-        return $http.get(`${api}/api/search/file/modlist/${query}`)
-        .then(res => res.data || []);
+        return $http.get(query ? `${api}/api/search/file/modlist/${query}` : `${api}/api/users/list`)
+        .then(res => (query ? res.data.newUsers : res.data) || [])
+        .then(data => data.map(profile => angular.extend({}, {
+          game: "skyrim"
+        }, profile)));
       },
       searchPlugins(query) {
         return $http.get(`${api}/api/search/file/plugins/${query}`)
-        .then(res => res.data || []);
+        .then(res => res.data || [])
+        .then(data => data.map(profile => angular.extend({}, {
+          game: "skyrim"
+        }, profile)));
       },
       signIn(username, password) {
         return $http.post(`${api}/auth/signin`, {
