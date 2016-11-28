@@ -1,7 +1,8 @@
 <span id="list-container">
   <div id="nav-wrapper" class="row">
-    <h1 ng-if="enb" id="enbText" class="col-xs-12">ENB: {{ vm.enb }}</h1>
-    <h1 ng-if="tag" id="tagText" class="col-xs-12">"{{ vm.tag }}"</h1>
+    <h3 class="col-xs-12">{{ ::vm.gameDisplay }}</h3>
+    <h1 ng-if="vm.enb" id="enbText" class="col-xs-12">ENB: {{ vm.enb }}</h1>
+    <h1 ng-if="vm.tag" id="tagText" class="col-xs-12">"{{ vm.tag }}"</h1>
     <div class="col-xs-12">
       <span ng-if="vm.hasPlugins"><button class="btn" id="pluginsNav" ng-click="vm.switchFiles('plugins')">Plugins</button></span>
       <span ng-if="vm.hasModlist"><button class="btn" id="modlistNav" ng-click="vm.switchFiles('modlist')">Modlist</button></span>

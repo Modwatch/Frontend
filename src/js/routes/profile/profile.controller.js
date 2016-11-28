@@ -30,6 +30,16 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
   vm.user = {};
   vm.voting = false;
 
+  const gameMap = {
+    "skyrimse": {
+      files: "skyrim",
+      display: "Skyrim SE"
+    }, "skyrim": {
+      files: "skyrim",
+      display: "Skyrim Classic"
+    }
+  };
+
   vm.user.username = $routeParams.username;
   $rootScope.pageTitle = `Modwat.ch - ${vm.user.username}`;
   //vm.user.isOwner = vm.user.username === vm.$parent.user.username;
@@ -46,7 +56,7 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
       vm.authenticated = true;
     })
     .catch(e => {
-      console.log(err);
+      console.log(e);
     });
   }
 
@@ -148,7 +158,8 @@ function ProfileController($rootScope, $location, ModalService, localStorageServ
         .then(getProfileRes => {
           vm.badge = getProfileRes.badge;
           vm.timestamp = getProfileRes.timestamp;
-          vm.game = getProfileRes.game || "skyrim";
+          vm.game = gameMap[getProfileRes.game || "skyrim"].files;
+          vm.gameDisplay = gameMap[getProfileRes.game || "skyrim"].display;
           vm.enb = getProfileRes.enb;
           vm.tag = getProfileRes.tag;
           vm.score = getProfileRes.score;

@@ -5,7 +5,7 @@
   function APIService($http, localStorageService) {
 
     const api = "https://modwatchapi-ansballard.rhcloud.com";
-    // const api = "http://127.0.0.1:3001"; // local debug
+    // const api = "http://192.168.10.105:3001"; // local debug
 
     return {
       getFile(username, filename) {
