@@ -1,6 +1,17 @@
 # Changelog
 
-## 0.7.8 (10/09/2016)
+## 0.8.0 (11/27/2016)
+
+**Implemented Enhancements**
+
+- Fallout 4 support
+- Game shown in userlist page
+
+**Fixed Bugs**
+
+- none
+
+## 0.7.9 (10/09/2016)
 
 **Implemented Enhancements**
 
