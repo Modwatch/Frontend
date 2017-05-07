@@ -4,7 +4,7 @@ import { mapState } from "vuex";
 import store from "./store/index";
 import router from "./router/index";
 
-import "./components/modwatch-nav.jsx";
+import modwatchModlists from "./components/modwatch-modlists.jsx";
 
 new Vue({
   el: "#modwatch-app",
@@ -31,6 +31,9 @@ new Vue({
 
     );
   },
+  components: {
+    modwatchModlists
+  }
   store,
   router
 });

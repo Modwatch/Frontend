@@ -1,11 +1,5 @@
 import { mapState } from "vuex";
 
-const gameMap = {
-  skyrim: "Skyrim Classic",
-  skyrimse: "Skryim SE",
-  fallout: "Fallout"
-};
-
 export default {
   computed: {
     ...mapState({
@@ -40,24 +34,7 @@ export default {
         </section>
         <section>
           <h1>Search Modlists</h1>
-          <div>
-            <table class="modlists-table">
-              <thead>
-                <tr>
-                  <th>Username</th>
-                  <th>Game</th>
-                  <th class="responsive-hide">Timestamp</th>
-                </tr>
-              </thead>
-              {this.modlists.map(m => (
-                <tr>
-                  <td><router-link to={ {name: "Modlist", params: { username: m.username } } }>{m.username}</router-link></td>
-                  <td>{gameMap[m.game || "skyrim"]}</td>
-                  <td class="responsive-hide">{new Date(m.timestamp).toLocaleDateString()}</td>
-                </tr>
-              ))}
-            </table>
-          </div>
+          <modwatch-userlist modlists={this.modlists}></modwatch-userlist>
         </section>
       </div>
     );
