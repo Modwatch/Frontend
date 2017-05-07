@@ -1,12 +1,10 @@
 import babel from "rollup-plugin-babel";
-// import alias from "rollup-plugin-alias";
 import replace from "rollup-plugin-replace";
-// import commonjs from "rollup-plugin-commonjs";
 import npm from "rollup-plugin-node-resolve";
-// import json from "rollup-plugin-json";
-// import string from "rollup-plugin-string";
 import uglify from "rollup-plugin-uglify";
 import optimizejs from "optimize-js";
+import gzip from "gzip-size";
+import bytes from "bytes";
 
 export default {
   entry: "src/vue/index.jsx",
@@ -28,7 +26,8 @@ export default {
       compress: true,
       mangle: true
     }),
-    optimize()
+    optimize(),
+    size()
   ] : []),
   format: "iife"
 };
@@ -41,4 +40,19 @@ function optimize() {
       };
     }
   };
+}
+
+function size() {
+  return {
+    transformBundle(code) {
+      console.log(`
+bundle.js
+=========
+SIZE: ${bytes(code.length)}
+GZIP: ${bytes(gzip.sync(code))}
+`
+      );
+      return { code };
+    }
+  }
 }

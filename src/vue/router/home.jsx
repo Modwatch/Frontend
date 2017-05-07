@@ -15,6 +15,11 @@ export default {
   created() {
     this.$store.dispatch("getModlists");
   },
+  methods: {
+    goto(ev) {
+      this.$router.push({name: ev.target.dataset.routeName, path: ev.target.dataset.routePath});
+    }
+  },
   render(h) {
     return (
       <div>
@@ -46,7 +51,7 @@ export default {
               </thead>
               {this.modlists.map(m => (
                 <tr>
-                  <td>{m.username}</td>
+                  <td><router-link to={ {name: "Modlist", params: { username: m.username } } }>{m.username}</router-link></td>
                   <td>{gameMap[m.game || "skyrim"]}</td>
                   <td class="responsive-hide">{new Date(m.timestamp).toLocaleDateString()}</td>
                 </tr>

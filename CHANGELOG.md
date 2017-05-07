@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.0 (??/??/2017)
+
+**Breaking Changes**
+
+- Refactor to Vue2
+  - rollup
+  - vuex
+  - vue-router
+  - unfetch
+  - optimize-js
+  - es6
+  - etc
+
 ## 0.8.0 (11/27/2016)
 
 **Implemented Enhancements**

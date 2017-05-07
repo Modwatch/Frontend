@@ -19,11 +19,7 @@ const routes = [{
   path: "/u/:username",
   name: "Modlist",
   component: Modlist
-}/*, {
-  path: "/profile",
-  name: "Modlist",
-  component: Modlist
-}*/];
+}];
 
 export default new VueRouter({
   mode: "history",

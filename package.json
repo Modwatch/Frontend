@@ -1,12 +1,13 @@
 {
   "name": "modwatch",
-  "version": "0.8.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build:js": "cross-env NODE_ENV=production rollup -c",
     "watch:js": "rollup -c --watch",
     "build:css": "cross-env NODE_ENV=production postcss --map style.css.map --warn-for-duplicates false -u postcss-import -u postcss-cssnext -u cssnano -o ./public/dist/styles.css ./src/css/index.css",
-    "watch:css": "postcss --map style.css.map -lw -u postcss-import -u postcss-cssnext -m -o ./public/dist/styles.css ./src/css/index.css"
+    "watch:css": "postcss --map style.css.map -lw -u postcss-import -u postcss-cssnext -m -o ./public/dist/styles.css ./src/css/index.css",
+    "serve": "firebase serve --port 3000 --host 0.0.0.0"
   },
   "main": "server.js",
   "dependencies": {
@@ -22,22 +23,20 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-vue-jsx": "^3.4.2",
     "babel-preset-es2015": "^6.5.0",
+    "bytes": "^2.5.0",
     "cross-env": "^4.0.0",
     "cssnano": "^3.5.2",
     "eslint": "^3.3.1",
+    "gzip-size": "^3.0.0",
     "optimize-js": "^1.0.3",
     "postcss": "^5.0.17",
     "postcss-cli": "^2.5.1",
     "postcss-cssnext": "^2.4.0",
     "postcss-import": "^8.0.2",
     "rollup": "^0.41.6",
-    "rollup-plugin-alias": "^1.2.1",
     "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-json": "^2.1.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-replace": "^1.1.1",
-    "rollup-plugin-string": "^2.0.2",
     "rollup-plugin-uglify": "^1.0.1",
     "rollup-watch": "^3.2.2",
     "uglify-js": "^2.6.2"

@@ -8,13 +8,18 @@ import "./components/modwatch-nav.jsx";
 
 new Vue({
   el: "#modwatch-app",
+  computed: {
+    ...mapState([
+      "user"
+    ])
+  },
   render(h) {
     return (
       <div>
         <header>
           <h1 id="header"><a href="/">MODWATCH</a></h1>
         </header>
-        <modwatch-nav></modwatch-nav>
+        <modwatch-nav authenticated={this.user.authenticated} user={this.user.username}></modwatch-nav>
         <div class="content-wrapper">
           <article class="view-wrapper">
             <transition name="fade" mode="out-in">
@@ -27,8 +32,5 @@ new Vue({
     );
   },
   store,
-  router,
-  computed: {
-    //...mapState()
-  }
+  router
 });
