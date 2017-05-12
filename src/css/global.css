@@ -6,6 +6,7 @@
   --icon-subsize: 30px;
   --color-primary: #E3A853;
   --color-icon: #000000;
+  --color-border: #A5A5A5;
   --color-background: #D0D0D0AA;
   --color-background-2: #D3D3D3;
   --nav-scale: 100px;
@@ -74,7 +75,7 @@ section {
     margin-bottom: initial;
   }
   & h1 {
-    border-bottom: 1px solid;
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 15px;
     color: var(--color-primary);
     font-size: 1.5em;

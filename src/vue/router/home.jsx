@@ -34,7 +34,7 @@ export default {
         </section>
         <section>
           <h1>Search Modlists</h1>
-          <modwatch-userlist modlists={this.modlists}></modwatch-userlist>
+          <modwatch-modlists modlists={this.modlists}></modwatch-modlists>
         </section>
       </div>
     );

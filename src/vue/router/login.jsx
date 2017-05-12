@@ -6,10 +6,11 @@ export default {
     return (
       <section>
         <h1>Login</h1>
-        <div>
+        <form class="login-wrapper">
           <input placeholder="Username"/>
-          <input placeholder="Password"/>
-        </div>
+          <input type="password" placeholder="Password"/>
+          <button>Login</button>
+        </form>
       </section>
     );
   }

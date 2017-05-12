@@ -4,7 +4,10 @@ import { mapState } from "vuex";
 import store from "./store/index";
 import router from "./router/index";
 
+import modwatchNav from "./components/modwatch-nav.jsx";
 import modwatchModlists from "./components/modwatch-modlists.jsx";
+
+Vue.component("modwatchModlists", modwatchModlists);
 
 new Vue({
   el: "#modwatch-app",
@@ -17,7 +20,7 @@ new Vue({
     return (
       <div>
         <header>
-          <h1 id="header"><a href="/">MODWATCH</a></h1>
+          <h1 id="header"><router-link to="/">MODWATCH</router-link></h1>
         </header>
         <modwatch-nav authenticated={this.user.authenticated} user={this.user.username}></modwatch-nav>
         <div class="content-wrapper">
@@ -32,8 +35,8 @@ new Vue({
     );
   },
   components: {
-    modwatchModlists
-  }
+    modwatchNav
+  },
   store,
   router
 });

@@ -1,7 +1,7 @@
 export default {
   props: {
     modlists: {
-      type: Boolean,
+      type: Array,
       default: false
     }
   },
@@ -18,7 +18,7 @@ export default {
     return (
       <div>
         <table class="modlists-table">
-          <thead v-once>
+          <thead>
             <tr>
               <th>Username</th>
               <th>Game</th>
@@ -26,7 +26,7 @@ export default {
             </tr>
           </thead>
           {this.modlists.map(m => (
-            <tr v-once>
+            <tr>
               <td><router-link to={ {name: "Modlist", params: { username: m.username } } }>{m.username}</router-link></td>
               <td>{this.gameMap[m.game || "skyrim"]}</td>
               <td class="responsive-hide">{new Date(m.timestamp).toLocaleDateString()}</td>
