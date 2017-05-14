@@ -25,6 +25,7 @@
     padding: 7px 5px;
     font-size: 1em;
     font-weight: bold;
+    outline: none;
     border: none;
     background-color: var(--color-primary);
     cursor: pointer;

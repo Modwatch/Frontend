@@ -10,7 +10,9 @@ export default {
   },
   data() {
     return {
-      show: false
+      show: false,
+      loginLink: "http://localhost:3001/oauth/authorize",
+      logoutLink: "http://localhost:30001/oauth/endsession"
     };
   },
   methods: {
@@ -24,7 +26,7 @@ export default {
         <div class="menu-toggle" onClick={this.toggleShow}></div>
 				<nav class={this.show ? "menu-main active" : "menu-main"} onClick={this.toggleShow}>
           <router-link to={ {name: "Home"} } class="nav-block">Home</router-link>
-          {!this.authenticated ? <router-link to={ {name: "Login"} } class="nav-block">Login</router-link> : <router-link to={ {name: "Login"} } class="nav-block">Logout</router-link>}
+          {!this.authenticated ? <a href={this.loginLink} class="nav-block">Login</a> : <a href={ this.logoutLink} class="nav-block">Logout</a>}
           {this.authenticated && <router-link to={ {name: this.user} } class="nav-block">Profile</router-link>}
           <span class="nav-block">Close</span>
 				</nav>
