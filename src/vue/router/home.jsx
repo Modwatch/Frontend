@@ -2,9 +2,9 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState({
-      modlists: state => state.persistent.modlists
-    })
+    ...mapState([
+      "modlists"
+    ])
   },
   created() {
     this.$store.dispatch("getModlists");

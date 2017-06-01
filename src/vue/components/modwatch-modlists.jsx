@@ -10,7 +10,7 @@ export default {
       gameMap: {
         skyrim: "Skyrim Classic",
         skyrimse: "Skryim SE",
-        fallout: "Fallout"
+        fallout: "Fallout 4"
       }
     };
   },

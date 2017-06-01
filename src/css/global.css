@@ -57,7 +57,7 @@ body {
 }
 .view-wrapper {
   margin: 0 auto;
-  max-width: var(--responsive-cutoff);
+  max-width: 1000px;
 }
 .fade-enter-active, .fade-leave-active {
   transition: opacity var(--anim-delay) ease;

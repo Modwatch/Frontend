@@ -1,7 +1,7 @@
 @import "./global.css";
 @import "./components/menu.css";
-@import "./components/modals.css";
-@import "./pages/home.css";
+/*@import "./components/modals.css";*/
+/*@import "./pages/home.css";*/
 @import "./pages/login.css";
 @import "./pages/modlist.css";
 @import "./pages/modlists.css";

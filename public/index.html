@@ -5,7 +5,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width">
 	<link rel="manifest" href="/modwatch.webmanifest">
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
 	<link rel="stylesheet" type="text/css" href="/dist/styles.css" />
 	<link rel="icon" href="/images/modwatch.ico">
 	<link rel="icon" type="image/png" href="/images/modwatch_144.png">
@@ -26,50 +25,6 @@
 </head>
 <body style="height:2000px">
 	<div id="modwatch-app"></div>
-	<!-- <div id="full-wrapper" class="container-fluid">
-		<div class="row" ng-controller="WrapperController as vm">
-			<h1 id="header" class="col-xs-12 col-sm-10 col-sm-offset-1"><a href="/">MODWAT.CH</a></h1>
-			<span id="content-wrapper" class="col-xs-12 col-sm-10 col-sm-offset-1 ng-view-class" ng-view></span>
-			<div class="menu-wrapper" ng-class="{'menu-open': menuShow}">
-				<div class="menu-main" ng-cloak>
-					<div class="menu-hamburger" ng-click="menuShow = menuShow ? false : true">
-						<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true">
-					</div>
-					<div class="menu-sub menu-login" ng-show="menuShow && !vm.authenticated" ng-cloak>
-						<button title="Login" class="btn nav-anim" ng-click="vm.openLogin()">
-							<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-						</button>
-					</div>
-					<div class="menu-sub menu-settings" ng-if="menuShow && vm.authenticated" ng-cloak>
-						<a class="nav-anim" href="/u/{{vm.user.username}}">
-							<button class="btn" title="Profile">
-								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-							</button>
-						</a>
-					</div>
-					<div class="menu-sub menu-settings" ng-if="menuShow && vm.authenticated" ng-cloak>
-						<a class="nav-anim" href="/settings">
-							<button class="btn" title="User Settings">
-								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-							</button>
-						</a>
-					</div>
-					<div class="menu-sub menu-list" ng-show="menuShow" ng-cloak>
-						<a href="/userlist">
-							<button class="btn">
-								<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-							</button>
-						</a>
-					</div>
-					<div class="menu-sub menu-logout" ng-show="menuShow" ng-cloak>
-						<button ng-if="vm.authenticated" class="btn" ng-click="vm.clearToken(); menuShow = false">
-							<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
 	<!-- <script>
 		(function(i, s, o, g, r, a, m) {
 			i['GoogleAnalyticsObject'] = r;
@@ -86,8 +41,6 @@
 		ga('create', 'UA-53199250-1', 'auto');
 		ga('send', 'pageview');
 	</script> -->
-	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.min.js"></script> -->
 	<script type="text/javascript" src="/dist/bundle.js"></script>
 </body>
 
