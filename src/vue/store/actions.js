@@ -1,7 +1,7 @@
 import fetch from "unfetch";
 
 export function getModlists({ commit }) {
-  return get("http://localhost:3001/api/users/list/25")
+  return get("http://192.168.86.25:3001/api/users/list/25")
   .then(users => {
     commit("modlists", users);
     return users;

@@ -1,7 +1,7 @@
 export const modlist = {
   "timestamp": undefined,
   "tag": undefined,
-  "game": undefined,
+  "game": "skyrim",
   "enb": undefined,
   files: {
     plugins: 0,
@@ -24,6 +24,7 @@ export const user = {
 
 export const state = {
   modlists: [],
+  modlistfilter: "",
   modlist,
   user
 };

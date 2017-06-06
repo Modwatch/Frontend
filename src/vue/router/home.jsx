@@ -33,7 +33,7 @@ export default {
           </p>
         </section>
         <section>
-          <h1>Search Modlists</h1>
+          <h1>Latest Modlists</h1>
           <modwatch-modlists modlists={this.modlists}></modwatch-modlists>
         </section>
       </div>

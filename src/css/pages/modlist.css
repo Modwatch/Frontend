@@ -3,9 +3,54 @@
     list-style: none;
     padding-left: 0;
   }
+  & .modlist-filetype-nav {
+    & ul {
+      display: flex;
+      justify-content: center;
+    }
+    & button {
+      border: none;
+      background: none;
+      outline: none;
+      position: relative;
+      font-size: 16px;
+      cursor: pointer;
+      text-transform: capitalize;
+      margin: 0 5px;
+      &:after {
+        content: "";
+        width: 100%;
+        height: 3px;
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        background: var(--color-primary);
+        transition: calc(0.5 * var(--anim-delay)) transform ease;
+        transform: scale(0);
+      }
+      &.active,
+      &:focus,
+      &:hover {
+        &:after {
+          transform: scale(1);
+        }
+      }
+    }
+  }
+  & .modlist-filter {
+    & input[type="text"] {
+      background: none;
+      outline: none;
+      border: none;
+      border-bottom: 1px solid var(--color-primary);
+      padding: 3px;
+      font-size: 16px;
+    }
+  }
   & .modlist-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     position: relative;
     padding: 3px 3px 3px 50px;
     background: #FFFFFF;
@@ -23,10 +68,25 @@
       background: #E0E0E0;
     }
     &.section .modlist-item-content {
+      color: var(--color-section);
       font-weight: bold;
     }
-    &.comment .modlist-item-content {
+    &.comment .modlist-item-content,
+    &.setting .comment {
       font-style: italic;
+      color: var(--color-comment);
+    }
+    &.setting {
+      & .key {
+        font-weight: bold;
+        color: var(--color-setting-key);
+      }
+      & .assign {
+        color: var(--color-setting-assign)
+      }
+      & .value {
+
+      }
     }
     &:before {
       content: "";
@@ -34,39 +94,78 @@
       top: 0;
       left: 0;
       height: 100%;
-      width: 50px;
-      padding: 3px;
+      width: 40px;
+      padding: 0 3px;
       text-align: left;
-      background: grey;
     }
-    &:after {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: 20%;
-      padding: 3px;
-      text-align: right;
+    & .modlist-item-descriptor {
+      border-radius: 10px;
+      padding: 0 5px;
+      min-width: 30px;
     }
-    &.esm:after {
-      content: "";
-      background: linear-gradient(to left, rgba(140,140,0,.35), transparent);
+    &.esm {
+      &:before {
+        background: linear-gradient(to left, var(--color-esm), var(--color-background-2));
+      }
+      & .modlist-item-descriptor {
+        content: "esm";
+        background: var(--color-esm);
+      }
     }
-    &.esp:after {
-      content: "";
-      background: linear-gradient(to left, rgba(0,140,0,.25), transparent);
+    &.esp {
+      &:before {
+        background: linear-gradient(to left, var(--color-esp), var(--color-background-2));
+      }
+      & .modlist-item-descriptor {
+        content: "esp";
+        background: var(--color-esp);
+      }
     }
-    &.enabled:after {
-      content: "";
-      background: linear-gradient(to left, rgba(0,140,0,.25), transparent);
+    &.enabled:before {
+      background: linear-gradient(to left, var(--color-enabled), var(--color-background-2));
+      & .modlist-item-descriptor {
+        content: "+";
+        background: var(--color-esp);
+      }
     }
-    &.disabled:after {
-      content: "";
-      background: linear-gradient(to left, rgba(140,0,0,.25), transparent);
+    &.disabled:before {
+      background: linear-gradient(to left, var(--color-disabled), var(--color-background-2));
+      & .modlist-item-descriptor {
+        content: "-";
+        background: var(--color-disabled);
+      }
     }
-    &.unmanaged:after {
-      content: "";
-      background: linear-gradient(to left, rgba(140,140,0,.35), transparent);
+    &.unmanaged:before {
+      background: linear-gradient(to left, var(--color-unmanaged), var(--color-background-2));
+      & .modlist-item-descriptor {
+        content: "*";
+        background: var(--color-unmanaged);
+      }
+    }
+  }
+}
+
+.modlist-list-wrapper {
+  position: relative;
+  width: 100%;
+}
+.slide-enter-active, .slide-leave-active {
+  transition: var(--anim-delay) opacity ease;
+}
+.slide-enter, .slide-leave-to {
+  opacity: 0;
+}
+
+@media (width <= 500px) {
+  .modlist-item-descriptor {
+    display: none;
+  }
+  .modlist-filetype-nav {
+    & ul {
+      flex-direction: column;
+      & li {
+        margin: 5px 0;
+      }
     }
   }
 }

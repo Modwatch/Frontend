@@ -27,7 +27,7 @@ export default {
           </thead>
           {this.modlists.map(m => (
             <tr>
-              <td><router-link to={ {name: "Modlist", params: { username: m.username } } }>{m.username}</router-link></td>
+              <td><router-link to={ `/u/${m.username}` }>{m.username}</router-link></td>
               <td>{this.gameMap[m.game || "skyrim"]}</td>
               <td class="responsive-hide">{new Date(m.timestamp).toLocaleDateString()}</td>
             </tr>

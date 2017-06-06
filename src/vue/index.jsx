@@ -6,8 +6,10 @@ import router from "./router/index";
 
 import modwatchNav from "./components/modwatch-nav.jsx";
 import modwatchModlists from "./components/modwatch-modlists.jsx";
+import modwatchFile from "./components/modwatch-file.jsx";
 
 Vue.component("modwatchModlists", modwatchModlists);
+Vue.component("modwatchFile", modwatchFile);
 
 new Vue({
   el: "#modwatch-app",
