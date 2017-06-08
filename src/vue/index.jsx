@@ -33,12 +33,39 @@ new Vue({
           </article>
         </div>
       </div>
-
     );
   },
   components: {
     modwatchNav
   },
   store,
-  router
+  router,
+  created() {
+    const { access_token } = parseHash(window.location.hash);
+    console.log(access_token);
+    if(access_token) {
+      console.log("pass")
+      this.$store.dispatch("verify")
+      .then(valid => {
+        console.log(valid)
+        if(!valid) {
+          return;
+        }
+        this.$store.commit("login", access_token);
+      });
+    }
+  }
 });
+
+function parseHash(hash) {
+  if(!hash || hash.length < 2) {
+    return {};
+  }
+  return hash
+    .substring(1)
+    .split("&")
+    .reduce((acc, item) => {
+      const [key, val] = item.split("=").map(i => decodeURIComponent(i));
+      return {...acc, [key]: val};
+    }, {});
+}

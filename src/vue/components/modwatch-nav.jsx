@@ -18,6 +18,9 @@ export default {
   methods: {
     toggleShow() {
       this.show = !this.show;
+    },
+    login() {
+      window.location.replace(`${this.loginLink}?client_id=modwatch&redirect_uri=${window.location}&response_type=code`)
     }
   },
   render(h) {
@@ -26,7 +29,7 @@ export default {
         <div class="menu-toggle" onClick={this.toggleShow}></div>
 				<nav class={this.show ? "menu-main active" : "menu-main"} onClick={this.toggleShow}>
           <router-link to={ {name: "Home"} } class="nav-block">Home</router-link>
-          {!this.authenticated ? <a href={this.loginLink} class="nav-block">Login</a> : <a href={ this.logoutLink} class="nav-block">Logout</a>}
+          {!this.authenticated ? <a onClick={this.login} class="nav-block">Login</a> : <a href={ this.logoutLink} class="nav-block">Logout</a>}
           {this.authenticated && <router-link to={ {name: this.user} } class="nav-block">Profile</router-link>}
           <span class="nav-block">Close</span>
 				</nav>

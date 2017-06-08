@@ -19,7 +19,8 @@ export const modlist = {
 
 export const user = {
   authenticated: false,
-  username: undefined
+  username: undefined,
+  token: undefined
 };
 
 export const state = {

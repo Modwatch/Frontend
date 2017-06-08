@@ -1,6 +1,7 @@
 import babel from "rollup-plugin-babel";
 import replace from "rollup-plugin-replace";
 import npm from "rollup-plugin-node-resolve";
+import commonjs from "rollup-plugin-commonjs";
 import uglify from "rollup-plugin-uglify";
 import optimizejs from "optimize-js";
 import gzip from "gzip-size";
@@ -18,6 +19,7 @@ export default {
     npm({
       browser: true
     }),
+    commonjs(),
     babel({
       exclude: "node_modules/**"
     })
