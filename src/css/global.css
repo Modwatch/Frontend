@@ -44,7 +44,7 @@ body {
 }
 section {
   box-sizing: border-box;
-  padding: 5px 10px;
+  padding: 25px 10px;
   background-color: var(--color-background-2);
   box-shadow: 3px 3px 6px 1px;
   margin-bottom: 25px;
@@ -55,15 +55,19 @@ section {
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 15px;
     margin: 20px 0;
+    margin-top: 0;
     color: var(--color-primary);
     font-size: 3em;
   }
   & h2 {
-    margin-top: 40px;
+    margin-top: 0;
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 10px;
     color: var(--color-primary);
     font-size: 1.7em;
+  }
+  & p {
+    margin: 0;
   }
 }
 .unselectable {

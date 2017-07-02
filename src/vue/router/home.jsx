@@ -4,7 +4,12 @@ export default {
   computed: {
     ...mapState({
       modlists: state => state.modlists,
-      blogposts: state => state.blog.posts
+      blogposts: state => state.blog.posts.map(({ title, author, createdTS, prettyURL }) => ({
+        title,
+        author,
+        prettyURL,
+        createdTS: new Date(createdTS).toLocaleDateString()
+      }))
     })
   },
   created() {
@@ -34,11 +39,17 @@ export default {
             Instructions for uploading are detailed on the nexus page.
           </p>
         </section>
-        <section>
+        <section class="home-blog">
           <h2>Blog!</h2>
           <ul>
             {this.blogposts.map(b => (
-              <li><router-link to={`/blog/post/${b.prettyURL}`}>{b.title}</router-link></li>
+              <li>
+                <div>
+                  <router-link to={`/blog/post/${b.prettyURL}`}>{b.title}</router-link>
+                  <span>{b.author}</span>
+                </div>
+                <span>{b.createdTS}</span>
+              </li>
             ))}
           </ul>
         </section>
