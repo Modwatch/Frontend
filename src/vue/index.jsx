@@ -7,24 +7,37 @@ import router from "./router/index";
 import modwatchNav from "./components/modwatch-nav.jsx";
 import modwatchModlists from "./components/modwatch-modlists.jsx";
 import modwatchFile from "./components/modwatch-file.jsx";
+import modwatchNotifications from "./components/modwatch-notifications.jsx";
+
+import styles from "../css/index.css";
 
 Vue.component("modwatchModlists", modwatchModlists);
 Vue.component("modwatchFile", modwatchFile);
+Vue.component("modwatchNotifications", modwatchNotifications);
 
 new Vue({
   el: "#modwatch-app",
   computed: {
     ...mapState([
-      "user"
+      "user",
+      "notifications"
     ])
+  },
+  methods: {
+    logout() {
+      return this.$store.dispatch("logout");
+    }
   },
   render(h) {
     return (
       <div>
+        <transition name="fade">
+          {this.notifications.length > 0 && <modwatch-notifications notifications={this.notifications}></modwatch-notifications>}
+        </transition>
         <header>
-          <h1 id="header"><router-link to="/">MODWATCH</router-link></h1>
+          <h1 class="header"><router-link to="/">MODWATCH</router-link></h1>
         </header>
-        <modwatch-nav authenticated={this.user.authenticated} user={this.user.username}></modwatch-nav>
+        <modwatch-nav authenticated={this.user.authenticated} user={this.user.username} logout={this.logout}></modwatch-nav>
         <div class="content-wrapper">
           <article class="view-wrapper">
             <transition name="fade" mode="out-in">
@@ -41,31 +54,13 @@ new Vue({
   store,
   router,
   created() {
-    const { access_token } = parseHash(window.location.hash);
-    console.log(access_token);
-    if(access_token) {
-      console.log("pass")
+    if(this.$store.state.user.authenticated) {
       this.$store.dispatch("verify")
       .then(valid => {
-        console.log(valid)
         if(!valid) {
-          return;
+          this.$store.dispatch("logout");
         }
-        this.$store.commit("login", access_token);
       });
     }
   }
 });
-
-function parseHash(hash) {
-  if(!hash || hash.length < 2) {
-    return {};
-  }
-  return hash
-    .substring(1)
-    .split("&")
-    .reduce((acc, item) => {
-      const [key, val] = item.split("=").map(i => decodeURIComponent(i));
-      return {...acc, [key]: val};
-    }, {});
-}

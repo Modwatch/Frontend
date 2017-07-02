@@ -1,0 +1,19 @@
+.filter-override-title {
+  height: 100%;
+  font-size: 1em;
+  font-weight: bold;
+  background: none;
+  border: none;
+  outline: none;
+  color: #e3a853;
+  padding: 0;
+  text-align: center;
+  border-bottom: 1px solid #e3a853;
+}
+.blog-override-content-wrapper {
+  display: flex;
+  align-items: stretch;
+  & > div {
+    flex: 75%;
+  }
+}

@@ -20,12 +20,35 @@ export const modlist = {
 export const user = {
   authenticated: false,
   username: undefined,
-  token: undefined
+  token: undefined,
+  scopes: []
+};
+
+export const blog = {
+  posts: [],
+  currentpost: {}
 };
 
 export const state = {
   modlists: [],
   modlistfilter: "",
   modlist,
-  user
+  blog,
+  notifications: [],
+  user: {...user, ...JSON.parse(localStorage.getItem("modwatch.user") || "{}")}
 };
+
+export const USER_MUTATIONS = [
+  "login",
+  "logout"
+];
+
+export const plugins = [
+  store => {
+    store.subscribe((mutation, state) => {
+      if(USER_MUTATIONS.indexOf(mutation)) {
+        localStorage.setItem("modwatch.user", JSON.stringify(state.user));
+      }
+    });
+  }
+]

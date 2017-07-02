@@ -21,11 +21,31 @@ export function modlistfilter(state, value = "") {
 }
 
 export function login(state, token) {
+  const { sub, scopes } = jwtDecode(token);
   set(state, "user", {
     token,
     authenticated: true,
-    username: jwtDecode(token).sub
+    username: sub,
+    scopes
   });
+}
+
+export function blogposts(state, posts) {
+  set(state.blog, "posts", posts);
+}
+
+export function currentblogpost(state, post) {
+  set(state.blog, "currentpost", post);
+}
+
+export function pushNotification(state, notification) {
+  set(state, "notifications", [...state.notifications, notification]);
+}
+
+export function popNotification({ notifications }) {
+  if(notifications.length > 0) {
+    set(state, "notifications", notifications.slice(1))
+  }
 }
 
 export function logout(state) {

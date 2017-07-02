@@ -3,156 +3,64 @@
     list-style: none;
     padding-left: 0;
   }
-  & .modlist-filetype-nav {
-    & ul {
-      display: flex;
-      justify-content: center;
-    }
-    & button {
-      border: none;
-      background: none;
-      outline: none;
-      position: relative;
-      font-size: 16px;
-      cursor: pointer;
-      text-transform: capitalize;
-      margin: 0 5px;
-      &:after {
-        content: "";
-        width: 100%;
-        height: 3px;
-        position: absolute;
-        bottom: -3px;
-        left: 0;
-        background: var(--color-primary);
-        transition: calc(0.5 * var(--anim-delay)) transform ease;
-        transform: scale(0);
-      }
-      &.active,
-      &:focus,
-      &:hover {
-        &:after {
-          transform: scale(1);
-        }
-      }
-    }
+}
+.modlist-content {
+  min-height: 500px;
+}
+.modlist-filter {
+  & input[type="text"] {
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--color-primary);
+    padding: 3px;
+    font-size: 16px;
   }
-  & .modlist-filter {
-    & input[type="text"] {
-      background: none;
-      outline: none;
-      border: none;
-      border-bottom: 1px solid var(--color-primary);
-      padding: 3px;
-      font-size: 16px;
-    }
-  }
-  & .modlist-item {
+}
+.modlist-filetype-nav {
+  & ul {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+  }
+  & button {
+    border: none;
+    background: none;
+    outline: none;
     position: relative;
-    padding: 3px 3px 3px 50px;
-    background: #FFFFFF;
-    font-size: 14px;
-    & .modlist-item-index {
-      width: 50px;
-      text-align: right;
-      position: absolute;
-      transform: translateX(-60px);
-    }
-    & .modlist-item-content {
-      text-align: left;
-    }
-    &:nth-child(even) {
-      background: #E0E0E0;
-    }
-    &.section .modlist-item-content {
-      color: var(--color-section);
-      font-weight: bold;
-    }
-    &.comment .modlist-item-content,
-    &.setting .comment {
-      font-style: italic;
-      color: var(--color-comment);
-    }
-    &.setting {
-      & .key {
-        font-weight: bold;
-        color: var(--color-setting-key);
-      }
-      & .assign {
-        color: var(--color-setting-assign)
-      }
-      & .value {
-
-      }
-    }
-    &:before {
+    font-size: 16px;
+    cursor: pointer;
+    text-transform: capitalize;
+    margin: 0 5px;
+    &:after {
       content: "";
+      width: 100%;
+      height: 3px;
       position: absolute;
-      top: 0;
+      bottom: -3px;
       left: 0;
-      height: 100%;
-      width: 40px;
-      padding: 0 3px;
-      text-align: left;
+      background: var(--color-primary);
+      transition: calc(0.5 * var(--anim-delay)) transform ease;
+      transform: scale(0);
     }
-    & .modlist-item-descriptor {
-      border-radius: 10px;
-      padding: 0 5px;
-      min-width: 30px;
-    }
-    &.esm {
-      &:before {
-        background: linear-gradient(to left, var(--color-esm), var(--color-background-2));
-      }
-      & .modlist-item-descriptor {
-        content: "esm";
-        background: var(--color-esm);
-      }
-    }
-    &.esp {
-      &:before {
-        background: linear-gradient(to left, var(--color-esp), var(--color-background-2));
-      }
-      & .modlist-item-descriptor {
-        content: "esp";
-        background: var(--color-esp);
-      }
-    }
-    &.enabled:before {
-      background: linear-gradient(to left, var(--color-enabled), var(--color-background-2));
-      & .modlist-item-descriptor {
-        content: "+";
-        background: var(--color-esp);
-      }
-    }
-    &.disabled:before {
-      background: linear-gradient(to left, var(--color-disabled), var(--color-background-2));
-      & .modlist-item-descriptor {
-        content: "-";
-        background: var(--color-disabled);
-      }
-    }
-    &.unmanaged:before {
-      background: linear-gradient(to left, var(--color-unmanaged), var(--color-background-2));
-      & .modlist-item-descriptor {
-        content: "*";
-        background: var(--color-unmanaged);
+    &.active,
+    &:focus,
+    &:hover {
+      &:after {
+        transform: scale(1);
       }
     }
   }
 }
-
 .modlist-list-wrapper {
   position: relative;
   width: 100%;
 }
-.slide-enter-active, .slide-leave-active {
+.slide-enter-active,
+.slide-leave-active {
   transition: var(--anim-delay) opacity ease;
 }
-.slide-enter, .slide-leave-to {
+.slide-enter,
+.slide-leave-to {
   opacity: 0;
 }
 

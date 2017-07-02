@@ -2,9 +2,14 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState([
-      "modlist"
-    ]),
+    ...mapState({
+      modlist: state => state.modlist,
+      isAdmin: state => state.user.scopes.indexOf("admin") !== -1,
+      user: state => state.user.username
+    }),
+    showAdminTools() {
+      return this.isAdmin || this.username === this.user;
+    },
     username() {
       return this.$route.params.username;
     },
@@ -12,7 +17,7 @@ export default {
       return this.gameMap[this.modlist.game];
     },
     files() {
-      return this.modlist.files ? Object.keys(this.modlist.files) : [];
+      return this.modlist.files ? Object.keys(this.modlist.files).filter(f => this.modlist.files[f] > 0) : [];
     },
     filetypeMap() {
       return {
@@ -47,13 +52,28 @@ export default {
         this.$store.commit("modlistfilter", target.value);
         this.filtering = false;
       }, 333);
+    },
+    deleteModlist() {
+      if(window.confirm("Are you sure you want to delete this modlist?")) {
+        this.$store.dispatch("deleteModlist", { username: this.username })
+        .then(deleted => {
+          if(deleted) {
+            this.$store.dispatch("notification", { notification: `Deleted ${this.username}` });
+            this.$router.push("/");
+          } else {
+            this.$store.dispatch("notification", { notification: `Couldn't Delete ${this.username}` });
+          }
+        })
+        .catch(() => {
+          this.$store.dispatch("notification", { notification: `Couldn't Delete ${this.username}` });
+        });
+      }
     }
   },
   render(h) {
     return (<div class="modlist-wrapper">
       <section class="modlist-meta">
-        <p>{this.username}</p>
-        <p>{this.filter}</p>
+        <p>{this.username} {this.showAdminTools && <button type="button" onClick={this.deleteModlist}>Delete</button>}</p>
         <p>{this.modlistShowAll}</p>
         <p>{this.gameDisplay}</p>
       </section>
@@ -79,6 +99,5 @@ export default {
   },
   created() {
     this.$store.commit("modlistfilter");
-    return this.$store.dispatch("getModlist", this.$route.params.username);
   }
 }
