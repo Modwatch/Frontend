@@ -41,12 +41,6 @@ module.exports = {
         JSON.stringify("http://localhost:3001") :
         // JSON.stringify("https://modwatchapi-ansballard.rhcloud.com")
         JSON.stringify("http://localhost:3001")
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "common",
-      async: true,
-      children: true,
-      minChunks: 2
     })
 	].concat(process.env.NODE_ENV === "production" ? [
     new webpack.optimize.UglifyJsPlugin()

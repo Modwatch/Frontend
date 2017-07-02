@@ -3,19 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build:js": "cross-env NODE_ENV=production rollup -c",
-    "watch:js": "rollup -c --watch",
-    "pack": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "pack:watch": "webpack --watch --config webpack.config.js",
-    "build:css": "cross-env NODE_ENV=production postcss --config postcss.config.js --map style.css.map -o ./public/dist/styles.css ./src/css/index.css",
-    "watch:css": "postcss --config postcss.config.js --map style.css.map -lw -o ./public/dist/styles.css ./src/css/index.css",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+    "watch": "webpack --watch --config webpack.config.js",
     "serve": "firebase serve --port 3000 --host 0.0.0.0"
   },
   "main": "server.js",
   "dependencies": {
     "es6-promise": "^4.1.1",
     "jwt-decode": "^2.2.0",
-    "marked": "^0.3.6",
     "snarkdown": "^1.2.2",
     "unfetch": "^2.1.2",
     "vue": "2.3.3",
