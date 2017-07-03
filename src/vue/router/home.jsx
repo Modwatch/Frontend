@@ -14,6 +14,12 @@ export default {
   methods: {
     goto(ev) {
       this.$router.push({name: ev.target.dataset.routeName, path: ev.target.dataset.routePath});
+    },
+    addTempUser() {
+      return this.$store.dispatch("addTempUser", {
+        username: "Peanut",
+        password: "password"
+      });
     }
   },
   render(h) {

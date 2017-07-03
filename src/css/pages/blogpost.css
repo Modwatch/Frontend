@@ -1,14 +1,14 @@
-.filter-override-title {
+.filter-override-input {
   height: 100%;
   font-size: 1em;
   font-weight: bold;
   background: none;
   border: none;
   outline: none;
-  color: #e3a853;
+  color: inherit;
   padding: 0;
   text-align: center;
-  border-bottom: 1px solid #e3a853;
+  border-bottom: 1px solid;
 }
 .blog-override-content-wrapper {
   display: flex;
