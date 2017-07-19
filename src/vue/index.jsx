@@ -39,11 +39,11 @@ new Vue({
         </header>
         <modwatch-nav authenticated={this.user.authenticated} user={this.user.username} logout={this.logout}></modwatch-nav>
         <div class="content-wrapper">
-          <article class="view-wrapper">
+          <div class="view-wrapper">
             <transition name="fade" mode="out-in">
               <router-view></router-view>
             </transition>
-          </article>
+          </div>
         </div>
       </div>
     );

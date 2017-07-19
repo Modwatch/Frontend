@@ -7,6 +7,7 @@ export default {
       blogposts: state => state.blog.posts.map(({ title, author, createdTS, prettyURL }) => ({
         title,
         author,
+        description,
         prettyURL,
         createdTS: new Date(createdTS).toLocaleDateString()
       }))
@@ -50,11 +51,12 @@ export default {
           <ul>
             {this.blogposts.map(b => (
               <li>
-                <div>
-                  <router-link to={`/blog/post/${b.prettyURL}`}>{b.title}</router-link>
-                  <span>{b.author}</span>
+                <div class="blog-title-wrapper">
+                  <router-link class="title" to={`/blog/post/${b.prettyURL}`}>{b.title}</router-link>
+                  <span class="author">{b.author}</span>
+                  <span class="timestamp">{b.createdTS}</span>
                 </div>
-                <span>{b.createdTS}</span>
+                <span>{b.description}</span>
               </li>
             ))}
           </ul>

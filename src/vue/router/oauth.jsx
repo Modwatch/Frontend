@@ -1,6 +1,5 @@
 export default {
   created() {
-    console.log("oauth");
     const { access_token, token_type, expires_in } = this.$route.params;
     if(access_token) {
       this.$store.dispatch("verify", { access_token })

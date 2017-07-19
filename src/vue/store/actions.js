@@ -1,5 +1,3 @@
-// import fetch from "unfetch";
-
 const API_URL = process.env.MODWATCH_API_URL;
 
 export function getModlists({ commit }) {
@@ -42,6 +40,19 @@ export function getBlogPosts({ commit }, limit) {
   .then(posts => {
     commit("blogposts", posts);
     return posts;
+  });
+}
+
+export function updateBlogpost({ commit }, post) {
+  return put(`${API_URL}/api/blog/post`, {
+    body: post
+  })
+  .then(res => {
+    return dispatch("notification", { notification: "Updated Blog Post" })
+    .then(() => res);
+  })
+  .catch(e => {
+    dispatch("notification", { notification: "Couldn't Update Blog Post" })
   });
 }
 
@@ -101,7 +112,7 @@ function get(url) {
   .then(res => res.json());
 }
 
-function post(url, { body, token }) {
+function p(url, { body, token }, method) {
   return fetch(url, {
     method: "POST",
     body: JSON.stringify(body),
@@ -110,4 +121,12 @@ function post(url, { body, token }) {
     } : undefined
   })
   .then(res => res.json());
+}
+
+function post(url, { body, token }) {
+  return p(url, { body, token}, "POST");
+}
+
+function put(url, { body, token }) {
+  return p(url, { body, token}, "PUT");
 }
