@@ -71,31 +71,37 @@ export default {
     }
   },
   render(h) {
-    return (<div class="modlist-wrapper">
-      <section class="modlist-meta">
-        <p>{this.username} {this.showAdminTools && <button type="button" onClick={this.deleteModlist}>Delete</button>}</p>
-        <p>{this.modlistShowAll}</p>
-        <p>{this.gameDisplay}</p>
-      </section>
-      <section class="modlist-content">
-        <nav class="modlist-filetype-nav">
-          <ul>
-            {this.files.map(t => (
-              <li><router-link to={`/u/${this.username}/${t}`}><button class={this.current === t && "active"}>{this.filetypeMap[t]}</button></router-link></li>
-            ))}
-          </ul>
-        </nav>
-        <form class="modlist-filter">
-          <span class="form-group">
-            <label for="modlist-filter" style="visibility: hidden; display: none;">Filter</label>
-            <input type="text" id="modlist-filter" placeholder="Filter By..." onInput={this.updateFilter} />
-          </span>
-        </form>
-        <transition name="fade" mode="out-in">
-          <router-view></router-view>
-        </transition>
-      </section>
-    </div>);
+    return (
+      <div class="modlist-wrapper">
+        <section class="modlist-meta">
+          <p>{this.username}</p>
+          {this.showAdminTools && <div class="modlist-actions">
+            <button type="button" onClick={this.deleteModlist}>Delete</button>
+            <button type="button" onClick={this.deleteModlist}>Delete</button>
+          </div>}
+          <p>{this.modlistShowAll}</p>
+          <p>{this.gameDisplay}</p>
+        </section>
+        <section class="modlist-content">
+          <nav class="modlist-filetype-nav">
+            <ul>
+              {this.files.map(t => (
+                <li><router-link to={`/u/${this.username}/${t}`}><button class={this.current === t && "active"}>{this.filetypeMap[t]}</button></router-link></li>
+              ))}
+            </ul>
+          </nav>
+          <form class="modlist-filter">
+            <span class="form-group">
+              <label for="modlist-filter" style="visibility: hidden; display: none;">Filter</label>
+              <input type="text" id="modlist-filter" placeholder="Filter By..." onInput={this.updateFilter} />
+            </span>
+          </form>
+          <transition name="fade" mode="out-in">
+            <router-view></router-view>
+          </transition>
+        </section>
+      </div>
+    );
   },
   created() {
     this.$store.commit("modlistfilter");

@@ -4,7 +4,7 @@ export default {
   computed: {
     ...mapState({
       modlists: state => state.modlists,
-      blogposts: state => state.blog.posts.map(({ title, author, createdTS, prettyURL }) => ({
+      blogposts: state => state.blog.posts.map(({ title, author, createdTS, description, prettyURL }) => ({
         title,
         author,
         description,
@@ -51,12 +51,12 @@ export default {
           <ul>
             {this.blogposts.map(b => (
               <li>
-                <div class="blog-title-wrapper">
+                <span class="blog-title-wrapper">
                   <router-link class="title" to={`/blog/post/${b.prettyURL}`}>{b.title}</router-link>
                   <span class="author">{b.author}</span>
                   <span class="timestamp">{b.createdTS}</span>
-                </div>
-                <span>{b.description}</span>
+                </span>
+                <span class="blog-description">{b.description}</span>
               </li>
             ))}
           </ul>
