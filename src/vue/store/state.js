@@ -24,16 +24,10 @@ export const user = {
   scopes: []
 };
 
-export const blog = {
-  posts: [],
-  currentpost: {}
-};
-
 export const state = {
   modlists: [],
   modlistfilter: "",
   modlist,
-  blog,
   notifications: [],
   user: {...user, ...JSON.parse(localStorage.getItem("modwatch.user") || "{}")}
 };

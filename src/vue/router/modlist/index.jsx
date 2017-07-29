@@ -74,13 +74,12 @@ export default {
     return (
       <div class="modlist-wrapper">
         <section class="modlist-meta">
-          <p>{this.username}</p>
+          <p class="modlist-username">{this.username}</p>
           {this.showAdminTools && <div class="modlist-actions">
             <button type="button" onClick={this.deleteModlist}>Delete</button>
-            <button type="button" onClick={this.deleteModlist}>Delete</button>
           </div>}
-          <p>{this.modlistShowAll}</p>
-          <p>{this.gameDisplay}</p>
+          <p class="modlist-showall">{this.modlistShowAll}</p>
+          <p class="modlist-gamedisplay">{this.gameDisplay}</p>
         </section>
         <section class="modlist-content">
           <nav class="modlist-filetype-nav">

@@ -27,35 +27,6 @@ export function getModlistFileType({ commit }, {username, filetype}) {
   });
 }
 
-export function getBlogPost({ commit }, postid) {
-  return get(`${API_URL}/api/blog/post/${postid}`)
-  .then(currentpost => {
-    commit("currentblogpost", currentpost);
-    return currentpost;
-  });
-}
-
-export function getBlogPosts({ commit }, limit) {
-  return get(`${API_URL}/api/blog/posts${limit ? `/${limit}` : ""}`)
-  .then(posts => {
-    commit("blogposts", posts);
-    return posts;
-  });
-}
-
-export function updateBlogpost({ commit }, post) {
-  return put(`${API_URL}/api/blog/post`, {
-    body: post
-  })
-  .then(res => {
-    return dispatch("notification", { notification: "Updated Blog Post" })
-    .then(() => res);
-  })
-  .catch(e => {
-    dispatch("notification", { notification: "Couldn't Update Blog Post" })
-  });
-}
-
 export function login({ commit, dispatch }, {username, password}) {
   return post(`${API_URL}/oauth/login`, {
     body: { username, password }

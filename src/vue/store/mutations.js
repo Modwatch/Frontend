@@ -30,14 +30,6 @@ export function login(state, token) {
   });
 }
 
-export function blogposts(state, posts) {
-  set(state.blog, "posts", posts);
-}
-
-export function currentblogpost(state, post) {
-  set(state.blog, "currentpost", post);
-}
-
 export function pushNotification(state, notification) {
   set(state, "notifications", [...state.notifications, notification]);
 }

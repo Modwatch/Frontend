@@ -15,7 +15,7 @@
   --color-disabled: rgba(140,0,0,.25);
   --color-unmanaged: rgba(140,140,0,.35);
   --color-setting-key: #E45649;
-  --color-comment: rgba(0,0,0,0.33);
+  --color-comment: rgba(0,0,0,0.5);
   --color-section: #4078F2;
   --nav-scale: 100px;
   --z-index-nav: 11;
