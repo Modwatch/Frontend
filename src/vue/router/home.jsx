@@ -1,59 +1,44 @@
 import { mapState } from "vuex";
 
-const gameMap = {
-  skyrim: "Skyrim Classic",
-  skyrimse: "Skryim SE",
-  fallout: "Fallout"
-};
-
 export default {
   computed: {
     ...mapState({
-      modlists: state => state.persistent.modlists
+      modlists: state => state.modlists
     })
   },
   created() {
     this.$store.dispatch("getModlists");
   },
+  methods: {
+    goto(ev) {
+      this.$router.push({name: ev.target.dataset.routeName, path: ev.target.dataset.routePath});
+    }
+  },
   render(h) {
     return (
       <div>
         <section>
-          <h1>What is Modwatch</h1>
+          <h2>What is Modwatch</h2>
           <p>
-            Modwatch is a site for uploading and sharing modlists for Skyrim (and eventually other games).
-            If you want to view some of the 5000+ modlists, you can look through the dropdown to the right.
-            Or if you have one in mind, you can view it at modwat.ch/u/username.
+            This is a modlist-hosting site for Skyrim, Skyrim SE, and Fallout 4. If you've ever had your game crash and asked for help on the internet,
+            you've probably had someone ask you for what mods you're using. So you could go find those file and copy them into a comment, or into pastebin,
+            or a google doc, etc. Or you could <a href="http://www.nexusmods.com/skyrim/mods/56640">download Modwatch</a>, choose a username, upload your files here,
+            and have an easy link (<i>modwat.ch/u/your_username_here</i>) to give out. This site is also used by streamers, youtubers, or anyone else that might want
+            to show people what mods they're using.
           </p>
         </section>
         <section>
-          <h1>Uploading Your Mods</h1>
+          <h2>Updates</h2>
           <p>
-            If you want to upload your own modlist, you can download the uploader via the gigantic orange button at the top of the page.
-            Instructions for uploading are detailed on the nexus page.
+            If you'd like to read about how I made this site, the uploader, the API behind it, or anything else web-related, I'll be writing short posts at <a href="https://medium.com/@ansballard">https://medium.com/@ansballard</a>!
           </p>
         </section>
-        <section>
-          <h1>Search Modlists</h1>
-          <div>
-            <table class="modlists-table">
-              <thead>
-                <tr>
-                  <th>Username</th>
-                  <th>Game</th>
-                  <th class="responsive-hide">Timestamp</th>
-                </tr>
-              </thead>
-              {this.modlists.map(m => (
-                <tr>
-                  <td>{m.username}</td>
-                  <td>{gameMap[m.game || "skyrim"]}</td>
-                  <td class="responsive-hide">{new Date(m.timestamp).toLocaleDateString()}</td>
-                </tr>
-              ))}
-            </table>
-          </div>
-        </section>
+        <transition name="fade" appear>
+          {this.modlists.length > 0 && <section>
+            <h2>Latest Modlists</h2>
+            <modwatch-modlists modlists={this.modlists}></modwatch-modlists>
+          </section>}
+        </transition>
       </div>
     );
   }

@@ -6,11 +6,11 @@
   "theme_color": "#E3A853",
   "orientation": "landscape",
   "icons": [{
-    "src": "images/mw_icon_144.png",
+    "src": "images/modwatch_144.png",
     "type": "image/png",
     "sizes": "144x144"
   }, {
-    "src": "images/mw_icon_192.png",
+    "src": "images/modwatch_192.png",
     "type": "image/png",
     "sizes": "192x192"
   }],

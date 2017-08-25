@@ -1,98 +1,91 @@
-#list-container {
-  border-radius: 25px;
-  background-color: #E0E0E0;
-  text-align: left;
+.modlist-wrapper {
+  & ul {
+    list-style: none;
+    padding-left: 0;
+  }
 }
-#search-container {
-  text-align: center;
-  /*width: 100%;*/
-  padding: 10px 40px;
-  display: inline-block;
+.modlist-content {
+  min-height: 500px;
 }
-#filter-mods, #username {
-  /*width: 40%;
-  display: inline-block;*/
-  vertical-align: middle;
-  text-align: left;
+.modlist-filter {
+  & input[type="text"] {
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--color-primary);
+    padding: 3px;
+    font-size: 16px;
+  }
 }
-#username {
-  font-size: 25px;
+.modlist-filetype-nav {
+  & ul {
+    display: flex;
+    justify-content: center;
+  }
 }
-ul#plugins, ul#modlist, ul#ini, ul#prefsini, ul#skse, ul#enblocal {
-  list-style-type: none;
-  padding-left: 0;
-  /*padding: 0px 40px 40px 40px;*/
+.modlist-list-wrapper {
+  position: relative;
+  width: 100%;
 }
-ul#plugins li:nth-child(even), ul#modlist li:nth-child(even), ul#ini li:nth-child(even), ul#prefsini li:nth-child(even), ul#skse li:nth-child(even), ul#enblocal li:nth-child(even) {
-  background-color: #E0E0E0;
+.slide-enter-active,
+.slide-leave-active {
+  transition: var(--anim-delay) opacity ease;
 }
-ul#plugins li:nth-child(odd), ul#modlist li:nth-child(odd), ul#ini li:nth-child(odd), ul#prefsini li:nth-child(odd), ul#skse li:nth-child(odd), ul#enblocal li:nth-child(odd) {
-  background-color: #FFFFFF;
+.slide-enter,
+.slide-leave-to {
+  opacity: 0;
 }
-li {
-  padding: 3px 0px 3px 3px;
-  border-left: 1px solid #B0B0B0;
-  border-right: 1px solid #B0B0B0;
+.modlist-actions {
+  margin: var(--button-offset) 0;
+  & button {
+    border: none;
+    position: relative;
+    background: none;
+    padding: 3px 5px;
+    font-size: 1em;
+    cursor: pointer;
+    outline: none;
+    &:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      background-color: var(--color-primary);
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      transition: var(--anim-delay) transform ease;
+    }
+    &:hover:after {
+      transform: scale(1.1, 3);
+    }
+  }
 }
-span.row-header {
-  display: inline-block;
-  text-align: right;
-  vertical-align: top;
-  width: 50px;
-  padding: 0px 10px;
+.modlist-meta {
+  & .modlist-username,
+  & .modlist-gamedisplay,
+  & .modlist-enb,
+  & .modlist-tag,
+  & .modlist-showall {
+    margin: 10px 0;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
-#plugins span.row-body {
-  max-width: 75%;
-  display: inline-block;
-  vertical-align: top;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-span.row-footer {
-  border-radius: 10px;
-  display: inline-block;
-  vertical-align: top;
-  text-align: center;
-  width: 40px;
-  margin-right: 10px;
-  float: right;
-}
-span.esp {
-  background-color: rgba(0,140,0,0.25);
-}
-span.esm {
-  background-color: rgba(0,0,140,0.25);
-}
-div#nav-wrapper {
-  text-align: center;
-  margin-top: 20px;
-  /*width: 100%;*/
-  padding: 0px 40px;
-}
-div#nav-wrapper button {
-  background-color: #C0C0C0;
-}
-button.selected {
-  border: 2px solid #000000;
-}
-h1#timestamp, h1#enbText, h1#tagText {
-  font-size: 20px;
-}
-#filter-checked {
-  background-color: #C0C0C0;
-}
-.modwatch-badge {
-  position:absolute;
-  left:50px;
-  top:25px;
-  border-radius:50%;
-  padding:5px;
-  background-color:rgba(0,0,140,.25);
-}
-.striped-list li:nth-child(even) {
-	background-color: #E0E0E0;
-}
-.striped-list li:nth-child(odd) {
-	background-color: #FFFFFF;
+
+@media (width <= 500px) {
+  .modlist-item-descriptor {
+    display: none;
+  }
+  .modlist-filetype-nav {
+    & ul {
+      flex-direction: column;
+      & li {
+        margin: 5px 0;
+      }
+    }
+  }
 }

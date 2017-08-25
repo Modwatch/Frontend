@@ -1,0 +1,106 @@
+.modlist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 3px 3px 3px 50px;
+  background: #FFFFFF;
+  font-size: 14px;
+  &:nth-child(even) {
+    background: #E0E0E0;
+  }
+  &.section .modlist-item-content {
+    color: var(--color-section);
+    font-weight: bold;
+  }
+  &.comment .modlist-item-content,
+  &.setting .comment {
+    font-style: italic;
+    color: var(--color-comment);
+  }
+  &.setting {
+    & .key {
+      font-weight: bold;
+      color: var(--color-setting-key);
+    }
+    & .assign {}
+    & .value {}
+    & .modlist-item-content {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 40px;
+    padding: 0 3px;
+    text-align: left;
+  }
+  & .modlist-item-descriptor {
+    border-radius: 10px;
+    padding: 0 5px;
+    min-width: 30px;
+  }
+  &.esm {
+    &:before {
+      background: linear-gradient(to left, var(--color-esm), var(--color-background-2));
+    }
+    & .modlist-item-descriptor {
+      content: "esm";
+      background: var(--color-esm);
+    }
+  }
+  &.esp {
+    &:before {
+      background: linear-gradient(to left, var(--color-esp), var(--color-background-2));
+    }
+    & .modlist-item-descriptor {
+      content: "esp";
+      background: var(--color-esp);
+    }
+  }
+  &.comment {
+    &:before {
+      background: linear-gradient(to left, var(--color-comment), var(--color-background-2));
+      opacity: 0.66;
+    }
+  }
+  &.enabled:before {
+    background: linear-gradient(to left, var(--color-enabled), var(--color-background-2));
+    & .modlist-item-descriptor {
+      content: "+";
+      background: var(--color-esp);
+    }
+  }
+  &.disabled:before {
+    background: linear-gradient(to left, var(--color-disabled), var(--color-background-2));
+    & .modlist-item-descriptor {
+      content: "-";
+      background: var(--color-disabled);
+    }
+  }
+  &.unmanaged:before {
+    background: linear-gradient(to left, var(--color-unmanaged), var(--color-background-2));
+    & .modlist-item-descriptor {
+      content: "*";
+      background: var(--color-unmanaged);
+    }
+  }
+}
+.modlist-item-index {
+  width: 50px;
+  text-align: right;
+  position: absolute;
+  transform: translateX(-60px);
+}
+.modlist-item-content {
+  text-align: left;
+}
+.modlist-item-content-section {
+  color: var(--color-section);
+  font-weight: bold;
+}

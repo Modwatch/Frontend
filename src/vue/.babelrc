@@ -1,13 +1,15 @@
 {
   "presets": [[
-    "es2015",
-    {
-      "modules": false
+    "env", {
+      "targets": {
+        "browsers": ["last 2 versions"]
+      }
     }
   ]],
   "plugins": [
-    "external-helpers",
     "transform-vue-jsx",
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    "syntax-dynamic-import",
+    "transform-decorators-legacy"
   ]
 }

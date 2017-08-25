@@ -6,8 +6,18 @@
   --icon-subsize: 30px;
   --color-primary: #E3A853;
   --color-icon: #000000;
+  --color-border: #A5A5A5;
   --color-background: #D0D0D0AA;
   --color-background-2: #D3D3D3;
+  --color-esm: rgba(140,140,0,.35);
+  --color-esp: rgba(0,140,0,.25);
+  --color-enabled: rgba(0,140,0,.25);
+  --color-disabled: rgba(140,0,0,.25);
+  --color-unmanaged: rgba(140,140,0,.35);
+  --color-setting-key: #E45649;
+  --color-comment: rgba(0,0,0,0.5);
+  --color-section: #4078F2;
+  --color-links: #4078F2;
   --nav-scale: 100px;
   --z-index-nav: 11;
   --z-index-nav-toggle: 10;
@@ -15,9 +25,9 @@
 }
 
 body {
-	font-family:"Muli", Helvetica-Neue, sans-serif;
+	font-family: "Muli", Helvetica-Neue, sans-serif;
 	color: #000000;
-	text-align:center;
+	text-align: center;
 	background: #EBEBEB;
 	background-image: url("/images/congruent_outline.png");
   margin: 0;
@@ -25,28 +35,127 @@ body {
 .vert-margin {
 	margin: 10px auto;
 }
-#header {
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--anim-delay) ease;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+section {
+  box-sizing: border-box;
+  padding: 25px 10px;
+  background-color: var(--color-background-2);
+  box-shadow: 3px 3px 6px 1px;
+  margin-bottom: 25px;
+  &:last-child {
+    margin-bottom: initial;
+  }
+  & h1 {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 15px;
+    margin: 20px 0;
+    margin-top: 0;
+    color: var(--color-primary);
+    font-size: 3em;
+  }
+  & h2 {
+    margin-top: 0;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 10px;
+    color: var(--color-primary);
+    font-size: 1.7em;
+  }
+  & p {
+    margin: 0;
+  }
+}
+.unselectable {
+  pointer-events: none;
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+@media (width <= 768px) {
+  .responsive-hide {
+    display: none;
+  }
+}
+
+/* index.jsx */
+
+.header {
 	font-weight: bold;
 	color:#D0D0D0;
+  & a {
+  	color:#D0D0D0;
+  	font-size: 9vw;
+  	text-decoration: none;
+    max-width: 1000px;
+  }
 }
-#download-header {
-	width:100%;
-	font-size: 4em;
-	text-align: center;
-	font-weight: bold;
-	margin-top: 10px;
-	background-color: var(--color-primary);
-	border-radius: 10px;
-	color: #EBEBEB;
+/* FORMS */
+input[type="text"] {
+  background: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--color-primary);
+  padding: 3px;
+  font-size: 16px;
+  &:focus,
+  &:hover {
+    border-size: 3px;
+  }
 }
-#header a {
-	color:#D0D0D0;
-	font-size: 9vw;
-	text-decoration: none;
+button, a {
+  border: none;
+  background: none;
+  outline: none;
+  position: relative;
+  cursor: pointer;
+  &:after {
+    content: "";
+    width: 100%;
+    position: absolute;
+    left: 0;
+    background: var(--color-primary);
+    transition: calc(0.5 * var(--anim-delay)) transform ease;
+    transform: scale(0);
+  }
+  &.active,
+  &:focus,
+  &:hover {
+    &:after {
+      transform: scale(1);
+    }
+  }
 }
-#download-header a {
-	color: #EBEBEB;
-	text-decoration: none;
+button {
+  font-size: 16px;
+  text-transform: capitalize;
+  margin: 0 5px;
+  &:after {
+    height: 3px;
+    bottom: -3px;
+  }
+}
+a {
+  text-decoration: none;
+  color: var(--color-links);
+  &:after {
+    background-color: var(--color-links);
+    height: 1px;
+    bottom: 0;
+  }
+  &.no-underline {
+    &:after {
+      height: 0;
+    }
+  }
 }
 .content-wrapper {
   padding: 25px;
@@ -56,35 +165,10 @@ body {
 }
 .view-wrapper {
   margin: 0 auto;
-  max-width: var(--responsive-cutoff);
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity var(--anim-delay) ease;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-section {
-  box-sizing: border-box;
-  padding: 5px 10px;
-  background-color: var(--color-background-2);
-  box-shadow: 3px 3px 6px 1px;
-  margin-bottom: 25px;
-  &:last-child {
-    margin-bottom: initial;
-  }
-  & h1 {
-    border-bottom: 1px solid;
-    padding-bottom: 15px;
-    color: var(--color-primary);
-    font-size: 1.5em;
-  }
+  max-width: 1000px;
 }
 @media (width <= 768px) {
   .view-wrapper {
     width: 100%;
-  }
-  .responsive-hide {
-    display: none;
   }
 }
