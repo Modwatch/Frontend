@@ -35,7 +35,7 @@ new Vue({
           {this.notifications.length > 0 && <modwatch-notifications notifications={this.notifications}></modwatch-notifications>}
         </transition>
         <header>
-          <h1 class="header"><router-link to="/">MODWATCH</router-link></h1>
+          <h1 class="header"><router-link class="no-underline" to="/">MODWATCH</router-link></h1>
         </header>
         <modwatch-nav authenticated={this.user.authenticated} user={this.user.username} logout={this.logout}></modwatch-nav>
         <div class="content-wrapper">

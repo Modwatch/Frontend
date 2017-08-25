@@ -26,6 +26,14 @@ export default {
     },
     login() {
       window.location.replace(`${this.loginLink}?client_id=modwatch&redirect_uri=${this.redirect_uri}&response_type=code`)
+    },
+    profile() {
+      if(this.$route.path.indexOf("/u/") === 0) {
+        this.$store.dispatch("getModlist", this.user);
+        this.$router.push(`/u/${this.user}`);
+      } else {
+        this.$router.push(`/u/${this.user}`);
+      }
     }
   },
   render(h) {
@@ -35,7 +43,7 @@ export default {
 				<nav class={this.show ? "menu-main menu-active" : "menu-main"} onClick={this.toggleShow}>
           <router-link to="/" class="nav-block">Home</router-link>
           {!this.authenticated ? <a onClick={this.login} class="nav-block">Login</a> : <a onClick={ this.logout } class="nav-block">Logout</a>}
-          {this.authenticated && <router-link to={ `/u/${this.user}` } class="nav-block">Profile</router-link>}
+          {this.authenticated && <a onClick={this.profile} class="nav-block">Profile</a>}
           <span class="nav-block">Close</span>
 				</nav>
 			</div>

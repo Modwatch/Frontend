@@ -20,6 +20,10 @@ export function modlistfilter(state, value = "") {
   set(state, "modlistfilter", value);
 }
 
+export function toggleActiveMods(state, value) {
+  set(state, "showInactiveMods", !state.showInactiveMods);
+}
+
 export function login(state, token) {
   const { sub, scopes } = jwtDecode(token);
   set(state, "user", {

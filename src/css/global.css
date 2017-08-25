@@ -17,6 +17,7 @@
   --color-setting-key: #E45649;
   --color-comment: rgba(0,0,0,0.5);
   --color-section: #4078F2;
+  --color-links: #4078F2;
   --nav-scale: 100px;
   --z-index-nav: 11;
   --z-index-nav-toggle: 10;
@@ -97,20 +98,65 @@ section {
     max-width: 1000px;
   }
 }
-/*.download-header {
-	width:100%;
-	font-size: 4em;
-	text-align: center;
-	font-weight: bold;
-	margin-top: 10px;
-	background-color: var(--color-primary);
-	border-radius: 10px;
-	color: #EBEBEB;
-  & a {
-  	color: #EBEBEB;
-  	text-decoration: none;
+/* FORMS */
+input[type="text"] {
+  background: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--color-primary);
+  padding: 3px;
+  font-size: 16px;
+  &:focus,
+  &:hover {
+    border-size: 3px;
   }
-}*/
+}
+button, a {
+  border: none;
+  background: none;
+  outline: none;
+  position: relative;
+  cursor: pointer;
+  &:after {
+    content: "";
+    width: 100%;
+    position: absolute;
+    left: 0;
+    background: var(--color-primary);
+    transition: calc(0.5 * var(--anim-delay)) transform ease;
+    transform: scale(0);
+  }
+  &.active,
+  &:focus,
+  &:hover {
+    &:after {
+      transform: scale(1);
+    }
+  }
+}
+button {
+  font-size: 16px;
+  text-transform: capitalize;
+  margin: 0 5px;
+  &:after {
+    height: 3px;
+    bottom: -3px;
+  }
+}
+a {
+  text-decoration: none;
+  color: var(--color-links);
+  &:after {
+    background-color: var(--color-links);
+    height: 1px;
+    bottom: 0;
+  }
+  &.no-underline {
+    &:after {
+      height: 0;
+    }
+  }
+}
 .content-wrapper {
   padding: 25px;
   padding-top: 0;

@@ -27,7 +27,7 @@ const routes = [{
 }, {
   path: "/u/:username",
   component: Modlist,
-  beforeEnter: (to, from, next) => {
+  beforeEnter(to, from, next) {
     store.dispatch("getModlist", to.params.username)
     .then(() => next())
     .catch(() => next("/404"));

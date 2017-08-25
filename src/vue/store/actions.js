@@ -8,6 +8,14 @@ export function getModlists({ commit }) {
   });
 }
 
+export function searchModlists({ commit }, { filter }) {
+  return get(`${API_URL}/api/search/users/${filter}/25`)
+  .then(users => {
+    commit("modlists", users);
+    return users;
+  });
+}
+
 export function getModlist({ commit }, username) {
   return get(`${API_URL}/api/user/${username}/all`)
   .then(modlist => {
@@ -67,6 +75,10 @@ export function deleteModlist({ state, dispatch }, { username }) {
     dispatch("notification", { notification: valid ? `Deleted ${username}` : `Couldn't Delete ${username}` }))
     .then(() => valid)
   )
+  .catch(() => {
+    this.$store.dispatch("notification", { notification: `Couldn't Delete ${username}` });
+    return false
+  });
 }
 
 export function notification({ commit }, { notification, delay = 3000 }) {

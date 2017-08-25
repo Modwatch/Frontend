@@ -22,34 +22,6 @@
     display: flex;
     justify-content: center;
   }
-  & button {
-    border: none;
-    background: none;
-    outline: none;
-    position: relative;
-    font-size: 16px;
-    cursor: pointer;
-    text-transform: capitalize;
-    margin: 0 5px;
-    &:after {
-      content: "";
-      width: 100%;
-      height: 3px;
-      position: absolute;
-      bottom: -3px;
-      left: 0;
-      background: var(--color-primary);
-      transition: calc(0.5 * var(--anim-delay)) transform ease;
-      transform: scale(0);
-    }
-    &.active,
-    &:focus,
-    &:hover {
-      &:after {
-        transform: scale(1);
-      }
-    }
-  }
 }
 .modlist-list-wrapper {
   position: relative;
@@ -91,6 +63,8 @@
 .modlist-meta {
   & .modlist-username,
   & .modlist-gamedisplay,
+  & .modlist-enb,
+  & .modlist-tag,
   & .modlist-showall {
     margin: 10px 0;
     &:first-child {

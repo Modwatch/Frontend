@@ -39,8 +39,8 @@ module.exports = {
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       "process.env.MODWATCH_API_URL": process.env.NODE_ENV !== "production" ?
         JSON.stringify("http://localhost:3001") :
-        // JSON.stringify("https://modwatchapi-ansballard.rhcloud.com")
-        JSON.stringify("http://localhost:3001")
+        // JSON.stringify("https://modwatchapidev-ansballard.rhcloud.com") :
+        JSON.stringify("https://modwatchapi-ansballard.rhcloud.com")
     })
 	].concat(process.env.NODE_ENV === "production" ? [
     new webpack.optimize.UglifyJsPlugin()

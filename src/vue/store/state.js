@@ -27,6 +27,7 @@ export const user = {
 export const state = {
   modlists: [],
   modlistfilter: "",
+  showInactiveMods: false,
   modlist,
   notifications: [],
   user: {...user, ...JSON.parse(localStorage.getItem("modwatch.user") || "{}")}

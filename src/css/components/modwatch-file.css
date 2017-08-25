@@ -23,11 +23,11 @@
       font-weight: bold;
       color: var(--color-setting-key);
     }
-    & .assign {
-      /*color: var(--color-setting-assign)*/
-    }
-    & .value {
-
+    & .assign {}
+    & .value {}
+    & .modlist-item-content {
+      display: flex;
+      flex-wrap: wrap;
     }
   }
   &:before {
@@ -61,6 +61,12 @@
     & .modlist-item-descriptor {
       content: "esp";
       background: var(--color-esp);
+    }
+  }
+  &.comment {
+    &:before {
+      background: linear-gradient(to left, var(--color-comment), var(--color-background-2));
+      opacity: 0.66;
     }
   }
   &.enabled:before {

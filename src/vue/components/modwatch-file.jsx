@@ -24,7 +24,7 @@ export default {
             <li class={`modlist-item ${line.descriptor ? line.descriptor : ""} ${line.type ? line.type : ""}`}>
               <span class="modlist-item-index unselectable">{line.index}.</span>
               <span class="modlist-item-content">{ !this.complexLines ? line.content : line.content.map(chunk => (<span class={chunk.class}>{chunk.display}</span>)) }</span>
-              <span class="modlist-item-descriptor">{this.showDescriptor ? line.descriptor : ""}</span>
+              <span class="modlist-item-descriptor">{this.showDescriptor && line.descriptor !== "comment" ? line.descriptor : ""}</span>
             </li>
           ))}
         </ul>

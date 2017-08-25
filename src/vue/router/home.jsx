@@ -28,9 +28,9 @@ export default {
           </p>
         </section>
         <section>
-          <h2>How to Upload</h2>
+          <h2>Updates</h2>
           <p>
-            SET OF TOGGLE-ABLE GIFS HERE
+            If you'd like to read about how I made this site, the uploader, the API behind it, or anything else web-related, I'll be writing short posts at <a href="https://medium.com/@ansballard">https://medium.com/@ansballard</a>!
           </p>
         </section>
         <transition name="fade" appear>
