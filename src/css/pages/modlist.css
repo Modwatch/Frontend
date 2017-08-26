@@ -8,6 +8,8 @@
   min-height: 500px;
 }
 .modlist-filter {
+  display: flex;
+  justify-content: center;
   & input[type="text"] {
     background: none;
     outline: none;
@@ -86,6 +88,12 @@
       & li {
         margin: 5px 0;
       }
+    }
+  }
+  .modlist-filter {
+    flex-direction: column;
+    & > * {
+      margin: 5px 0;
     }
   }
 }

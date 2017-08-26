@@ -34,7 +34,7 @@ export default {
           </p>
         </section>
         <transition name="fade" appear>
-          {this.modlists.length > 0 && <section>
+          {this.modlists && <section>
             <h2>Latest Modlists</h2>
             <modwatch-modlists modlists={this.modlists}></modwatch-modlists>
           </section>}

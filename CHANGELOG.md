@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.1 08/25/2017)
+
+**Breaking Changes**
+
+- responsive filters on modlist page
+- set state.modlists to undefined initially so it doesn't get removed on filter
+
 ## 1.0.0 (??/??/2017)
 
 **Breaking Changes**

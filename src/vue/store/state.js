@@ -25,7 +25,7 @@ export const user = {
 };
 
 export const state = {
-  modlists: [],
+  modlists: undefined,
   modlistfilter: "",
   showInactiveMods: false,
   modlist,
