@@ -1,3 +1,4 @@
+/*eslint-env node*/
 const cssnext = require("postcss-cssnext");
 const imp = require("postcss-import");
 const cssnano = require("cssnano");
