@@ -42,7 +42,7 @@ export default {
       gameMap: {
         skyrim: "Skyrim Classic",
         skyrimse: "Skyrim SE",
-        fallout: "Fallout 4"
+        fallout4: "Fallout 4"
       },
       filtering: false,
       filterTimeoutID: undefined,
