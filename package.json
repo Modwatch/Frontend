@@ -2,13 +2,23 @@
   "name": "modwatch",
   "version": "2.0.2",
   "private": true,
+  "bin": {
+    "modwatch": "pkg.js"
+  },
   "scripts": {
-    "local": "micro-dev index.js",
-    "pkg": "pkg pkg.js",
+    "local": "micro-dev index.js --port 3000",
+    "pkg": "pkg . --out-path ./bin",
     "build": "webpack --config webpack.config.js --env.NODE_ENV=production",
     "watch": "webpack --watch --config webpack.config.js",
+    "build:local": "webpack --config webpack.config.js --env.MODWATCH_ENV=local --env.NODE_ENV=production",
+    "watch:local": "webpack --watch --config webpack.config.js --env.MODWATCH_ENV=local --env.NODE_ENV=production",
     "serve": "firebase serve --port 3000 --host 0.0.0.0"
   },
+  "pre-commit": [
+    "build:local",
+    "pkg",
+    "build"
+  ],
   "main": "server.js",
   "dependencies": {
     "decko": "^1.2.0",
@@ -16,6 +26,8 @@
     "jwt-decode": "^2.2.0",
     "micro": "^9.0.0",
     "microrouter": "^2.2.3",
+    "minimist": "^1.2.0",
+    "opn": "^5.1.0",
     "unfetch": "^2.1.2",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0",
@@ -46,6 +58,7 @@
     "postcss-import": "^10.0.0",
     "postcss-loader": "^2.0.6",
     "postcss-nesting": "^4.0.1",
+    "pre-commit": "^1.2.2",
     "style-loader": "^0.18.2",
     "stylelint-config-recommended": "^1.0.0",
     "webpack": "^3.0.0"
@@ -54,5 +67,9 @@
   "domains": [
     "modwat.ch",
     "www.modwat.ch"
-  ]
+  ],
+  "pkg": {
+    "scripts": "index.js",
+    "assets": "./public/**/*"
+  }
 }

@@ -1,8 +1,10 @@
-/* eslint-env node */
+/*eslint-env node*/
 const { send } = require("micro");
 const { router, get } = require("microrouter");
+const opn = require("opn");
 const { readFileSync } = require("fs");
 const { resolve } = require("path");
+const { _ } = require("minimist")(process.argv.slice(2));
 
 const distMap = {};
 const dist = [
@@ -48,3 +50,5 @@ module.exports = router(
   }),
   get("*", (req, res) => send(res, 200, index))
 );
+
+opn(`http://local.modwat.ch${_.length > 0 ? `:${_[0]}` : ""}`);
