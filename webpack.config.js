@@ -30,17 +30,40 @@ module.exports = webpackEnv => {
           "unfetch.js"
         )
       }
-		]
-	},
-	plugins: [
-    new ExtractTextPlugin("styles.css"),
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-      "process.env.MODWATCH_API_URL": process.env.NODE_ENV !== "production" ?
-        JSON.stringify("http://localhost:3001") :
-        JSON.stringify("https://api.modwat.ch")
-    })
-	].concat(process.env.NODE_ENV === "production" ? [
-    new webpack.optimize.UglifyJsPlugin()
-  ] : [])
+    },
+    devtool:
+      process.env.NODE_ENV === "production"
+        ? "source-map"
+        : "cheap-module-eval-source-map",
+    module: {
+      rules: [
+        { test: /\.jsx?$/, loader: "babel-loader" },
+        {
+          test: /\.css$/,
+          use: ExtractTextPlugin.extract({
+            fallback: "style-loader",
+            use: [
+              { loader: "css-loader", options: { importLoaders: 1 } },
+              "postcss-loader"
+            ]
+          })
+        }
+      ]
+    },
+    plugins: [
+      new ExtractTextPlugin("styles.css"),
+      new webpack.DefinePlugin({
+        "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV || "development"),
+        "process.env.MODWATCH_ENV": JSON.stringify(env.MODWATCH_ENV === "local" ? "local" : "remote"),
+        "process.env.MODWATCH_API_URL":
+          env.NODE_ENV !== "production"
+            ? JSON.stringify("http://localhost:3001")
+            : JSON.stringify("https://api.modwat.ch")
+      })
+    ].concat(
+      process.env.NODE_ENV === "production"
+        ? [new webpack.optimize.UglifyJsPlugin()]
+        : []
+    )
+  };
 };

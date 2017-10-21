@@ -15,6 +15,11 @@ Vue.component("modwatchModlists", modwatchModlists);
 Vue.component("modwatchFile", modwatchFile);
 Vue.component("modwatchNotifications", modwatchNotifications);
 
+console.log(`MODWATCH_ENV: ${process.env.MODWATCH_ENV}
+NODE_ENV: ${process.env.NODE_ENV}
+MODWATCH_API_URL: ${process.env.MODWATCH_API_URL}`
+);
+
 new Vue({
   el: "#modwatch-app",
   computed: {
