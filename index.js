@@ -1,6 +1,6 @@
 /*eslint-env node*/
 const { send } = require("micro");
-const { router, get } = require("microrouter");
+const { router, get, post } = require("microrouter");
 const opn = require("opn");
 const { readFileSync } = require("fs");
 const { resolve } = require("path");
