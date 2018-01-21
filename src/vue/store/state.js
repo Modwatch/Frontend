@@ -30,7 +30,12 @@ export const state = {
   showInactiveMods: false,
   modlist,
   notifications: [],
-  user: {...user, ...JSON.parse(localStorage.getItem("modwatch.user") || "{}")}
+  user: {...user, ...JSON.parse(localStorage.getItem("modwatch.user") || "{}")},
+  gameMap: {
+    skyrim: "Skyrim Classic",
+    skyrimse: "Skyrim SE",
+    fallout4: "Fallout 4"
+  }
 };
 
 export const USER_MUTATIONS = [

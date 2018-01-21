@@ -1,3 +1,5 @@
+import Login from "./modwatch-login.jsx";
+
 export default {
   props: {
     authenticated: {
@@ -15,17 +17,12 @@ export default {
   },
   data() {
     return {
-      show: false,
-      loginLink: `${process.env.MODWATCH_API_URL}/oauth/authorize`,
-      redirect_uri: encodeURIComponent(`${window.location.protocol}//${window.location.host}/`)
+      show: false
     };
   },
   methods: {
     toggleShow() {
       this.show = !this.show;
-    },
-    login() {
-      window.location.replace(`${this.loginLink}?client_id=modwatch&redirect_uri=${this.redirect_uri}&response_type=code`)
     },
     profile() {
       if(this.$route.path.indexOf("/u/") === 0) {
@@ -34,6 +31,9 @@ export default {
       } else {
         this.$router.push(`/u/${this.user}`);
       }
+    },
+    uploader() {
+      this.$router.push("/uploader");
     }
   },
   render(h) {
@@ -42,7 +42,8 @@ export default {
         <div class="menu-toggle" onClick={this.toggleShow}></div>
 				<nav class={this.show ? "menu-main menu-active" : "menu-main"} onClick={this.toggleShow}>
           <router-link to="/" class="nav-block">Home</router-link>
-          {!this.authenticated ? <a onClick={this.login} class="nav-block">Login</a> : <a onClick={ this.logout } class="nav-block">Logout</a>}
+          <Login user={this.user} linkClass="nav-block" />
+          {/* {!this.authenticated ? <Login><a class="nav-block">Login</a></Login> : <a onClick={ this.logout } class="nav-block">Logout</a>} */}
           {this.authenticated && <a onClick={this.profile} class="nav-block">Profile</a>}
           <span class="nav-block">Close</span>
 				</nav>

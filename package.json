@@ -7,14 +7,18 @@
   },
   "scripts": {
     "local": "micro-dev index.js --port 3000",
-    "pkg": "pkg . --out-path ./bin",
+    "pkg": "pkg . --targets node8-win-x64,node8-macos-x64 --out-path ./bin && tar -czvf ./bin/modwatch.tar.gz ./bin/modwatch.exe ./bin/xdg-open",
     "build": "webpack --config webpack.config.js --env.NODE_ENV=production",
-    "watch": "webpack --watch --config webpack.config.js",
+    "watch": "webpack --watch --config webpack.config.js --env.NODE_ENV=development",
     "build:local": "webpack --config webpack.config.js --env.MODWATCH_ENV=local --env.NODE_ENV=production",
-    "watch:local": "webpack --watch --config webpack.config.js --env.MODWATCH_ENV=local --env.NODE_ENV=production",
-    "serve": "firebase serve --port 3000 --host 0.0.0.0"
+    "watch:local": "webpack --watch --config webpack.config.js --env.MODWATCH_ENV=local --env.NODE_ENV=development",
+    "prettier": "prettier --write src/**/*.js --write src/**/*.jsx --write src/**/*.css --write *.js",
+    "serve": "firebase serve --port 3000 --host 0.0.0.0",
+    "gitadd": "git add src index.js pkg.js webpack.config.js postcss.config.js"
   },
   "pre-commit": [
+    "prettier",
+    "gitadd",
     "build:local",
     "pkg",
     "build"
@@ -24,6 +28,7 @@
     "decko": "^1.2.0",
     "es6-promise": "^4.1.1",
     "get-port": "^3.2.0",
+    "glob": "^7.1.2",
     "jwt-decode": "^2.2.0",
     "keypress": "^0.2.1",
     "micro": "^9.0.0",
@@ -31,9 +36,9 @@
     "minimist": "^1.2.0",
     "opn": "^5.1.0",
     "unfetch": "^2.1.2",
-    "vue": "^2.4.2",
-    "vue-router": "^2.7.0",
-    "vuex": "^2.3.1"
+    "vue": "^2.5.13",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",

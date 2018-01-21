@@ -2,51 +2,68 @@
 const { send } = require("micro");
 const { router, get, post } = require("microrouter");
 const opn = require("opn");
-const { readFileSync } = require("fs");
-const { resolve } = require("path");
+const { readFile, readFileSync } = require("fs");
+const { promisify } = require("util");
+const { resolve, sep } = require("path");
 const getPort = require("get-port");
+const glob = require("glob");
 
-const distMap = {};
-const dist = [
-  "bundle.js",
-  "home.bundle.js",
-  "main.bundle.js",
-  "modlist.bundle.js",
-  "oauth.bundle.js",
-  "styles.css"
-].forEach(f => {
-  distMap[f] = readFileSync(resolve(__dirname, "public", "dist", f), "utf8");
-});
-const image = [
-  "congruent_outline.png",
-  "modwatch_144.png",
-  "modwatch_192.png",
-  "modwatch_256.png",
-  "modwatch_512.png"
-].forEach(f => {
-  distMap[f] = readFileSync(resolve(__dirname, "public", "images", f));
-});
-const fontmap = ["eot", "svg", "ttf", "woff", "woff2"].forEach(f => {
-  distMap[f] = readFileSync(
-    resolve(__dirname, "public", "fonts", `glyphicons-halflings-regular.${f}`),
-    "utf8"
-  );
-});
-const index = readFileSync(resolve(__dirname, "public", "index.html"), "utf8");
+const globAsync = promisify(glob);
+const readFileAsync = promisify(readFile);
 
-module.exports = router(
-  get("/dist/*", (req, res) => {
-    res.setHeader(
-      "Content-Type",
-      req.params._.includes("js") ? "application/javascript" : "text/css"
-    );
-    const f = distMap[req.params._];
-    return send(res, f ? 200 : 404, f);
-  }),
-  get("/images/:filename.png", (req, res) => {
-    res.setHeader("Content-Type", "image/png");
-    const f = distMap[`${req.params.filename}.png`];
-    return send(res, f ? 200 : 404, f);
-  }),
-  get("*", (req, res) => send(res, 200, index))
-);
+console.log("Initializing...");
+
+module.exports = Promise.all([
+  globAsync(resolve(__dirname, "public", "dist", "*")),
+  globAsync(resolve(__dirname, "public", "images", "*")),
+  globAsync(resolve(__dirname, "public", "fonts", "*")),
+  globAsync(resolve(__dirname, "public", "index.html")),
+  globAsync(resolve(__dirname, "public", "local.modwatch.webmanifest"))
+])
+  .then(globs =>
+    Promise.all(
+      globs.map(directory =>
+        Promise.all(
+          directory.map(file =>
+            readFileAsync(file).then(contents => ({
+              name: file.split(sep)[file.split(sep).length - 1],
+              contents
+            }))
+          )
+        )
+      )
+    )
+  )
+  .then(globs => ({
+    dist: globs[0],
+    images: globs[1],
+    fonts: globs[2],
+    index: globs[3][0],
+    manifest: globs[4][0]
+  }))
+  .then(globs => (console.log("Assets Read..."), globs))
+  .then(({ dist, images, fonts, index, manifest }) =>
+    router(
+      get("/dist/*", (req, res) => {
+        res.setHeader(
+          "Content-Type",
+          req.params._.includes("js") ? "application/javascript" : "text/css"
+        );
+        const f = dist.find(d => d.name === req.params._) || {};
+        return send(res, f && f.contents ? 200 : 404, f.contents.toString());
+      }),
+      get("/images/:filename.png", (req, res) => {
+        res.setHeader("Content-Type", "image/png");
+        const f =
+          images.find(i => i.name === `${req.params.filename}.png`) || {};
+        return send(res, f && f.contents ? 200 : 404, f.contents);
+      }),
+      get("/modwatch.webmanifest", (req, res) => {
+        return send(res, 200, manifest.contents);
+      }),
+      get("*", (req, res) => {
+        send(res, 200, index.contents.toString());
+      })
+    )
+  )
+  .then(routes => (console.log("Routes Initialized"), routes));

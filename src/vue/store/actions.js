@@ -37,7 +37,11 @@ export function getModlistFileType({ commit }, {username, filetype}) {
 
 export function login({ commit, dispatch }, {username, password}) {
   return post(`${API_URL}/oauth/login`, {
-    body: { username, password }
+    body: {
+      username,
+      password,
+      roles: process.env.MODWAT_ENV === "local" ? "upload" : undefined
+    }
   })
   .then(res => {
     return dispatch("notification", { notification: "Logged In" })

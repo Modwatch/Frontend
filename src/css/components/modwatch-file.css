@@ -1,9 +1,9 @@
 .modlist-item {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
-  padding: 3px 3px 3px 50px;
+  padding: 3px;
   background: #FFFFFF;
   font-size: 14px;
   &:nth-child(even) {
@@ -39,6 +39,7 @@
     width: 40px;
     padding: 0 3px;
     text-align: left;
+    z-index: 1;
   }
   & .modlist-item-descriptor {
     border-radius: 10px;
@@ -92,10 +93,16 @@
   }
 }
 .modlist-item-index {
-  width: 50px;
+  width: 40px;
+  min-width: 40px;
+  padding-right: 10px;
   text-align: right;
-  position: absolute;
-  transform: translateX(-60px);
+  z-index: 2;
+}
+.modlist-item-content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 .modlist-item-content {
   text-align: left;

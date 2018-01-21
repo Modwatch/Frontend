@@ -49,6 +49,17 @@
       opacity: 1;
     }
   }
+  &[disabled] {
+    opacity: 0.5;
+    cursor: default !important;
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      &:after {
+        opacity: 0;
+      }
+    }
+  }
 }
 .menu-wrapper {
   position: fixed;

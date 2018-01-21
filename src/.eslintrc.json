@@ -3,6 +3,7 @@
     "browser": true
   },
   "globals": {
-    "process": true
+    "process": true,
+    "ga": true 
   }
 }

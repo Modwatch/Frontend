@@ -5,7 +5,8 @@ export default {
     ...mapState({
       modlist: state => state.modlist,
       isAdmin: state => state.user.scopes.indexOf("admin") !== -1,
-      user: state => state.user.username
+      user: state => state.user.username,
+      gameMap: state => state.gameMap
     }),
     showAdminTools() {
       return this.isAdmin || this.username === this.user;
@@ -36,14 +37,13 @@ export default {
       this.$store.dispatch("getModlist", to.params.username);
     }
     next();
+    setTimeout(() => {
+      this.$forceUpdate();
+      console.log("update");
+    }, 250);
   },
   data() {
     return {
-      gameMap: {
-        skyrim: "Skyrim Classic",
-        skyrimse: "Skyrim SE",
-        fallout4: "Fallout 4"
-      },
       filtering: false,
       filterTimeoutID: undefined,
       showInactiveMods: false
@@ -99,7 +99,7 @@ export default {
           </nav>
           <form class="modlist-filter">
             <span class="form-group">
-              <label for="modlist-filter" style="visibility: hidden; display: none;">Filter</label>
+              <label for="modlist-filter" class="sr-only">Filter</label>
               <input type="text" id="modlist-filter" placeholder="Filter By..." onInput={this.updateFilter} />
             </span>
             {this.current === "modlist" && <span class="form-group">

@@ -17,16 +17,12 @@ Vue.component("modwatchNotifications", modwatchNotifications);
 
 console.log(`MODWATCH_ENV: ${process.env.MODWATCH_ENV}
 NODE_ENV: ${process.env.NODE_ENV}
-MODWATCH_API_URL: ${process.env.MODWATCH_API_URL}`
-);
+MODWATCH_API_URL: ${process.env.MODWATCH_API_URL}`);
 
 new Vue({
   el: "#modwatch-app",
   computed: {
-    ...mapState([
-      "user",
-      "notifications"
-    ])
+    ...mapState(["user", "notifications"])
   },
   methods: {
     logout() {
@@ -37,16 +33,26 @@ new Vue({
     return (
       <div>
         <transition name="fade">
-          {this.notifications.length > 0 && <modwatch-notifications notifications={this.notifications}></modwatch-notifications>}
+          {this.notifications.length > 0 && (
+            <modwatch-notifications notifications={this.notifications} />
+          )}
         </transition>
         <header>
-          <h1 class="header"><router-link class="no-underline" to="/">MODWATCH</router-link></h1>
+          <h1 class="header">
+            <router-link class="no-underline" to="/">
+              MODWATCH
+            </router-link>
+          </h1>
         </header>
-        <modwatch-nav authenticated={this.user.authenticated} user={this.user.username} logout={this.logout}></modwatch-nav>
+        <modwatch-nav
+          authenticated={this.user.authenticated}
+          user={this.user.username}
+          logout={this.logout}
+        />
         <div class="content-wrapper">
           <div class="view-wrapper">
             <transition name="fade" mode="out-in">
-              <router-view></router-view>
+              <router-view />
             </transition>
           </div>
         </div>
@@ -59,13 +65,23 @@ new Vue({
   store,
   router,
   created() {
-    if(this.$store.state.user.authenticated) {
-      this.$store.dispatch("verify")
-      .then(valid => {
-        if(!valid) {
+    if (this.$store.state.user.authenticated) {
+      this.$store.dispatch("verify").then(valid => {
+        if (!valid) {
           this.$store.dispatch("logout");
         }
       });
     }
   }
 });
+
+if (
+  process.env.NODE_ENV === "production" &&
+  process.env.MODWATCH_ENV !== "local"
+) {
+  // import(/* webpackChunkName : "ga" */"./ga")
+  //   .then(ga => ga.default());
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("serviceworker.js");
+  }
+}
