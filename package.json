@@ -1,12 +1,16 @@
 {
   "name": "modwatch",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "watch": "webpack --watch --config webpack.config.js",
-    "serve": "firebase serve --port 3000 --host 0.0.0.0"
+    "serve": "firebase serve --port 3000 --host 0.0.0.0",
+    "deploy:ci": "firebase use modwatch-staging --token $FIREBASE_TOKEN && firebase deploy --non-interactive --token $FIREBASE_TOKEN"
   },
+  "precommit": [
+    "build"
+  ],
   "main": "server.js",
   "dependencies": {
     "decko": "^1.2.0",
@@ -34,12 +38,14 @@
     "css-loader": "^0.28.4",
     "eslint": "^3.3.1",
     "extract-text-webpack-plugin": "^2.1.2",
+    "firebase-tools": "^3.17.7",
     "postcss": "^5.0.17",
     "postcss-cli": "^4.1.0",
     "postcss-cssnext": "^2.11.0",
     "postcss-import": "^10.0.0",
     "postcss-loader": "^2.0.6",
     "postcss-nesting": "^4.0.1",
+    "pre-commit": "^1.2.2",
     "style-loader": "^0.18.2",
     "stylelint-config-recommended": "^1.0.0",
     "webpack": "^3.0.0"
