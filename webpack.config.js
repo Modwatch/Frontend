@@ -2,6 +2,8 @@ const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpack = require("webpack");
 
+const localPkg = require("./package.json");
+
 module.exports = {
   entry: "./src/vue/index.jsx",
   output: {
@@ -37,6 +39,7 @@ module.exports = {
     new ExtractTextPlugin("styles.css"),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+      "process.env.VERSION": JSON.stringify(localPkg.version),
       "process.env.MODWATCH_API_URL": process.env.NODE_ENV !== "production" ?
         JSON.stringify("http://localhost:3001") :
         JSON.stringify("https://api.modwat.ch")
