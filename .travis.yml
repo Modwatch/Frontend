@@ -1,12 +1,15 @@
 language: node_js
 node_js:
-  — "8.11"
+  - "8"
 script:
-  — npm run build
+  - npm run build
 install:
-  — npm i
+  - npm i
 after_success:
-  — npm run deploy:ci
+  - npm run deploy:ci
 branches:
   only:
   - travis_testing
+cache:
+  directories:
+    - "node_modules"
