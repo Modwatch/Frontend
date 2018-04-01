@@ -6,7 +6,7 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "watch": "webpack --watch --config webpack.config.js",
     "serve": "firebase serve --port 3000 --host 0.0.0.0",
-    "deploy:ci": "firebase deploy — project modwatch-staging — token $FIREBASE_TOKEN"
+    "deploy:ci": "firebase use modwatch-staging --token $FIREBASE_TOKEN && firebase deploy --non-interactive --token $FIREBASE_TOKEN"
   },
   "main": "server.js",
   "dependencies": {
