@@ -9,7 +9,7 @@ after_success:
   - npm run deploy:ci
 branches:
   only:
-  - travis_testing
+  - master
 cache:
   directories:
     - "node_modules"
