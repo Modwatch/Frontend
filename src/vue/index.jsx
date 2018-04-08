@@ -69,3 +69,7 @@ new Vue({
     }
   }
 });
+
+if(process.env.NODE_ENV === "production") {
+  import("./ga.js");
+}
