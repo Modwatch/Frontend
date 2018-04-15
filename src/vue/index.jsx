@@ -20,6 +20,29 @@ VERSION:\t${process.env.VERSION}
 NODE_ENV:\t${process.env.NODE_ENV}`
 );
 
+const pathname = window.location.pathname;
+history.replaceState(null, null, "/");
+
+if(pathname.indexOf("/oauth/access_token/") === 0) {
+  try {
+    const [,,,access_token,,token_type,,expires_in] = pathname.split("/");
+    if(access_token) {
+      store.dispatch("verify", { access_token })
+        .then(valid => {
+          if(!valid) {
+            store.dispatch("notification", { notification: "Invalid Token" });
+	    store.dispatch("logout");
+          }
+          store.dispatch("notification", { notification: "Successfully Logged In" });
+          store.commit("login", access_token);
+        });
+    }
+  } catch(e) {
+    store.dispatch("notification", { notification: "Invalid Token" });
+    store.dispatch("logout");	  
+  }
+}
+
 new Vue({
   el: "#modwatch-app",
   computed: {
