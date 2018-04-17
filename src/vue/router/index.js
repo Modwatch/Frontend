@@ -7,7 +7,7 @@ import store from "../store/index.js";
 import NotFound from "./notFound.jsx";
 
 const Home = () => import(/* webpackChunkName : "home" */ "./home.jsx").then(c => c.default);
-const Oauth = () => import(/* webpackChunkName : "oauth" */ "./oauth.jsx").then(c => c.default);
+//const Oauth = () => import(/* webpackChunkName : "oauth" */ "./oauth.jsx").then(c => c.default);
 
 const Modlist = () => import(/* webpackChunkName : "modlist" */ "./modlist/index.jsx").then(c => c.default);
   const PluginsFile = () => import(/* webpackChunkName : "modlist" */ "./modlist/pluginsFile.jsx").then(c => c.default);
@@ -21,9 +21,9 @@ const routes = [{
   path: "/",
   name: "Home",
   component: Home
-}, {
-  path: "/oauth/access_token/:access_token/token_type/:token_type/expires_in/:expires_in",
-  component: Oauth
+//}, {
+//  path: "/oauth/access_token/:access_token/token_type/:token_type/expires_in/:expires_in",
+//  component: Oauth
 }, {
   path: "/u/:username",
   component: Modlist,
