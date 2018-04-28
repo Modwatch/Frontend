@@ -7,7 +7,7 @@ const component = {
       </section>
     );
   }
-}
+};
 
 export default component;
 // export default function factory() {

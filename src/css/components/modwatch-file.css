@@ -4,10 +4,10 @@
   align-items: center;
   position: relative;
   padding: 3px 3px 3px 50px;
-  background: #FFFFFF;
+  background: #ffffff;
   font-size: 14px;
   &:nth-child(even) {
-    background: #E0E0E0;
+    background: #e0e0e0;
   }
   &.section .modlist-item-content {
     color: var(--color-section);
@@ -23,8 +23,10 @@
       font-weight: bold;
       color: var(--color-setting-key);
     }
-    & .assign {}
-    & .value {}
+    & .assign {
+    }
+    & .value {
+    }
     & .modlist-item-content {
       display: flex;
       flex-wrap: wrap;
@@ -47,7 +49,11 @@
   }
   &.esm {
     &:before {
-      background: linear-gradient(to left, var(--color-esm), var(--color-background-2));
+      background: linear-gradient(
+        to left,
+        var(--color-esm),
+        var(--color-background-2)
+      );
     }
     & .modlist-item-descriptor {
       content: "esm";
@@ -56,7 +62,11 @@
   }
   &.esp {
     &:before {
-      background: linear-gradient(to left, var(--color-esp), var(--color-background-2));
+      background: linear-gradient(
+        to left,
+        var(--color-esp),
+        var(--color-background-2)
+      );
     }
     & .modlist-item-descriptor {
       content: "esp";
@@ -65,26 +75,42 @@
   }
   &.comment {
     &:before {
-      background: linear-gradient(to left, var(--color-comment), var(--color-background-2));
+      background: linear-gradient(
+        to left,
+        var(--color-comment),
+        var(--color-background-2)
+      );
       opacity: 0.66;
     }
   }
   &.enabled:before {
-    background: linear-gradient(to left, var(--color-enabled), var(--color-background-2));
+    background: linear-gradient(
+      to left,
+      var(--color-enabled),
+      var(--color-background-2)
+    );
     & .modlist-item-descriptor {
       content: "+";
       background: var(--color-esp);
     }
   }
   &.disabled:before {
-    background: linear-gradient(to left, var(--color-disabled), var(--color-background-2));
+    background: linear-gradient(
+      to left,
+      var(--color-disabled),
+      var(--color-background-2)
+    );
     & .modlist-item-descriptor {
       content: "-";
       background: var(--color-disabled);
     }
   }
   &.unmanaged:before {
-    background: linear-gradient(to left, var(--color-unmanaged), var(--color-background-2));
+    background: linear-gradient(
+      to left,
+      var(--color-unmanaged),
+      var(--color-background-2)
+    );
     & .modlist-item-descriptor {
       content: "*";
       background: var(--color-unmanaged);

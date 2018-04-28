@@ -1,8 +1,8 @@
 export const modlist = {
-  "timestamp": undefined,
-  "tag": undefined,
-  "game": "skyrim",
-  "enb": undefined,
+  timestamp: undefined,
+  tag: undefined,
+  game: "skyrim",
+  enb: undefined,
   files: {
     plugins: 0,
     modlist: 0,
@@ -30,20 +30,20 @@ export const state = {
   showInactiveMods: false,
   modlist,
   notifications: [],
-  user: {...user, ...JSON.parse(localStorage.getItem("modwatch.user") || "{}")}
+  user: {
+    ...user,
+    ...JSON.parse(localStorage.getItem("modwatch.user") || "{}")
+  }
 };
 
-export const USER_MUTATIONS = [
-  "login",
-  "logout"
-];
+export const USER_MUTATIONS = ["login", "logout"];
 
 export const plugins = [
   store => {
     store.subscribe((mutation, state) => {
-      if(USER_MUTATIONS.indexOf(mutation)) {
+      if (USER_MUTATIONS.indexOf(mutation)) {
         localStorage.setItem("modwatch.user", JSON.stringify(state.user));
       }
     });
   }
-]
+];
