@@ -17,39 +17,38 @@ Vue.component("modwatchNotifications", modwatchNotifications);
 
 console.log(`Modwatch:
 VERSION:\t${process.env.VERSION}
-NODE_ENV:\t${process.env.NODE_ENV}`
-);
+NODE_ENV:\t${process.env.NODE_ENV}`);
 
 const pathname = window.location.pathname;
 history.replaceState(null, null, "/");
 
-if(pathname.indexOf("/oauth/access_token/") === 0) {
+if (pathname.indexOf("/oauth/access_token/") === 0) {
   try {
-    const [,,,access_token,,token_type,,expires_in] = pathname.split("/");
-    if(access_token) {
-      store.dispatch("verify", { access_token })
-        .then(valid => {
-          if(!valid) {
-            store.dispatch("notification", { notification: "Invalid Token" });
-	    store.dispatch("logout");
-          }
-          store.dispatch("notification", { notification: "Successfully Logged In" });
-          store.commit("login", access_token);
+    const [, , , access_token, , token_type, , expires_in] = pathname.split(
+      "/"
+    );
+    if (access_token) {
+      store.dispatch("verify", { access_token }).then(valid => {
+        if (!valid) {
+          store.dispatch("notification", { notification: "Invalid Token" });
+          store.dispatch("logout");
+        }
+        store.dispatch("notification", {
+          notification: "Successfully Logged In"
         });
+        store.commit("login", access_token);
+      });
     }
-  } catch(e) {
+  } catch (e) {
     store.dispatch("notification", { notification: "Invalid Token" });
-    store.dispatch("logout");	  
+    store.dispatch("logout");
   }
 }
 
 new Vue({
   el: "#modwatch-app",
   computed: {
-    ...mapState([
-      "user",
-      "notifications"
-    ])
+    ...mapState(["user", "notifications"])
   },
   methods: {
     logout() {
@@ -60,16 +59,26 @@ new Vue({
     return (
       <div>
         <transition name="fade">
-          {this.notifications.length > 0 && <modwatch-notifications notifications={this.notifications}></modwatch-notifications>}
+          {this.notifications.length > 0 && (
+            <modwatch-notifications notifications={this.notifications} />
+          )}
         </transition>
         <header>
-          <h1 class="header"><router-link class="no-underline" to="/">MODWATCH</router-link></h1>
+          <h1 class="header">
+            <router-link class="no-underline" to="/">
+              MODWATCH
+            </router-link>
+          </h1>
         </header>
-        <modwatch-nav authenticated={this.user.authenticated} user={this.user.username} logout={this.logout}></modwatch-nav>
+        <modwatch-nav
+          authenticated={this.user.authenticated}
+          user={this.user.username}
+          logout={this.logout}
+        />
         <div class="content-wrapper">
           <div class="view-wrapper">
             <transition name="fade" mode="out-in">
-              <router-view></router-view>
+              <router-view />
             </transition>
           </div>
         </div>
@@ -82,10 +91,9 @@ new Vue({
   store,
   router,
   created() {
-    if(this.$store.state.user.authenticated) {
-      this.$store.dispatch("verify")
-      .then(valid => {
-        if(!valid) {
+    if (this.$store.state.user.authenticated) {
+      this.$store.dispatch("verify").then(valid => {
+        if (!valid) {
           this.$store.dispatch("logout");
         }
       });
@@ -93,6 +101,6 @@ new Vue({
   }
 });
 
-if(process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   import("./ga.js");
 }

@@ -19,7 +19,7 @@ export default {
     search({ target = {} }) {
       clearTimeout(this.debounceFilter);
       this.debounceFilter = setTimeout(() => {
-        if(target.value === "" || typeof target.value === "undefined") {
+        if (target.value === "" || typeof target.value === "undefined") {
           this.$store.dispatch("getModlists");
           return;
         }
@@ -35,8 +35,15 @@ export default {
     return (
       <div>
         <form>
-          <input type="text" placeholder="Search" ref="filter" onInput={this.search}/>
-          <button type="button" onClick={this.clear}>Clear</button>
+          <input
+            type="text"
+            placeholder="Search"
+            ref="filter"
+            onInput={this.search}
+          />
+          <button type="button" onClick={this.clear}>
+            Clear
+          </button>
         </form>
         <table class="modlists-table">
           <thead>
@@ -48,13 +55,17 @@ export default {
           </thead>
           {this.modlists.map(m => (
             <tr>
-              <td><router-link to={ `/u/${m.username}` }>{m.username}</router-link></td>
+              <td>
+                <router-link to={`/u/${m.username}`}>{m.username}</router-link>
+              </td>
               <td>{this.gameMap[m.game || "skyrim"]}</td>
-              <td class="responsive-hide">{new Date(m.timestamp).toLocaleDateString()}</td>
+              <td class="responsive-hide">
+                {new Date(m.timestamp).toLocaleDateString()}
+              </td>
             </tr>
           ))}
         </table>
       </div>
     );
   }
-}
+};

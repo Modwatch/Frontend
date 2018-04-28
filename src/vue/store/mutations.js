@@ -9,10 +9,10 @@ export function modlists(state, value) {
 }
 
 export function modlist(state, value) {
-  set(state, "modlist", {...state.modlist, ...value});
+  set(state, "modlist", { ...state.modlist, ...value });
 }
 
-export function filetype(state, {type, value}) {
+export function filetype(state, { type, value }) {
   set(state.modlist, type, value);
 }
 
@@ -39,8 +39,8 @@ export function pushNotification(state, notification) {
 }
 
 export function popNotification({ notifications }) {
-  if(notifications.length > 0) {
-    set(state, "notifications", notifications.slice(1))
+  if (notifications.length > 0) {
+    set(state, "notifications", notifications.slice(1));
   }
 }
 

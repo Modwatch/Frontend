@@ -2,17 +2,18 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState([
-      "modlist"
-    ]),
+    ...mapState(["modlist"]),
     lines() {
-      return this.$store.getters.complexlines({filetype: "ini"});
+      return this.$store.getters.complexlines({ filetype: "ini" });
     }
   },
   created() {
-    this.$store.dispatch("getModlistFileType", { username: this.$route.params.username, filetype: "ini"});
+    this.$store.dispatch("getModlistFileType", {
+      username: this.$route.params.username,
+      filetype: "ini"
+    });
   },
   render(h) {
-    return (<modwatch-file lines={this.lines} complex-lines></modwatch-file>);
+    return <modwatch-file lines={this.lines} complex-lines />;
   }
-}
+};
