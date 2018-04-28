@@ -20,9 +20,9 @@ VERSION:\t${process.env.VERSION}
 NODE_ENV:\t${process.env.NODE_ENV}`);
 
 const pathname = window.location.pathname;
-history.replaceState(null, null, "/");
 
 if (pathname.indexOf("/oauth/access_token/") === 0) {
+  history.replaceState(null, null, "/");
   try {
     const [, , , access_token, , token_type, , expires_in] = pathname.split(
       "/"
