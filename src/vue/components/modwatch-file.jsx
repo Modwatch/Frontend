@@ -16,9 +16,6 @@ export default {
   render(h) {
     return (
       <div>
-        <form class="modlist-filter">
-          <slot name="filters" />
-        </form>
         <ul>
           {this.lines.map(line => (
             <li
