@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { state, user } from "./state";
+import { state, initialState, user } from "./state";
 import jwtDecode from "jwt-decode";
 
 const { set } = Vue;
@@ -9,7 +9,7 @@ export function modlists(state, value) {
 }
 
 export function modlist(state, value) {
-  set(state, "modlist", { ...state.modlist, ...value });
+  set(state, "modlist", { ...initialState.modlist, ...value });
 }
 
 export function filetype(state, { type, value }) {

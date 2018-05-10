@@ -1,8 +1,8 @@
 export const modlist = {
   timestamp: undefined,
-  tag: undefined,
+  tag: "",
   game: "skyrim",
-  enb: undefined,
+  enb: "",
   files: {
     plugins: 0,
     modlist: 0,
@@ -24,8 +24,8 @@ export const user = {
   scopes: []
 };
 
-export const state = {
-  modlists: undefined,
+export const initialState = {
+  modlists: [],
   modlistfilter: "",
   showInactiveMods: false,
   modlist,
@@ -34,6 +34,10 @@ export const state = {
     ...user,
     ...JSON.parse(localStorage.getItem("modwatch.user") || "{}")
   }
+};
+
+export const state = {
+  ...initialState
 };
 
 export const USER_MUTATIONS = ["login", "logout"];
