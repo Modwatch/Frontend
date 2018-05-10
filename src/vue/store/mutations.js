@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { state, user } from "./state";
+import { state as initialState, user } from "./state";
 import jwtDecode from "jwt-decode";
 
 const { set } = Vue;
@@ -40,7 +40,7 @@ export function pushNotification(state, notification) {
 
 export function popNotification({ notifications }) {
   if (notifications.length > 0) {
-    set(state, "notifications", notifications.slice(1));
+    set(initialState, "notifications", notifications.slice(1));
   }
 }
 
