@@ -106,7 +106,7 @@ function get(url) {
 
 function p(url, { body, token }, method) {
   return fetch(url, {
-    method: "POST",
+    method: method || "POST",
     body: JSON.stringify(body),
     headers: token
       ? {

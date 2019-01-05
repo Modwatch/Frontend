@@ -5,3 +5,5 @@
 .DS_Store
 /public/sw.js
 /firebase-debug.log
+/dist
+.cache

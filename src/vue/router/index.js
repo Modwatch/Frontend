@@ -1,90 +1,72 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-
-import store from "../store/index.js";
+import Router, { route } from "preact-router";
+import { h, Component } from "preact";
 
 // import Oauth from "./oauth.jsx";
 import NotFound from "./notFound.jsx";
-
-const Home = () =>
-  import(/* webpackChunkName : "home" */ "./home.jsx").then(c => c.default);
-//const Oauth = () => import(/* webpackChunkName : "oauth" */ "./oauth.jsx").then(c => c.default);
-
-const Modlist = () =>
-  import(/* webpackChunkName : "modlist" */ "./modlist/index.jsx").then(
-    c => c.default
-  );
-const PluginsFile = () =>
-  import(/* webpackChunkName : "modlist" */ "./modlist/pluginsFile.jsx").then(
-    c => c.default
-  );
-const ModlistFile = () =>
-  import(/* webpackChunkName : "modlist" */ "./modlist/modlistFile.jsx").then(
-    c => c.default
-  );
-const IniFile = () =>
-  import(/* webpackChunkName : "modlist" */ "./modlist/iniFile.jsx").then(
-    c => c.default
-  );
-const PrefsIniFile = () =>
-  import(/* webpackChunkName : "modlist" */ "./modlist/prefsIniFile.jsx").then(
-    c => c.default
-  );
-
-Vue.use(VueRouter);
+import Home from "./home.jsx";
+import Modlist from "./modlist/index.jsx";
+import PluginsFile from "./modlist/pluginsFile.jsx";
+import ModlistFile from "./modlist/modlistFile.jsx";
+import IniFile from "./modlist/iniFile.jsx";
+import PrefsIniFile from "./modlist/prefsIniFile.jsx";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home
-    //}, {
-    //  path: "/oauth/access_token/:access_token/token_type/:token_type/expires_in/:expires_in",
-    //  component: Oauth
   },
   {
     path: "/u/:username",
-    component: Modlist,
-    beforeEnter(to, from, next) {
-      store
-        .dispatch("getModlist", to.params.username)
-        .then(() => next())
-        .catch(() => next("/404"));
-    },
-    children: [
-      {
-        path: "",
-        redirect: "plugins"
-      },
-      {
-        path: "plugins",
-        component: PluginsFile
-      },
-      {
-        path: "modlist",
-        name: "modlist",
-        component: ModlistFile
-      },
-      {
-        path: "ini",
-        name: "ini",
-        component: IniFile
-      },
-      {
-        path: "prefsini",
-        name: "prefsini",
-        component: PrefsIniFile
-      }
-    ]
+    component: Modlist
+    // beforeEnter(to, from, next) {
+    //   store
+    //     .dispatch("getModlist", to.params.username)
+    //     .then(() => next())
+    //     .catch(() => next("/404"));
   },
   {
-    path: "*",
-    name: "Not Found",
-    component: NotFound
+    path: "",
+    redirect: "plugins"
+  },
+  {
+    path: "plugins",
+    component: PluginsFile
+  },
+  {
+    path: "modlist",
+    name: "modlist",
+    component: ModlistFile
+  },
+  {
+    path: "ini",
+    name: "ini",
+    component: IniFile
+  },
+  {
+    path: "prefsini",
+    name: "prefsini",
+    component: PrefsIniFile
   }
 ];
 
-export default new VueRouter({
-  mode: "history",
-  routes
-});
+class Redirect extends Component {
+  componentWillMount() {
+    route(this.props.to, true);
+  }
+
+  render() {
+    return null;
+  }
+}
+
+export default () => (
+  <Router>
+    <Home path="/" />
+    <Modlist path="/u/:username/:filetype" />
+    {/* <PluginsFile path="/u/:username/plugins" />
+    <IniFile path="/u/:username/ini" />
+    <PrefsIniFile path="/u/:username/prefsini" />
+    <Redirect path="u/:username" to="/u/:username/plugins" /> */}
+  </Router>
+);

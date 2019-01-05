@@ -1,19 +1,14 @@
-import Vue from "vue";
-import { mapState } from "vuex";
+import { render, h, Component } from "preact";
+import { Link } from "preact-router";
+import Router from "./router";
 
-import store from "./store/index";
+// import store from "./store/index";
+import { verify, logout, login } from "./auth";
 import router from "./router/index";
 
-import modwatchNav from "./components/modwatch-nav.jsx";
-import modwatchModlists from "./components/modwatch-modlists.jsx";
-import modwatchFile from "./components/modwatch-file.jsx";
-import modwatchNotifications from "./components/modwatch-notifications.jsx";
-
-import styles from "../css/index.css";
-
-Vue.component("modwatchModlists", modwatchModlists);
-Vue.component("modwatchFile", modwatchFile);
-Vue.component("modwatchNotifications", modwatchNotifications);
+import ModwatchNav from "./components/modwatch-nav.jsx";
+import ModwatchModlists from "./components/modwatch-modlists.jsx";
+import ModwatchNotifications from "./components/modwatch-notifications.jsx";
 
 console.log(`Modwatch:
 VERSION:\t${process.env.VERSION}
@@ -28,79 +23,120 @@ if (pathname.indexOf("/oauth/access_token/") === 0) {
       "/"
     );
     if (access_token) {
-      store.dispatch("verify", { access_token }).then(valid => {
+      verify({ access_token }).then(valid => {
         if (!valid) {
-          store.dispatch("notification", { notification: "Invalid Token" });
-          store.dispatch("logout");
+          logout();
+          return;
         }
-        store.dispatch("notification", {
-          notification: "Successfully Logged In"
-        });
-        store.commit("login", access_token);
+        login({ access_token });
       });
     }
   } catch (e) {
-    store.dispatch("notification", { notification: "Invalid Token" });
-    store.dispatch("logout");
+    // store.dispatch("notification", { notification: "Invalid Token" });
+    logout();
+    // store.dispatch("logout");
   }
 }
 
-new Vue({
-  el: "#modwatch-app",
-  computed: {
-    ...mapState(["user", "notifications"])
-  },
-  methods: {
-    logout() {
-      return this.$store.dispatch("logout");
-    }
-  },
-  render(h) {
-    return (
-      <div>
-        <transition name="fade">
-          {this.notifications.length > 0 && (
-            <modwatch-notifications notifications={this.notifications} />
+class Root extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {
+        authenticated: false
+      },
+      notifications: []
+    };
+  }
+  render(props, state) {
+    return <div>
+        {/* <transition name="fade"> */}
+          {state.notifications.length > 0 && (
+            <ModwatchNotifications notifications={state.notifications} />
           )}
-        </transition>
+        {/* </transition> */}
         <header>
           <h1 class="header">
-            <router-link class="no-underline" to="/">
+            <Link class="no-underline" to="/">
               MODWATCH
-            </router-link>
+            </Link>
           </h1>
         </header>
-        <modwatch-nav
-          authenticated={this.user.authenticated}
-          user={this.user.username}
-          logout={this.logout}
-        />
+        <ModwatchNav authenticated={state.user.authenticated} user={state.user.username} logout={logout} />
         <div class="content-wrapper">
           <div class="view-wrapper">
-            <transition name="fade" mode="out-in">
-              <router-view />
-            </transition>
+            {/* <transition name="fade" mode="out-in"> */}
+              <Router />
+            {/* </transition> */}
           </div>
         </div>
-      </div>
-    );
-  },
-  components: {
-    modwatchNav
-  },
-  store,
-  router,
-  created() {
-    if (this.$store.state.user.authenticated) {
-      this.$store.dispatch("verify").then(valid => {
-        if (!valid) {
-          this.$store.dispatch("logout");
-        }
-      });
-    }
+      </div>;
   }
-});
-
-if (process.env.NODE_ENV === "production") {
-  import("./ga.js");
 }
+
+const dom = document.getElementById("modwatch-app");
+render(
+  <Root />,
+  dom,
+  dom.lastElementChild
+);
+
+// new Vue({
+//   el: "#modwatch-app",
+//   computed: {
+//     ...mapState(["user", "notifications"])
+//   },
+//   methods: {
+//     logout() {
+//       return this.$store.dispatch("logout");
+//     }
+//   },
+//   render(h) {
+//     return (
+//       <div>
+//         <transition name="fade">
+//           {this.notifications.length > 0 && (
+//             <modwatch-notifications notifications={this.notifications} />
+//           )}
+//         </transition>
+//         <header>
+//           <h1 class="header">
+//             <router-link class="no-underline" to="/">
+//               MODWATCH
+//             </router-link>
+//           </h1>
+//         </header>
+//         <modwatch-nav
+//           authenticated={this.user.authenticated}
+//           user={this.user.username}
+//           logout={this.logout}
+//         />
+//         <div class="content-wrapper">
+//           <div class="view-wrapper">
+//             <transition name="fade" mode="out-in">
+//               <router-view />
+//             </transition>
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   },
+//   components: {
+//     modwatchNav
+//   },
+//   store,
+//   router,
+//   created() {
+//     if (this.$store.state.user.authenticated) {
+//       this.$store.dispatch("verify").then(valid => {
+//         if (!valid) {
+//           this.$store.dispatch("logout");
+//         }
+//       });
+//     }
+//   }
+// });
+
+// if (process.env.NODE_ENV === "production") {
+//   // require("./ga.js");
+// }

@@ -1,15 +1,23 @@
 {
   "presets": [[
-    "env", {
+    "@babel/env", {
       "targets": {
-        "browsers": ["last 2 versions"]
+        "browsers": ["last 2 versions", "not ie > 9"]
       }
     }
-  ]],
+  ], ["@babel/react", {
+    "pragma": "h"
+  }]],
   "plugins": [
-    "transform-vue-jsx",
-    "transform-object-rest-spread",
-    "syntax-dynamic-import",
-    "transform-decorators-legacy"
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-syntax-object-rest-spread",
+    ["@babel/plugin-transform-runtime",
+    {
+      "corejs": false,
+      "helpers": true,
+      "regenerator": true,
+      "useESModules": false
+    }
+  ]
   ]
 }

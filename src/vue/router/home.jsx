@@ -1,10 +1,10 @@
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState({
-      modlists: state => state.modlists
-    })
+    // ...mapState({
+    //   modlists: state => state.modlists
+    // })
   },
   created() {
     this.$store.dispatch("getModlists");
@@ -30,10 +30,11 @@ export default {
             or into pastebin, or a google doc, etc. Or you could{" "}
             <a href="http://www.nexusmods.com/skyrim/mods/56640">
               download Modwatch
-            </a>, choose a username, upload your files here, and have an easy
-            link (<i>modwat.ch/u/your_username_here</i>) to give out. This site
-            is also used by streamers, youtubers, or anyone else that might want
-            to show people what mods they're using.
+            </a>
+            , choose a username, upload your files here, and have an easy link (
+            <i>modwat.ch/u/your_username_here</i>) to give out. This site is
+            also used by streamers, youtubers, or anyone else that might want to
+            show people what mods they're using.
           </p>
         </section>
         <section>
@@ -44,7 +45,8 @@ export default {
             posts at{" "}
             <a href="https://medium.com/@ansballard">
               https://medium.com/@ansballard
-            </a>!
+            </a>
+            !
           </p>
         </section>
         <transition name="fade" appear>

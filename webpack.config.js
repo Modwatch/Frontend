@@ -38,7 +38,12 @@ module.exports = webpackEnv => {
         : "cheap-module-eval-source-map",
     module: {
       rules: [
-        { test: /\.jsx?$/, loader: "babel-loader" },
+        {
+          test: /\.jsx?$/, loader: "buble-loader", options: {
+            objectAssign: 'Object.assign'
+          }
+        },
+        
         {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
