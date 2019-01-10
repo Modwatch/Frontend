@@ -73,9 +73,10 @@ export default {
       this.$store.commit("toggleActiveMods");
     },
     deleteModlist() {
-      if (window.confirm("Are you sure you want to delete this modlist?")) {
+      const password = window.prompt("Please enter your password if you want to delete this profile");
+      if (password) {
         this.$store
-          .dispatch("deleteModlist", { username: this.username })
+          .dispatch("deleteModlist", { username: this.username, password })
           .then(deleted => {
             if (deleted) {
               if (this.username === this.user) {
@@ -113,7 +114,7 @@ export default {
               {this.files.map(t => (
                 <li>
                   <router-link
-                    to={`/u/${this.username}/${t}`}
+                    to={`/u/${encodeURIComponent(this.username)}/${t}`}
                     class="no-underline"
                   >
                     <button class={this.current === t && "active"}>

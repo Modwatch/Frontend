@@ -8,21 +8,21 @@ export function getModlists({ commit }) {
 }
 
 export function searchModlists({ commit }, { filter }) {
-  return get(`${API_URL}/api/search/users/${filter}/25`).then(users => {
+  return get(`${API_URL}/api/search/users/${encodeURIComponent(filter)}/25`).then(users => {
     commit("modlists", users);
     return users;
   });
 }
 
 export function getModlist({ commit }, username) {
-  return get(`${API_URL}/api/user/${username}/all`).then(modlist => {
+  return get(`${API_URL}/api/user/${encodeURIComponent(username)}/all`).then(modlist => {
     commit("modlist", modlist);
     return modlist;
   });
 }
 
 export function getModlistFileType({ commit }, { username, filetype }) {
-  return get(`${API_URL}/api/user/${username}/file/${filetype}`).then(file => {
+  return get(`${API_URL}/api/user/${encodeURIComponent(username)}/file/${filetype}`).then(file => {
     commit("filetype", {
       type: filetype,
       value: file
@@ -55,9 +55,10 @@ export function verify({ state }, { access_token } = {}) {
   }).then(res => res.status === 200);
 }
 
-export function deleteModlist({ state, dispatch }, { username }) {
+export function deleteModlist({ state, dispatch }, { username, password }) {
+  const isAdmin = state.user.scopes.indexOf("admin") !== -1;
   if (
-    state.user.scopes.indexOf("admin") === -1 &&
+    !isAdmin &&
     username !== state.user.username
   ) {
     return Promise.reject(
@@ -68,12 +69,15 @@ export function deleteModlist({ state, dispatch }, { username }) {
       }`
     );
   }
-  return fetch(`${API_URL}/oauth/user/${username}/delete`, {
-    method: "DELETE",
+  return fetch(`${API_URL}/api/user/${encodeURIComponent(username)}/delete`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${state.user.token}`
-    }
+    },
+    body: JSON.stringify({
+      password
+    })
   })
     .then(res => res.status === 200)
     .then(valid =>
