@@ -1,0 +1,28 @@
+:root {
+  --menu-offset: 20px;
+  --button-offset: 10px;
+  --anim-delay: 0.3s;
+  --icon-size: 48px;
+  --icon-subsize: 30px;
+  --color-primary: #d58717;
+  --color-icon: #000000;
+  --color-border: #a5a5a5;
+  --color-background: #d0d0d0aa;
+  --color-background-2: #d3d3d3;
+  --color-esm: rgba(140, 140, 0, 0.35);
+  --color-esp: rgba(0, 140, 0, 0.25);
+  --color-esl: rgba(64, 120, 242, 0.30);
+  --color-enabled: rgba(0, 140, 0, 0.25);
+  --color-disabled: rgba(140, 0, 0, 0.25);
+  --color-unmanaged: rgba(140, 140, 0, 0.35);
+  --color-setting-key: #e45649;
+  --color-error: #e45649;
+  --color-comment: rgba(0, 0, 0, 0.5);
+  --color-section: #4078f2;
+  /* --color-links: #4078f2; */
+  --color-links: var(--color-primary);
+  --nav-scale: 100px;
+  --z-index-nav: 11;
+  --z-index-nav-toggle: 10;
+  --responsive-cutoff: 768px;
+}

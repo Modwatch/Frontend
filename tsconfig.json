@@ -1,0 +1,22 @@
+{
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "*.ts"
+  ],
+  "compilerOptions": {
+    "alwaysStrict": false,
+    "noImplicitAny": false,
+    "allowJs": true,
+    "moduleResolution": "node",
+    "jsx": "react",
+    "target": "es5",
+    "module": "esnext",
+    "lib": ["dom"],
+    "jsxFactory": "h",
+    "noEmitHelpers": true,
+    "importHelpers": true
+  }
+}

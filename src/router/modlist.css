@@ -1,0 +1,91 @@
+.modlist-wrapper {
+  & ul {
+    list-style: none;
+    padding-left: 0;
+  }
+}
+.modlist-content {
+  min-height: 500px;
+}
+.modlist-filter {
+  display: flex;
+  justify-content: center;
+  & input[type="text"] {
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--color-primary);
+    padding: 3px;
+    font-size: 16px;
+  }
+}
+.modlist-filetype-nav {
+  & ul {
+    display: flex;
+    justify-content: center;
+  }
+}
+.modlist-list-wrapper {
+  position: relative;
+  width: 100%;
+}
+.modlist-actions {
+  margin: var(--button-offset) 0;
+  & button {
+    border: none;
+    position: relative;
+    background: none;
+    padding: 3px 5px;
+    font-size: 1em;
+    cursor: pointer;
+    outline: none;
+    &:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      background-color: var(--color-primary);
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      transition: var(--anim-delay) transform ease;
+    }
+    &:hover:after {
+      transform: scale(1.1, 3);
+    }
+  }
+}
+.modlist-meta {
+  & .modlist-username,
+  & .modlist-gamedisplay,
+  & .modlist-enb,
+  & .modlist-tag,
+  & .modlist-showall {
+    margin: 10px 0;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (width <= 500px) {
+  .modlist-item-descriptor {
+    display: none;
+  }
+  .modlist-filetype-nav {
+    & ul {
+      flex-direction: column;
+      & li {
+        margin: 5px 0;
+      }
+    }
+  }
+  .modlist-filter {
+    flex-direction: column;
+    & > * {
+      margin: 5px 0;
+    }
+  }
+}

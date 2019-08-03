@@ -1,53 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width">
-	<meta name="theme-color" content="#E3A853">
-	<link rel="prefetech"/>
-	<link rel="manifest" href="/modwatch.webmanifest">
-	<link rel="icon" href="/images/modwatch.ico">
-	<link rel="icon" type="image/png" href="/images/modwatch_144.png">
-	<title>Modwat.ch</title>
-	<style type="text/css">
-		.slide-fade-enter-active {
-			transition: all .3s ease;
-		}
-		.slide-fade-leave-active {
-			transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-		}
-		.slide-fade-enter, .slide-fade-leave-to {
-			transform: translateX(10px);
-			opacity: 0;
-		}
-	</style>
-</head>
-<body style="min-height:1000px">
-	<div id="modwatch-app">
-		<noscript>
-			<header><h1 class="header"><a href="/" class="router-link-exact-active router-link-active no-underline">MODWATCH</a></h1></header>
-			<div class="content-wrapper">
-				<div class="view-wrapper">
-					<section>
-						<h2>This site requires Javascript</h2>
-						<p>
-							It looks like you've disabled javscript. Since this site is built
-							entirely with javascript, the site will be difficult to use
-							without it. Please enable javascript and reload.
-						</p>
-					</section>
-				</div>
-			</div>
-		</noscript>
-	</div>
-	<link rel="stylesheet" type="text/css" href="/dist/styles.css" />
-	<script type="text/javascript" src="/dist/bundle.js"></script>
-	<!-- <script>
-		if ("serviceWorker" in navigator) {
-			navigator.serviceWorker.register('/serviceworker.js');
-		}
-	</script> -->
-</body>
-
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#E3A853" />
+    <link rel="prefetech" />
+    <link rel="manifest" href="/modwatch.webmanifest" />
+    <link rel="icon" href="/images/modwatch.ico" />
+    <link rel="icon" type="image/png" href="/images/modwatch_144.png" />
+    <title>Modwat.ch</title>
+  </head>
+  <body style="min-height:1000px">
+    <div id="modwatch-app">
+      <noscript>
+        <header>
+          <h1 class="header">
+            <a
+              href="/"
+              class="router-link-exact-active router-link-active no-underline"
+              >MODWATCH</a
+            >
+          </h1>
+        </header>
+        <div class="content-wrapper">
+          <div class="view-wrapper">
+            <section>
+              <h2>This site requires Javascript</h2>
+              <p>
+                It looks like you've disabled javscript. Since this site is
+                built entirely with javascript, the site will be difficult to
+                use without it. Please enable javascript and reload.
+              </p>
+            </section>
+          </div>
+        </div>
+      </noscript>
+    </div>
+    <link rel="stylesheet" type="text/css" href="/dist/module/index.css" />
+    <script>
+      window.Promise || document.write("<script src=\"https://cdn.jsdelivr.net/npm/es6-promise/dist/es6-promise.auto.min.js\"><\/script>");
+    </script>
+    <script type="module" src="/dist/module/index.js"></script>
+    <script type="text/javascript" nomodule src="/dist/nomodule/index.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register('/serviceworker.js');
+      }
+    </script>
+  </body>
 </html>

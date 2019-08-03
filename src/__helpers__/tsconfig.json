@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": [
+    "./*.ts",
+    "../../micro.ts"
+  ],
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017"
+  }
+}

@@ -1,9 +1,5 @@
 *.private
-/config/*
 /node_modules/*
-/.c9/*
 .DS_Store
-/public/sw.js
 /firebase-debug.log
-/dist
 .cache
