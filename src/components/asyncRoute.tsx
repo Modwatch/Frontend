@@ -18,7 +18,7 @@ export default class AsyncRoute extends Component<
       componentData: null
     };
   }
-  async loadComponent() {
+  loadComponent = async () => {
     const componentData = await this.props.getComponent(
       this.props.url,
       noop,

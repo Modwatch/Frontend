@@ -34,7 +34,7 @@ export default class ModwatchModlists extends Component<{}, {
     debounceFilter: undefined,
     filter: ""
   };
-  async componentDidMount() {
+  componentDidMount = async () => {
     const modlists = await getModlists();
     this.setState(() => ({
       modlists: prettifyModlists(modlists)

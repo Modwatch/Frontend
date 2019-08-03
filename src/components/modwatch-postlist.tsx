@@ -70,7 +70,7 @@ export default class ModwatchPostList extends Component<
     posts: [],
     allPosts: []
   };
-  async componentDidMount() {
+  componentDidMount = async() => {
     const { metadata } = await import("../store/posts");
     const allPosts = []
       .concat(metadata)

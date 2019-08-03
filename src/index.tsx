@@ -9,8 +9,8 @@ import Router from "./router";
 import { store, actions } from "./store";
 import { verify } from "./store/pure";
 
-import Nav from "./components/modwatch-nav.jsx";
-import Notifications from "./components/modwatch-notifications.jsx";
+import Nav from "./components/modwatch-nav";
+import Notifications from "./components/modwatch-notifications";
 
 import { StoreProps } from "./types";
 

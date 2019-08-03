@@ -99,7 +99,7 @@ export default class ModlistWrapper extends Component<
       route(`/u/${this.props.matches.username}/${files[0]}`, true);
     }
   };
-  async componentDidMount() {
+  componentDidMount() {
     console.log("it mounts?");
     this.initialize({ clear: true });
   }
@@ -123,10 +123,10 @@ export default class ModlistWrapper extends Component<
     }));
   };
   shouldComponentUpdate(nextProps, nextState) {
-    const kPop = Object.keys(this.props).filter(k => typeof this.props[k] !== "function");
+    // const kPop = Object.keys(this.props).filter(k => typeof this.props[k] !== "function");
     // console.log("PROPS", kPop.map(k => ({ [k]: this.props[k] })), kPop.map(k => ({ [k]: nextProps[k] })));
 
-    const kState = Object.keys(this.state).filter(k => typeof this.state[k] !== "function");
+    // const kState = Object.keys(this.state).filter(k => typeof this.state[k] !== "function");
     // console.log("STATE", kState.map(k => ({ [k]: this.state[k] })), kState.map(k => ({ [k]: nextState[k] })));
 
     const valid = [
@@ -136,7 +136,7 @@ export default class ModlistWrapper extends Component<
     // console.log(valid);
     return valid.map(set => set[0] !== set[1]).some(_ => true);
   }
-  async componentDidUpdate(prevProps: ComponentProps) {
+  componentDidUpdate = async (prevProps: ComponentProps) => {
     if (typeof this.props.matches.username === "undefined") {
       return;
     }
