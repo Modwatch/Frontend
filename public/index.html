@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width" />
     <meta name="theme-color" content="#E3A853" />
-    <link rel="prefetech" />
     <link rel="manifest" href="/modwatch.webmanifest" />
     <link rel="icon" href="/images/modwatch.ico" />
     <link rel="icon" type="image/png" href="/images/modwatch_144.png" />
     <title>Modwat.ch</title>
+    <link rel="stylesheet" type="text/css" href="/dist/module/index.css" />
   </head>
   <body style="min-height:1000px">
     <div id="modwatch-app">
@@ -37,15 +37,14 @@
         </div>
       </noscript>
     </div>
-    <link rel="stylesheet" type="text/css" href="/dist/module/index.css" />
-    <script>
+    <script nomodule>
       window.Promise || document.write("<script src=\"https://cdn.jsdelivr.net/npm/es6-promise/dist/es6-promise.auto.min.js\"><\/script>");
     </script>
     <script type="module" src="/dist/module/index.js"></script>
     <script type="text/javascript" nomodule src="/dist/nomodule/index.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register('/serviceworker.js');
+        navigator.serviceWorker.register("/serviceworker.js");
       }
     </script>
   </body>

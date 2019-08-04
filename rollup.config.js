@@ -1,4 +1,6 @@
 import path from "path";
+import { readFile } from "fs";
+import { promisify } from "util";
 import glob from "tiny-glob";
 import { terser } from "rollup-plugin-terser";
 import postcss from "rollup-plugin-postcss";
@@ -9,7 +11,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import typescript from "rollup-plugin-typescript";
 import replace from "rollup-plugin-replace";
-import loadz0r from "rollup-plugin-loadz0r";
+import OMT from "@surma/rollup-plugin-off-main-thread";
 import visualizer from "rollup-plugin-visualizer";
 
 /* wild crazy mdx hacky shit */
@@ -19,6 +21,8 @@ import { transform } from "@swc/core";
 import { createFilter } from "rollup-pluginutils";
 
 const localPkg = require("./package.json");
+
+const readFileAsync = promisify(readFile);
 
 const env = {
   API_ENV: process.env.API_ENV,
@@ -69,7 +73,9 @@ export default async () => ({
         env.API_ENV === "production" || env.NODE_ENV === "production"
           ? JSON.stringify("https://api.modwat.ch")
           : JSON.stringify("http://localhost:3001"),
-      'import "preact/debug";': "",
+      ...(env.NODE_ENV !== "production" ? {} : {
+      'import "preact/debug";': ""
+      }),
       ...(env.NOMODULE
         ? {}
         : {
@@ -111,17 +117,23 @@ export default async () => ({
         })
       ].concat(env.NODE_ENV !== "production" ? [] : [cssnano()])
     }),
-    loadz0r({
-      // loader: await readFileAsync(
-      //   path.resolve(__dirname, "loader.ejs"),
-      //   "utf8"
-      // ),
-      publicPath: `/dist/${env.NOMODULE ? "no" : ""}module`
+    OMT({
+      loader: (await readFileAsync(
+        path.resolve(__dirname, "loadz0r", "loader.min.js"),
+        "utf8"
+      )).replace(/process\.env\.PUBLIC_PATH/g, JSON.stringify(`/dist/${env.NOMODULE ? "no" : ""}module`)),
+      prependLoader: (chunk, workerFiles) =>
+        (chunk.isEntry && chunk.fileName.includes("index.js")) || workerFiles.includes(chunk.facadeModuleId)
     })
   ].concat(
     env.NODE_ENV === "production"
       ? [
-          terser(),
+          terser({
+            ecma: env.NOMODULE ? 5 : 6,
+            compress: true,
+            mangle: true,
+            toplevel: true
+          }),
           visualizer({
             filename: `./node_modules/.visualizer/index-${
               env.NOMODULE ? "no" : ""

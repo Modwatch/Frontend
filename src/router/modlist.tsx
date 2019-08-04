@@ -100,7 +100,6 @@ export default class ModlistWrapper extends Component<
     }
   };
   componentDidMount() {
-    console.log("it mounts?");
     this.initialize({ clear: true });
   }
   updateFilter = ({ target }) => {

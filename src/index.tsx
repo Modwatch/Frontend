@@ -36,7 +36,7 @@ const token = (() => {
 })();
 
 class Root extends Component<StoreProps & { token: string }, {}> {
-  async componentDidMount() {
+  componentDidMount = async() => {
     if (!this.props.token && this.props.user && this.props.user.authenticated) {
       setTimeout(() => this.props.addNotification(`Welcome Back, ${this.props.user.username}`), 1);
     } else if (this.props.token === "401" || !(await verify(token))) {
