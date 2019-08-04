@@ -1,5 +1,8 @@
 var mod = "module";
 var singleRequire = function(name) {
+  if (name !== "require" && name.indexOf(".js") === -1) {
+    name = name + ".js";
+  }
   if (!registry[name]) {
     return new Promise(function(resolve) {
       if ("document" in self) {
