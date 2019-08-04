@@ -2,22 +2,17 @@ import path from "path";
 import { readFile } from "fs";
 import { promisify } from "util";
 import glob from "tiny-glob";
-import { terser } from "rollup-plugin-terser";
 import postcss from "rollup-plugin-postcss";
 import postcssNesting from "postcss-nesting";
 import postcssCustomProperties from "postcss-custom-properties";
-import cssnano from "cssnano";
 import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
-import typescript from "rollup-plugin-typescript";
-import replace from "rollup-plugin-replace";
+import replace from "rollup-plugin-re";
 import OMT from "@surma/rollup-plugin-off-main-thread";
-import visualizer from "rollup-plugin-visualizer";
 
 /* wild crazy mdx hacky shit */
 import mdx from "@mdx-js/mdx";
 import { transform } from "@swc/core";
-// import buble from "buble";
 import { createFilter } from "rollup-pluginutils";
 
 const localPkg = require("./package.json");
@@ -31,6 +26,7 @@ const env = {
 };
 
 const swcOptions = {
+  sourceMaps: true,
   jsc: {
     target: "es2016",
     parser: {
@@ -45,7 +41,7 @@ const swcOptions = {
 export default async () => ({
   input: ["src/index.tsx"].concat(await glob("src/router/posts/*.mdx")),
   output: {
-    sourceMap: env.NODE_ENV === "production",
+    sourcemap: env.NODE_ENV !== "production" ? "inline" : true,
     exports: "named",
     dir: path.resolve(
       __dirname,
@@ -62,25 +58,36 @@ export default async () => ({
     nodeResolve({
       extensions: ['.mjs', '.js', '.jsx', '.json', ".ts", ".tsx", ".mdx"]
     }),
+    replace({
+      replaces: {
+        "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
+        "process.env.VERSION": JSON.stringify(localPkg.version),
+        "process.env.NOMODULE": env.NOMODULE ? "true" : "false",
+        "process.env.API_URL":
+          env.API_ENV === "production" || env.NODE_ENV === "production"
+            ? JSON.stringify("https://api.modwat.ch")
+            : JSON.stringify("http://localhost:3001"),
+        ...(env.NODE_ENV !== "production" ? {} : {
+          "import \"preact/debug\";": "",
+          "import devtools from \"unistore/devtools\";": "",
+          "devtools(_store);": "_store;"
+        }),
+        ...(env.NOMODULE
+          ? {}
+          : {
+              'import "unfetch/polyfill/index";': ""
+            })
+      },
+      patterns: env.NODE_ENV !== "production" ? [{
+        test: /import .+ from \"\@modwatch\/types\";/,
+        replace: ""
+      }, {
+        test: /import .+ from \"\..+\/types\";/,
+        replace: ""
+      }] : []
+    }),
     commonjs({
       sourceMap: env.NODE_ENV === "production"
-    }),
-    replace({
-      "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
-      "process.env.VERSION": JSON.stringify(localPkg.version),
-      "process.env.NOMODULE": env.NOMODULE ? "true" : "false",
-      "process.env.API_URL":
-        env.API_ENV === "production" || env.NODE_ENV === "production"
-          ? JSON.stringify("https://api.modwat.ch")
-          : JSON.stringify("http://localhost:3001"),
-      ...(env.NODE_ENV !== "production" ? {} : {
-      'import "preact/debug";': ""
-      }),
-      ...(env.NOMODULE
-        ? {}
-        : {
-            'import "unfetch/polyfill/index";': ""
-          })
     }),
     mdxPlugin({
       include: ["./src/*/*.mdx", "./src/**/*.mdx"],
@@ -91,8 +98,7 @@ export default async () => ({
         include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)"],
         exclude: "node_modules/**",
         ...swcOptions
-      }) :
-      typescript({
+      }) : require("rollup-plugin-typescript")({
           include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)"],
           exclude: "node_modules/**",
           typescript: require("typescript"),
@@ -115,7 +121,7 @@ export default async () => ({
           importFrom: "./src/properties.css",
           preserve: false
         })
-      ].concat(env.NODE_ENV !== "production" ? [] : [cssnano()])
+      ].concat(env.NODE_ENV !== "production" ? [] : [require("cssnano")()])
     }),
     OMT({
       loader: (await readFileAsync(
@@ -128,13 +134,14 @@ export default async () => ({
   ].concat(
     env.NODE_ENV === "production"
       ? [
-          terser({
+          require("rollup-plugin-terser").terser({
             ecma: env.NOMODULE ? 5 : 6,
             compress: true,
             mangle: true,
-            toplevel: true
+            toplevel: true,
+            sourcemap: true
           }),
-          visualizer({
+          require("rollup-plugin-visualizer")({
             filename: `./node_modules/.visualizer/index-${
               env.NOMODULE ? "no" : ""
             }module.html`,
@@ -153,13 +160,14 @@ function swcPlugin(options) {
 
   return {
     name: "swc",
-    transform: async function(code, id) {
-      if(code.includes("interface") && id.includes(".ts")) return "{}";
+    transform: async (code, id) => {
       if (!filter(id)) return null;
 
       try {
+        const transformed = await transform(code, swcOptions);
         return {
-          code: (await transform(code, swcOptions)).code.replace(/React\.createElement/g, "h")
+          code: transformed.code.replace(/React\.createElement/g, "h"),
+          map: transformed.map.replace(/React\.createElement/g, "h")
         };
       } catch (e) {
         e.plugin = "swc";
@@ -178,7 +186,7 @@ function mdxPlugin(options) {
 
   return {
     name: "preact-mdx-swc",
-    transform: async function(code, id) {
+    transform: async (code, id) => {
       if (!filter(id)) return null;
 
       const jsx = `import { h } from "preact";\n${(await mdx(code)).replace(
@@ -187,6 +195,7 @@ function mdxPlugin(options) {
       )}`;
 
       const es5 = await transform(jsx, {
+        sourceMaps: true,
         jsc: {
           target: "es2016",
           parser: {

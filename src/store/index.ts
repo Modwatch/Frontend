@@ -1,5 +1,5 @@
 import createStore from "unistore";
-import devtools from "unistore/devtools";
+import devtools from "unistore/devtools"; // stripped in rolup for prod
 import jwtDecode from "jwt-decode";
 
 import { clearLocalState, setLocalState } from "./local"
@@ -13,8 +13,7 @@ const _store = createStore({
   user: user.username ? user : undefined
 });
 
-//@ts-ignore toggle devtools in prod
-export const store = process.env.NODE_ENV === "production" ? _store : devtools(_store);
+export const store = devtools(_store); // stripped in rollup for prod
 
 let notificationCounter = 0;
 

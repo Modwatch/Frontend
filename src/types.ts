@@ -1,5 +1,11 @@
 import { Game, Modlist } from "@modwatch/types";
 
+declare global {
+   namespace JSX {
+    type Element = preact.JSX.Element;
+  }
+}
+
 export type User = {
   authenticated: boolean;
   username: string;

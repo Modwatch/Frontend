@@ -1,7 +1,7 @@
 import { render, h, Component } from "preact";
 import { Link } from "preact-router";
 import { Provider, connect } from "unistore/preact";
-import "unfetch/polyfill/index";
+import "unfetch/polyfill/index"; // stripped in rollup for prod
 
 import "./global.css";
 

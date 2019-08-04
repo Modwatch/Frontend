@@ -1,5 +1,5 @@
 declare module "*.mdx" {
-  let MDXComponent: (props) => JSX.Element;
+  let MDXComponent: (props) => preact.JSX.Element;
   export default MDXComponent;
   export const metadata: {
     title: string;

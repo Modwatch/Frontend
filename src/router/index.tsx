@@ -3,11 +3,8 @@ import Router from "preact-router";
 import AsyncRoute from "../components/asyncRoute";
 
 import NotFound from "./notFound";
-// import Home from "./home";
-// import Modlist from "./modlist";
-// import Posts from "./posts";
 import Post from "../components/post";
-import { RouteProps, StoreProps } from '../types';
+import { RouteProps, StoreProps } from "../types";
 
 async function importPost(url, cb, props) {
   const DynamicPost = await import(`./${props.title}.js`);
@@ -18,18 +15,6 @@ export default class Routes extends Component<StoreProps, {}> {
   render() {
     return (
       <Router>
-        {/* <Home
-          path="/"
-          {...this.props}
-        />
-        <Modlist
-          path="/u/:username/:filetype?"
-          {...this.props as RouteProps}
-        />
-        <Posts
-          path="/posts"
-          {...this.props as RouteProps}
-        /> */}
         <AsyncRoute
           key={"home"}
           path="/"
