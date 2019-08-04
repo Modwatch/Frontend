@@ -22,7 +22,6 @@ export default class ModwatchNav extends Component<StoreProps, {
     this.setState(({ show }) => ({
       show: !show
     }));
-    console.log("toggle");
   }
   login = () => {
     window.location.replace(
