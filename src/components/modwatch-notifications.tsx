@@ -26,10 +26,13 @@ export default class Notifications extends Component<types.StoreProps, {}> {
     const { notifications, removeNotification } = this.props;
     return (
       <div style={styles.notificationsWrapper}>
-        {notifications.map((notification) => (
-          <Notification notification={notification} onRemove={_id => removeNotification(_id)} />
+        {notifications.map(notification => (
+          <Notification
+            notification={notification}
+            onRemove={_id => removeNotification(_id)}
+          />
         ))}
       </div>
     );
   }
-};
+}

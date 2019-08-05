@@ -87,7 +87,7 @@ export const prefsini: ModFile = [
   "uPersistentUuidData3=1390707462"
 ];
 export const game: Game = "skyrim";
-export const files: {[key: string]: number} = {
+export const files: { [key: string]: number } = {
   plugins: plugins.length,
   modlist: modlist.length,
   ini: ini.length,

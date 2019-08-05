@@ -1,6 +1,6 @@
 import { h, Component } from "preact";
 
-function noop() {};
+function noop() {}
 
 export default class AsyncRoute extends Component<
   {
@@ -28,7 +28,7 @@ export default class AsyncRoute extends Component<
     this.setState({
       componentData
     });
-  }
+  };
   componentWillReceiveProps(nextProps) {
     if (this.props.path && this.props.path !== nextProps.path) {
       this.setState(
@@ -47,7 +47,9 @@ export default class AsyncRoute extends Component<
   render() {
     if (this.state.componentData) {
       // return this.state.componentData; // preactX
-      return this.state.componentData.props ? this.state.componentData : h(this.state.componentData, this.props);
+      return this.state.componentData.props
+        ? this.state.componentData
+        : h(this.state.componentData, this.props);
     }
     return null;
   }

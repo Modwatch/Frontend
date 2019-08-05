@@ -9,7 +9,9 @@ export async function getModlists({
 }: {
   limit?: number;
 } = {}): Promise<PartialModlist[]> {
-  return await fetch(`${process.env.API_URL}/api/users/list/${limit}`).then(getJson);
+  return await fetch(`${process.env.API_URL}/api/users/list/${limit}`).then(
+    getJson
+  );
 }
 
 export async function searchModlists({
@@ -29,9 +31,9 @@ export async function getModlist({
 }: {
   username: string;
 }): Promise<Modlist> {
-  return await fetch(`${process.env.API_URL}/api/user/${_e(username)}/all`).then(
-    getJson
-  );
+  return await fetch(
+    `${process.env.API_URL}/api/user/${_e(username)}/all`
+  ).then(getJson);
 }
 
 export async function getModlistFileType({
@@ -74,13 +76,12 @@ export async function deleteModlist({
 }
 
 export async function verify(token: string): Promise<boolean> {
-  return (await fetch(
-    `${process.env.API_URL}/oauth/verify?t=${Date.now()}`,
-    {
+  return (
+    (await fetch(`${process.env.API_URL}/oauth/verify?t=${Date.now()}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       }
-    }
-  )).status === 200;
+    })).status === 200
+  );
 }

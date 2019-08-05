@@ -6,11 +6,14 @@ import "./modwatch-nav.css";
 
 import { StoreProps } from "../types";
 
-export default class ModwatchNav extends Component<StoreProps, {
-  show: boolean;
-  loginLink: string;
-  redirect_uri: string;
-}> {
+export default class ModwatchNav extends Component<
+  StoreProps,
+  {
+    show: boolean;
+    loginLink: string;
+    redirect_uri: string;
+  }
+> {
   state = {
     show: false,
     loginLink: `${process.env.API_URL}/oauth/authorize`,
@@ -22,29 +25,29 @@ export default class ModwatchNav extends Component<StoreProps, {
     this.setState(({ show }) => ({
       show: !show
     }));
-  }
+  };
   login = () => {
     window.location.replace(
-      `${this.state.loginLink}?client_id=modwatch&redirect_uri=${
-        this.state.redirect_uri
-      }&response_type=code`
+      `${this.state.loginLink}?client_id=modwatch&redirect_uri=${this.state.redirect_uri}&response_type=code`
     );
-  }
+  };
   logout = () => {
     this.props.logout();
     this.props.addNotification("Logged Out");
-  }
+  };
   gotoProfile = () => {
-    if(this.props.user) {
+    if (this.props.user) {
       route(`/u/${this.props.user.username}`);
       this.props.addNotification("Viewing Your Profile");
     }
-  }
+  };
   gotoHome = () => {
     route("/");
-  }
+  };
   render() {
-    const authenticated = this.props.user ? this.props.user.authenticated : false;
+    const authenticated = this.props.user
+      ? this.props.user.authenticated
+      : false;
     return (
       <div class="menu-wrapper">
         <div class="menu-toggle" onClick={this.toggleShow} />

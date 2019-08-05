@@ -5,11 +5,14 @@ import ModwatchPostList from "../components/modwatch-postlist";
 
 import { PostMetadata } from "../types";
 
-export default class Home extends Component<{
-  path?: string;
-}, {
-  posts: PostMetadata[];
-}> {
+export default class Home extends Component<
+  {
+    path?: string;
+  },
+  {
+    posts: PostMetadata[];
+  }
+> {
   render() {
     return (
       <div>
@@ -32,7 +35,7 @@ export default class Home extends Component<{
         </section>
         {/* <section>
           <h2>Blog</h2> */}
-          <ModwatchPostList />
+        <ModwatchPostList />
         {/* </section> */}
         <section>
           <h2>Latest Modlists</h2>
@@ -41,4 +44,4 @@ export default class Home extends Component<{
       </div>
     );
   }
-};
+}

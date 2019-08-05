@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import { PostMetadata } from '../types';
+import { PostMetadata } from "../types";
 
 const styles = {
   header: {
@@ -19,13 +19,11 @@ const styles = {
   tag: {
     margin: "0 3px"
   },
-  timestamp: {
-
-  },
+  timestamp: {},
   content: {
     padding: "0 25px"
   }
-}
+};
 
 export const Header = props => (
   <header style={styles.header}>
@@ -42,7 +40,10 @@ export const Header = props => (
   </header>
 );
 
-export default class Post extends Component<PostMetadata & { content: any }, {}> {
+export default class Post extends Component<
+  PostMetadata & { content: any },
+  {}
+> {
   render() {
     return (
       <div>

@@ -70,7 +70,7 @@ export default class ModwatchPostList extends Component<
     posts: [],
     allPosts: []
   };
-  componentDidMount = async() => {
+  componentDidMount = async () => {
     const { metadata } = await import("../store/posts");
     const allPosts = []
       .concat(metadata)
@@ -81,25 +81,24 @@ export default class ModwatchPostList extends Component<
       }));
     this.setState({
       allPosts,
-      posts: allPosts.slice(
-        0,
-        !this.props.unlimited ? MAX_POSTS : undefined
-      ).concat(this.props.unlimited ? allPosts.concat(allPosts) : [])
+      posts: allPosts
+        .slice(0, !this.props.unlimited ? MAX_POSTS : undefined)
+        .concat(this.props.unlimited ? allPosts.concat(allPosts) : [])
     });
-  }
+  };
   componentWillReceiveProps(nextProps) {
     if (this.props.unlimited !== nextProps.unlimited) {
       this.setState(({ allPosts }) => ({
-        posts: allPosts.slice(
-          0,
-          !nextProps.unlimited ? MAX_POSTS : undefined
-        )
+        posts: allPosts.slice(0, !nextProps.unlimited ? MAX_POSTS : undefined)
       }));
     }
   }
   render() {
     return (
-      <div style={styles.div} class={`postlist${this.props.unlimited ? "" : " limited"}`}>
+      <div
+        style={styles.div}
+        class={`postlist${this.props.unlimited ? "" : " limited"}`}
+      >
         <h2 style={styles.h2}>{this.props.title || "Latest Blog Posts"}</h2>
         <ul style={styles.ul}>
           {this.state.posts.map(post => (
@@ -109,7 +108,7 @@ export default class ModwatchPostList extends Component<
                 class="no-underline"
                 href={`/post/${post.id}`}
               >
-                <img style={styles.img} alt={post.title}/>
+                <img style={styles.img} alt={post.title} />
                 <span style={styles.span}>
                   <span>{post.title}</span>
                   <span>{post._timestamp}</span>
@@ -120,7 +119,9 @@ export default class ModwatchPostList extends Component<
         </ul>
         {!this.props.unlimited && (
           <div style={styles.more}>
-            <Link class="no-underline" href="/posts"><button>More Posts</button></Link>
+            <Link class="no-underline" href="/posts">
+              <button>More Posts</button>
+            </Link>
           </div>
         )}
       </div>

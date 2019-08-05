@@ -2,7 +2,7 @@ import createStore from "unistore";
 import devtools from "unistore/devtools"; // stripped in rolup for prod
 import jwtDecode from "jwt-decode";
 
-import { clearLocalState, setLocalState } from "./local"
+import { clearLocalState, setLocalState } from "./local";
 
 import { GlobalState } from "../types";
 
@@ -55,24 +55,36 @@ export const actions = store => ({
     const _id = `${notificationCounter++}`;
     return {
       ...state,
-      notifications: state.notifications.concat({ message, removalDelay, delay, _id, type, softDelete: false })
-    }
+      notifications: state.notifications.concat({
+        message,
+        removalDelay,
+        delay,
+        _id,
+        type,
+        softDelete: false
+      })
+    };
   },
   removeNotification(state: GlobalState, _id: string) {
-    const onlyActiveIndex = state.notifications.map(({ softDelete }) => softDelete).indexOf(false);
-    if(onlyActiveIndex === 0 && state.notifications[0]._id === _id) {
+    const onlyActiveIndex = state.notifications
+      .map(({ softDelete }) => softDelete)
+      .indexOf(false);
+    if (onlyActiveIndex === 0 && state.notifications[0]._id === _id) {
       notificationCounter = 0;
       return { notifications: [] };
     }
     const index = state.notifications.map(({ _id }) => _id).indexOf(_id);
-    if(index !== -1) {
+    if (index !== -1) {
       return {
         ...state,
-        notifications: state.notifications.slice(0, index).concat({
-          ...state.notifications[index],
-          softDelete: true,
-        }).concat(state.notifications.slice(index + 1))
-      }
+        notifications: state.notifications
+          .slice(0, index)
+          .concat({
+            ...state.notifications[index],
+            softDelete: true
+          })
+          .concat(state.notifications.slice(index + 1))
+      };
     }
   }
 });

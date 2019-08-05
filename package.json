@@ -14,7 +14,7 @@
     "serve": "now dev",
     "premicro": "tsc -p ./src/__helpers__/tsconfig.json",
     "micro": "micro-dev -p 3001",
-    "prettier": "prettier --write 'src/**/*.{js,jsx,css}'",
+    "prettier": "prettier --write 'src/**/*.{js,jsx,css,ts,tsx}'",
     "deploy:ci": "firebase use testing-ee4f4 --token $FIREBASE_TOKEN && firebase deploy --non-interactive --token $FIREBASE_TOKEN"
   },
   "precommit": [

@@ -6,5 +6,5 @@ declare module "*.mdx" {
     author: string;
     tags: string[];
     timestamp: Date;
-  }
+  };
 }

@@ -1,7 +1,7 @@
 import { Game, Modlist } from "@modwatch/types";
 
 declare global {
-   namespace JSX {
+  namespace JSX {
     type Element = preact.JSX.Element;
   }
 }

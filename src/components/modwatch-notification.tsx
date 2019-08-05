@@ -47,18 +47,21 @@ const styles = {
   }
 };
 
-export default class Notification extends Component<{ notification: types.Notification, onRemove(_id: string) }, {
-  removingTimeout?: number;
-  removeTimeout?: number;
-  removing: boolean;
-}> {
+export default class Notification extends Component<
+  { notification: types.Notification; onRemove(_id: string) },
+  {
+    removingTimeout?: number;
+    removeTimeout?: number;
+    removing: boolean;
+  }
+> {
   state = {
     removingTimeout: undefined,
     removeTimeout: undefined,
     removing: false
   };
   componentDidMount() {
-    if(this.props.notification.delay !== -1) {
+    if (this.props.notification.delay !== -1) {
       const { onRemove } = this.props;
       const { delay, removalDelay, _id } = this.props.notification;
       const removingTimeout = window.setTimeout(() => {
@@ -78,7 +81,7 @@ export default class Notification extends Component<{ notification: types.Notifi
   removeOnClick = () => {
     const { onRemove, notification } = this.props;
     const { removingTimeout, removeTimeout, removing } = this.state;
-    if(!removing) {
+    if (!removing) {
       clearTimeout(removingTimeout);
       clearTimeout(this.state.removeTimeout);
       this.setState({
@@ -95,7 +98,7 @@ export default class Notification extends Component<{ notification: types.Notifi
       clearTimeout(removeTimeout);
       onRemove(notification._id);
     }
-  }
+  };
   componentWillUnmount() {
     clearTimeout(this.state.removingTimeout);
     clearTimeout(this.state.removeTimeout);
@@ -106,20 +109,22 @@ export default class Notification extends Component<{ notification: types.Notifi
     return (
       <div
         key={notification._id}
-        style={!notification.softDelete ? {
-          ...styles.notification,
-          transition: `opacity ${(notification.removalDelay)}ms ease`,
-          ...styles[notification.type],
-          ...(!removing ? {} : styles.removing)
-        } : styles.softDelete}
+        style={
+          !notification.softDelete
+            ? {
+                ...styles.notification,
+                transition: `opacity ${notification.removalDelay}ms ease`,
+                ...styles[notification.type],
+                ...(!removing ? {} : styles.removing)
+              }
+            : styles.softDelete
+        }
         onClick={this.removeOnClick}
       >
         <div style={styles.notificationsWrapperBefore} />
-        <div key={`notification-${key}`}>
-          {notification.message}
-        </div>
+        <div key={`notification-${key}`}>{notification.message}</div>
         <div style={styles.notificationsWrapperAfter} />
       </div>
     );
   }
-};
+}

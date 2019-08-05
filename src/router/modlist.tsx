@@ -65,7 +65,7 @@ export default class ModlistWrapper extends Component<
     super(props);
     this.state = {
       ...initialState,
-      isAdmin: props.user && props.user.scopes.indexOf("admin") !== -1,
+      isAdmin: props.user && props.user.scopes.indexOf("admin") !== -1
       // filetype: props.matches.filetype || undefined
     };
   }
@@ -153,7 +153,7 @@ export default class ModlistWrapper extends Component<
         }
       }));
     }
-  }
+  };
   render() {
     const { matches, user, deleteModlist } = this.props;
     const {
