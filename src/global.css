@@ -96,7 +96,7 @@ a {
     position: absolute;
     left: 0;
     background: var(--color-primary);
-    transition: calc(0.5 * var(--anim-delay)) transform ease;
+    transition: var(--anim-delay) transform ease;
     transform: scaleX(0);
     will-change: transform;
   }
@@ -150,7 +150,7 @@ a {
   height: 100%;
   opacity: 1;
   transform: translate3d(0, 0, 0);
-  transition: opacity 150ms ease, transform 150ms ease; /* needs to match transition constant in src/router/index.tsx */
+  transition: opacity var(--anim-delay) ease, transform var(--anim-delay) ease; /* needs to match transition constant in src/router/index.tsx */
   &.fading {
     opacity: 0;
     transform: translate3d(10px, 0, 0);

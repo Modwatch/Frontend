@@ -1,7 +1,7 @@
 :root {
   --menu-offset: 20px;
   --button-offset: 10px;
-  --anim-delay: 0.3s;
+  --anim-delay: 150ms;
   --icon-size: 48px;
   --icon-subsize: 30px;
   --color-primary: #d58717;
