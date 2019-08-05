@@ -19,23 +19,50 @@ const styles = {
   tag: {
     margin: "0 3px"
   },
-  timestamp: {},
+  section: {
+    padding: "25px 10%"
+  },
+  timestamp: {
+    color: "#d58717"
+  },
+  author: {
+    color: "#d58717"
+  },
   content: {
-    padding: "0 25px"
+    textAlign: "left",
+    fontSize: "16px"
   }
 };
+
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+
+const d = new Date();
 
 export const Header = props => (
   <header style={styles.header}>
     <h1>{props.title}</h1>
     {props.subtitle && <p>{props.subtitle}</p>}
     <span style={styles.tagTimestampWrapper}>
-      <p style={styles.timestamp}>{new Date(props.timestamp).toDateString()}</p>
-      <ul style={styles.tags}>
+      <p style={styles.author}>{props.author}</p>
+      <p style={styles.timestamp} title={d.toUTCString()}>{months[d.getMonth()]}{" "}{d.getDate()}{", "}{d.getFullYear()}</p>
+      {/* <ul style={styles.tags}>
         {props.tags.map(tag => (
           <li style={styles.tag}>{tag}</li>
         ))}
-      </ul>
+      </ul> */}
     </span>
   </header>
 );
@@ -46,10 +73,10 @@ export default class Post extends Component<
 > {
   render() {
     return (
-      <div>
-        <section>
+      <div class="post-wrapper">
+        <section style={styles.section}>
           <Header {...this.props} content={undefined} />
-          <span style={styles.content}>
+          <span style={styles.content} class="post-content">
             <this.props.content {...this.props} content={undefined} />
           </span>
         </section>

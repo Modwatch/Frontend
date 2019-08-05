@@ -4,10 +4,18 @@ export const metadata = {
   title: "Optimizing Rollup for Development",
   author: "Aaron Ballard",
   tags: ["rollup", "optimization", "iteration"],
-  timestamp: "3/21/2019"
+  timestamp: "8/4/2019"
 };
 
-Below is an example of JSX embedded in Markdown. <br /> **Try and change
-the background color!**
+My workflow has come a long way from sticking script tags in an html file and sprinkling jquery on my problems. Since then I've moved into using a pretty extensive set of tools to transpile, minify, bundle, split, and otherwise beat my code into various forms. It's almost necessary for a lot of javascript-based development anymore. But this doesn't come without a cost. The more work you're offloading to the command line, the longer it takes before you see your changes on the page. That perceptible delay between builds can really disrupt your rhythm.
 
-Hello world
+I first started trying to get my build iteration times down when I had to go back and work on a site I'd made several years ago. It used browserify for npm modules and babel to transpile, and that was pretty much it. And it felt _unbelievably_ fast. I thought I'd done something wrong, because surely it hadn't run correctly that quickly. And suddenly working on my latest projects felt so sluggish. Large pages could take 10 seconds on initial build, and only slightly less on changes. I was determined to dive in and cut those times, without losing the otherwise-fantastic development experience.
+
+<blockquote style="width: 90%; margin: 0; padding: 3% 5%; border: 1px solid #a5a5a5">
+I'm going to go through this post focusing on rollup, but some ideas should carry over to webpack or other tools, if that's what you prefer. This also focuses on tools I use myself, so I've split the following into sections so you can focus on pieces you use/are interested in.
+</blockquote>
+
+## PostCSS
+
+PostCSS is a tool for manipulating CSS via plugins. Anything from autoprefixer to future syntax to resolving imports, PostCSS is robust. But it can really start to drag when you throw more and more plugins on the pile. An easy way to do this is by using `postcss-preset-env`. I love this package because it makes choosing features, or even sets of features, incredibly easy. But specifying the specific plugins you need, especially development vs production, can be the difference of several seconds.
+

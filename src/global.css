@@ -18,12 +18,14 @@ section {
   &:last-child {
     margin-bottom: initial;
   }
-  & h1 {
+  & h1,
+  & h2 {
     border-bottom: 1px solid var(--color-border);
+  }
+  & h1 {
     padding-bottom: 15px;
   }
   & h2 {
-    border-bottom: 1px solid var(--color-border);
     padding-bottom: 10px;
   }
   & p {
@@ -154,6 +156,15 @@ a {
   &.fading {
     opacity: 0;
     transform: translate3d(10px, 0, 0);
+  }
+}
+.post-wrapper header {
+  margin-bottom: 25px !important;
+}
+.post-content p {
+  margin: 25px 0;
+  &:first-child {
+    margin-top: 0;
   }
 }
 
