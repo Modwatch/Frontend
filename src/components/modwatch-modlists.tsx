@@ -43,7 +43,7 @@ export default class ModwatchModlists extends Component<
       modlists: prettifyModlists(modlists)
     }));
   };
-  search = (value = "", debounce = 250) => {
+  search = (value = "", debounce = 150) => {
     clearTimeout(this.state.debounceFilter);
     this.setState(() => ({
       filter: value,
@@ -111,7 +111,6 @@ export default class ModwatchModlists extends Component<
                 <td style={styles.td}>{this.state.gameMap[game]}</td>
                 <td
                   style={styles.td}
-                  title={timestampTitle}
                   class="responsive-hide"
                 >
                   {displayTimestamp}
@@ -134,8 +133,7 @@ function prettifyModlists(modlists: PartialModlist[]): PartialModlist[] {
         ...m,
         game: m.game || "skyrim",
         encodedUsername: encodeURIComponent(m.username),
-        displayTimestamp: t.toLocaleTimeString(),
-        timestampTitle: t.toLocaleString()
+        displayTimestamp: t.toLocaleString()
       }
     )
   );

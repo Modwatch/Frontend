@@ -12,7 +12,9 @@ import OMT from "@surma/rollup-plugin-off-main-thread";
 
 /* wild crazy mdx hacky shit */
 import mdx from "@mdx-js/mdx";
-import { transform } from "@swc/core";
+// import { transform } from "@swc/core";
+import { transform } from "sucrase";
+import sucrase from "rollup-plugin-sucrase";
 import { createFilter } from "rollup-pluginutils";
 
 const localPkg = require("./package.json");
@@ -66,38 +68,41 @@ export default async () => ({
         "process.env.API_URL":
           env.API_ENV === "production" || env.NODE_ENV === "production"
             ? JSON.stringify("https://api.modwat.ch")
-            : JSON.stringify("http://localhost:3001"),
-        ...(env.NODE_ENV !== "production" ? {} : {
-          "import \"preact/debug\";": "",
-          "import devtools from \"unistore/devtools\";": "",
-          "devtools(_store);": "_store;"
-        }),
-        ...(env.NOMODULE
-          ? {}
-          : {
-              'import "unfetch/polyfill/index";': ""
-            })
+            : JSON.stringify("http://localhost:3001")
       },
-      patterns: env.NODE_ENV !== "production" ? [{
-        test: /import .+ from \"\@modwatch\/types\";/,
-        replace: ""
+      patterns: (env.NODE_ENV !== "production" ? [/*{
+        test: /(import .+ from \"\@modwatch\/types\";)/,
+        replace: "// $1 // removed at build time"
       }, {
-        test: /import .+ from \"\..+\/types\";/,
-        replace: ""
-      }] : []
+        test: /(import .+ from \"\..+\/types\";)/,
+        replace: "// $1 // removed at build time"
+      }, {
+        test: /(.+)\s*\/\/\/PROD_ONLY$/,
+        replace: "// $1 // removed at build time"
+      }*/] : [{
+        test: /(.+)\s*\/\/\/DEV_ONLY$/,
+        replace: "// $1 // removed at build time"
+      }]).concat(env.NOMODULE ? [] : [{
+        test: /(.+)\s*\/\/\/NOMODULE_ONLY$/,
+        replace: "// $1 // removed at build time"
+      }])
     }),
     commonjs({
       sourceMap: env.NODE_ENV === "production"
     }),
     mdxPlugin({
-      include: ["./src/*/*.mdx", "./src/**/*.mdx"],
+      include: ["./src/**/*.mdx"],
       exclude: "node_modules/**"
     }),
     env.NODE_ENV !== "production" ?
-      swcPlugin({
+      sucrase({
         include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)"],
         exclude: "node_modules/**",
-        ...swcOptions
+        transforms: [
+          "jsx",
+          "typescript"
+        ],
+        jsxPragma: "h"
       }) : require("rollup-plugin-typescript")({
           include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)"],
           exclude: "node_modules/**",
@@ -154,38 +159,12 @@ export default async () => ({
   )
 });
 
-function swcPlugin(options) {
-  if (!options) options = {};
-  const filter = createFilter(options.include, options.exclude);
-
-  return {
-    name: "swc",
-    transform: async (code, id) => {
-      if (!filter(id)) return null;
-
-      try {
-        const transformed = await transform(code, swcOptions);
-        return {
-          code: transformed.code.replace(/React\.createElement/g, "h"),
-          map: transformed.map.replace(/React\.createElement/g, "h")
-        };
-      } catch (e) {
-        e.plugin = "swc";
-        if (!e.loc) e.loc = {};
-        e.loc.file = id;
-        e.frame = e.snippet;
-        throw e;
-      }
-    }
-  };
-}
-
 function mdxPlugin(options) {
   if (!options) options = {};
   const filter = createFilter(options.include, options.exclude);
 
   return {
-    name: "preact-mdx-swc",
+    name: "preact-mdx-sucrase",
     transform: async (code, id) => {
       if (!filter(id)) return null;
 
@@ -195,29 +174,18 @@ function mdxPlugin(options) {
       )}`;
 
       const es5 = await transform(jsx, {
-        sourceMaps: true,
-        jsc: {
-          target: "es2016",
-          parser: {
-            "syntax": "ecmascript",
-            "jsx": true,
-            "dynamicImport": false
-          },
-          transform: {
-            "react": {
-              "pragma": "h",
-              "pragmaFrag": "h",
-              "development": false,
-              "useBuiltins": false
-            }
-          }
-        }
+        transforms: [
+          "jsx",
+          "typescript"//,
+          // "imports"
+        ],
+        jsxPragma: "h"
       });
 
       try {
         return es5;
       } catch (e) {
-        e.plugin = "preact-mdx-swc";
+        e.plugin = "preact-mdx-sucrase";
         if (!e.loc) e.loc = {};
         e.loc.file = id;
         e.frame = e.snippet;

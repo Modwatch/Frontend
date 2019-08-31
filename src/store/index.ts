@@ -1,5 +1,5 @@
 import createStore from "unistore";
-import devtools from "unistore/devtools"; // stripped in rolup for prod
+import devtools from "unistore/devtools"; ///DEV_ONLY
 import jwtDecode from "jwt-decode";
 
 import { clearLocalState, setLocalState } from "./local";
@@ -8,12 +8,14 @@ import { GlobalState } from "../types";
 
 const user = JSON.parse(localStorage.getItem("modwatch.user") || "{}");
 
-const _store = createStore({
+let _store = createStore({
   notifications: [],
-  user: user.username ? user : undefined
+  user: user.username ? user : undefined,
+  adsenseScriptLoaded: false
 });
 
-export const store = devtools(_store); // stripped in rollup for prod
+_store = devtools(_store); ///DEV_ONLY
+export const store = _store;
 
 let notificationCounter = 0;
 
@@ -37,6 +39,25 @@ export const actions = store => ({
     return {
       ...state,
       user: undefined
+    };
+  },
+  async loadAdsenseAds(state: GlobalState) {
+    if(state.adsenseScriptLoaded) {
+      return state;
+    }
+    const s = document.createElement("script");
+    s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+    s.async = true;
+    document.body.appendChild(s);
+    await new Promise(resolve => {
+      s.addEventListener("load", () => {
+        s.parentNode.removeChild(s);
+        resolve();
+      });
+    });
+    return {
+      ...state,
+      adsenseScriptLoaded: true
     };
   },
   addNotification(
@@ -65,6 +86,7 @@ export const actions = store => ({
       })
     };
   },
+  /* ok then */
   removeNotification(state: GlobalState, _id: string) {
     const onlyActiveIndex = state.notifications
       .map(({ softDelete }) => softDelete)

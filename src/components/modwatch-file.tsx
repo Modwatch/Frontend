@@ -1,72 +1,69 @@
-import { h } from "preact";
+import { h, Component } from "preact";
 
 import "./modwatch-file.css";
 
 import { Line } from "../types";
 
-export default (
-  {
-    lines = [],
-    complexLines,
-    showDescriptor,
-    filetype,
-    filter,
-    showInactiveMods
-  }: {
-    lines: string[];
-    complexLines: boolean;
-    showDescriptor: boolean;
-    filetype?: string;
-    filter: string;
-    showInactiveMods: boolean;
-  } = {
-    lines: [],
-    complexLines: false,
-    showDescriptor: false,
-    filter: "",
-    showInactiveMods: false
+export default class ModwatchFile extends Component<{
+  lines: string[];
+  complexLines: boolean;
+  showDescriptor: boolean;
+  filetype?: string;
+  filter: string;
+  showInactiveMods: boolean;
+}> {
+  render() {
+    const {
+      lines = [],
+      complexLines = false,
+      showDescriptor = false,
+      filetype,
+      filter = "",
+      showInactiveMods = false
+    } = this.props;
+    return (
+      <div>
+        <ul>
+          {(!complexLines
+            ? lines.map((line, index) =>
+                stringToSimpleLine(
+                  line,
+                  index,
+                  filetype,
+                  filter.toLowerCase(),
+                  showInactiveMods
+                )
+              )
+            : lines.map((line, index) =>
+                stringToComplexLine(line, index, filter.toLowerCase())
+              )
+          ).map(
+            line =>
+              !line.hide && (
+                <li
+                  class={`modlist-item ${line.descriptor ? line.descriptor : ""} ${
+                    line.type ? line.type : ""
+                  }`}
+                >
+                  <span class="modlist-item-index unselectable">{line.index}.</span>
+                  <span class="modlist-item-content">
+                    {line.content.map(chunk => (
+                      <span class={chunk.class}>{chunk.display}</span>
+                    ))}
+                  </span>
+                  <span class="modlist-item-descriptor">
+                    {showDescriptor && line.descriptor !== "comment"
+                      ? line.descriptor
+                      : ""}
+                  </span>
+                </li>
+              )
+          )}
+        </ul>
+      </div>
+    );
   }
-) => (
-  <div>
-    <ul>
-      {(!complexLines
-        ? lines.map((line, index) =>
-            stringToSimpleLine(
-              line,
-              index,
-              filetype,
-              filter.toLowerCase(),
-              showInactiveMods
-            )
-          )
-        : lines.map((line, index) =>
-            stringToComplexLine(line, index, filter.toLowerCase())
-          )
-      ).map(
-        line =>
-          !line.hide && (
-            <li
-              class={`modlist-item ${line.descriptor ? line.descriptor : ""} ${
-                line.type ? line.type : ""
-              }`}
-            >
-              <span class="modlist-item-index unselectable">{line.index}.</span>
-              <span class="modlist-item-content">
-                {line.content.map(chunk => (
-                  <span class={chunk.class}>{chunk.display}</span>
-                ))}
-              </span>
-              <span class="modlist-item-descriptor">
-                {showDescriptor && line.descriptor !== "comment"
-                  ? line.descriptor
-                  : ""}
-              </span>
-            </li>
-          )
-      )}
-    </ul>
-  </div>
-);
+}
 
 const typeMap = {
   b: "type-boolean",

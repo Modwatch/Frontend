@@ -33,10 +33,16 @@ export default class Home extends Component<
             show people what mods they're using.
           </p>
         </section>
-        {/* <section>
-          <h2>Blog</h2> */}
-        <ModwatchPostList />
-        {/* </section> */}
+        <section>
+          <a href="http://www.nexusmods.com/skyrim/mods/56640" target="_blank">
+            <h2 style={{
+              paddingBottom: 0,
+              marginBottom: 0,
+              borderBottom: 0
+            }}>Download Here</h2>
+          </a>
+        </section>
+        {/* <ModwatchPostList /> */}
         <section>
           <h2>Latest Modlists</h2>
           <ModwatchModlists />

@@ -98,9 +98,10 @@ export default class ModlistWrapper extends Component<
     if (!files.includes(this.props.matches.filetype)) {
       route(`/u/${this.props.matches.username}/${files[0]}`, true);
     }
-  };
-  componentDidMount() {
+  }
+  async componentDidMount() {
     this.initialize({ clear: true });
+    this.props.loadAdsenseAds();
   }
   updateFilter = ({ target }) => {
     if (this.state.filtering) {
@@ -115,12 +116,12 @@ export default class ModlistWrapper extends Component<
         }));
       }, 200)
     }));
-  };
+  }
   toggleActiveMods = () => {
     this.setState(({ showInactiveMods }) => ({
       showInactiveMods: !showInactiveMods
     }));
-  };
+  }
   shouldComponentUpdate(nextProps, nextState) {
     // const kPop = Object.keys(this.props).filter(k => typeof this.props[k] !== "function");
     // console.log("PROPS", kPop.map(k => ({ [k]: this.props[k] })), kPop.map(k => ({ [k]: nextProps[k] })));
@@ -132,7 +133,6 @@ export default class ModlistWrapper extends Component<
       [this.state.filetype, nextState.filetype],
       [this.props.url, nextProps.url]
     ];
-    // console.log(valid);
     return valid.map(set => set[0] !== set[1]).some(_ => true);
   }
   componentDidUpdate = async (prevProps: ComponentProps) => {
@@ -153,7 +153,7 @@ export default class ModlistWrapper extends Component<
         }
       }));
     }
-  };
+  }
   render() {
     const { matches, user, deleteModlist } = this.props;
     const {
@@ -184,6 +184,14 @@ export default class ModlistWrapper extends Component<
             </div>
           )}
         </section>
+        <ins class="adsbygoogle"
+          style="display:block;width: 100%; height: 100px;margin-bottom: 25px;"
+          data-ad-client="ca-pub-8579998974655014"
+          data-ad-slot="1008233292"
+          data-ad-format="auto"
+          data-full-width-responsive="true">
+
+        </ins>
         <section class="modlist-content">
           <nav class="modlist-filetype-nav">
             <ul>

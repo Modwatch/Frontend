@@ -54,10 +54,12 @@ export type GlobalState = {
   // modlist?: Modlist;
   notifications: Notification[];
   user?: User;
+  adsenseScriptLoaded: boolean;
 };
 
 export type Actions = {
   login(token: string): void;
+  loadAdsenseAds(): void;
   logout(): void;
   deleteModlist(username?: string): void;
   addNotification(

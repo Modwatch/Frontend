@@ -1,7 +1,7 @@
 import { render, h, Component } from "preact";
 import { Link } from "preact-router";
 import { Provider, connect } from "unistore/preact";
-import "unfetch/polyfill/index"; // stripped in rollup for prod
+import "unfetch/polyfill/index"; ///NOMODULE_ONLY
 
 import "./global.css";
 
@@ -14,7 +14,8 @@ import Notifications from "./components/modwatch-notifications";
 
 import { StoreProps } from "./types";
 
-import "preact/debug";
+import "preact/debug"; ///DEV_ONLY
+import "./ga.js"; ///PROD_ONLY
 
 console.log(`Modwatch:
 VERSION:\t${process.env.VERSION}
@@ -95,7 +96,3 @@ render(
   </Provider>,
   document.getElementById("modwatch-app")
 );
-
-// if (process.env.NODE_ENV === "production") {
-//   // require("./ga.js");
-// }
