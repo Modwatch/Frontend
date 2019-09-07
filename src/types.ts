@@ -54,19 +54,22 @@ export type GlobalState = {
   // modlist?: Modlist;
   notifications: Notification[];
   user?: User;
-  adsenseScriptLoaded: boolean;
+  adsense: {
+    loaded: boolean;
+    failed: boolean;
+  };
 };
 
 export type Actions = {
-  login(token: string): void;
-  loadAdsenseAds(): void;
-  logout(): void;
-  deleteModlist(username?: string): void;
+  login(token: string): Promise<void>;
+  loadAdsenseAds(): Promise<void>;
+  logout(): Promise<void>;
+  deleteModlist(username?: string): Promise<void>;
   addNotification(
     message: string,
     options?: { type?: string; delay?: number; removalDelay?: number }
-  ): void;
-  removeNotification(_id: string): void;
+  ): Promise<void>;
+  removeNotification(_id: string): Promise<void>;
 };
 
 export interface StoreProps extends GlobalState, Actions {}

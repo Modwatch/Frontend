@@ -2,17 +2,22 @@ import createStore from "unistore";
 import devtools from "unistore/devtools"; ///DEV_ONLY
 import jwtDecode from "jwt-decode";
 
-import { clearLocalState, setLocalState } from "./local";
+import { clearLocalState, setLocalState, getLocalState } from "./local";
 
 import { GlobalState } from "../types";
 
-const user = JSON.parse(localStorage.getItem("modwatch.user") || "{}");
+const user = JSON.parse(getLocalState() || "{}");
 
-let _store = createStore({
+export const rawState = {
   notifications: [],
   user: user.username ? user : undefined,
-  adsenseScriptLoaded: false
-});
+  adsense: {
+    loaded: false,
+    failed: false
+  }
+};
+
+let _store = createStore(rawState);
 
 _store = devtools(_store); ///DEV_ONLY
 export const store = _store;
@@ -42,23 +47,43 @@ export const actions = store => ({
     };
   },
   async loadAdsenseAds(state: GlobalState) {
-    if(state.adsenseScriptLoaded) {
+    if(state.adsense.loaded || state.adsense.failed) {
       return state;
     }
     const s = document.createElement("script");
     s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
     s.async = true;
     document.body.appendChild(s);
-    await new Promise(resolve => {
-      s.addEventListener("load", () => {
-        s.parentNode.removeChild(s);
-        resolve();
+    try {
+      await new Promise((resolve, reject) => {
+        s.addEventListener("load", () => {
+          s.parentNode.removeChild(s);
+          resolve();
+        });
+        s.addEventListener("error", e => {
+          s.parentNode.removeChild(s);
+          reject(e);
+          window.setTimeout(() => {
+            store.setState(actions(store).addNotification(store.getState(), "Ads Blocked"));
+          }, 1);
+        });
       });
-    });
-    return {
-      ...state,
-      adsenseScriptLoaded: true
-    };
+      return {
+        ...state,
+        adsense: {
+          loaded: true,
+          failed: false
+        }
+      };
+    } catch(e) {
+      return {
+        ...state,
+        adsense: {
+          loaded: false,
+          failed: true
+        }
+      }
+    }
   },
   addNotification(
     state: GlobalState,

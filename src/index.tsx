@@ -1,3 +1,4 @@
+// import "preact/debug"; ///DEV_ONLY
 import { render, h, Component } from "preact";
 import { Link } from "preact-router";
 import { Provider, connect } from "unistore/preact";
@@ -6,7 +7,7 @@ import "unfetch/polyfill/index"; ///NOMODULE_ONLY
 import "./global.css";
 
 import Router from "./router";
-import { store, actions } from "./store";
+import { rawState, store, actions } from "./store";
 import { verify } from "./store/pure";
 
 import Nav from "./components/modwatch-nav";
@@ -14,7 +15,6 @@ import Notifications from "./components/modwatch-notifications";
 
 import { StoreProps } from "./types";
 
-import "preact/debug"; ///DEV_ONLY
 import "./ga.js"; ///PROD_ONLY
 
 console.log(`Modwatch:
@@ -47,6 +47,9 @@ class Root extends Component<StoreProps & { token: string }, {}> {
         1
       );
     } else if (this.props.token === "401" || !(await verify(token))) {
+      if(!this.props.user || !this.props.user.authenticated) {
+        return;
+      }
       this.props.logout();
       setTimeout(
         () =>
@@ -83,7 +86,7 @@ class Root extends Component<StoreProps & { token: string }, {}> {
 }
 
 const Connector = connect(
-  ["notifications", "user"],
+  Object.keys(rawState),
   actions
 )(props => (
   //@ts-ignore I don't know how to pass types to connect

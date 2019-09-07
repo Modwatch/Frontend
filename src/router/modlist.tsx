@@ -9,6 +9,23 @@ import { RouteProps } from "../types";
 import { Modlist } from "@modwatch/types";
 import ModwatchFile from "../components/modwatch-file";
 
+type ComponentProps = RouteProps<{
+  username: string;
+  filetype: string;
+  path?: string;
+}>;
+type ComponentState = {
+  showInactiveMods: boolean;
+  gameDisplay?: string;
+  filter: string;
+  filtering: boolean;
+  filterTimeoutID?: number;
+  modlist: Partial<Modlist>;
+  files: string[];
+  isAdmin: boolean;
+  filetype: string;
+};
+
 const gameMap = {
   skyrim: "Skyrim Classic",
   skyrimse: "Skyrim SE",
@@ -20,7 +37,7 @@ const filetypeMap = game => ({
   ini: game.indexOf("skyrim") !== -1 ? "skyrim" : game,
   prefsini: `${game.indexOf("skyrim") !== -1 ? "skyrim" : game}Prefs`
 });
-const initialState = {
+const initialState: ComponentState = {
   filter: "",
   filtering: false,
   filterTimeoutID: undefined,
@@ -38,23 +55,6 @@ const initialState = {
   gameDisplay: undefined,
   isAdmin: false,
   filetype: "plugins"
-};
-
-type ComponentProps = RouteProps<{
-  username: string;
-  filetype: string;
-  path?: string;
-}>;
-type ComponentState = {
-  showInactiveMods: boolean;
-  gameDisplay?: string;
-  filter: string;
-  filtering: boolean;
-  filterTimeoutID?: number;
-  modlist: Partial<Modlist>;
-  files: string[];
-  isAdmin: boolean;
-  filetype: string;
 };
 
 export default class ModlistWrapper extends Component<
@@ -100,8 +100,14 @@ export default class ModlistWrapper extends Component<
     }
   }
   async componentDidMount() {
-    this.initialize({ clear: true });
-    this.props.loadAdsenseAds();
+    this.initialize({ clear: true })
+    .then(() => this.props.loadAdsenseAds())
+    .then(() => {
+      if (!this.props.adsense.failed) {
+        //@ts-ignore google adsense nonsense
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
+    });
   }
   updateFilter = ({ target }) => {
     if (this.state.filtering) {
@@ -155,7 +161,7 @@ export default class ModlistWrapper extends Component<
     }
   }
   render() {
-    const { matches, user, deleteModlist } = this.props;
+    const { matches, user, deleteModlist, adsense } = this.props;
     const {
       modlist,
       files,
@@ -185,12 +191,17 @@ export default class ModlistWrapper extends Component<
           )}
         </section>
         <ins class="adsbygoogle"
-          style="display:block;width: 100%; height: 100px;margin-bottom: 25px;"
-          data-ad-client="ca-pub-8579998974655014"
+          style={{
+            display: "block",
+            width: "100%",
+            height: !adsense.failed ? "280px" : "0",
+            marginBottom: !adsense.failed ? "25px" : "0"
+          }}
+          data-ad-client={process.env.ADSENSE_CLIENT}
+          data-adtest={process.env.NODE_ENV !== "production" ? "on" : undefined}
           data-ad-slot="1008233292"
           data-ad-format="auto"
           data-full-width-responsive="true">
-
         </ins>
         <section class="modlist-content">
           <nav class="modlist-filetype-nav">

@@ -3,3 +3,4 @@
 .DS_Store
 /firebase-debug.log
 .cache
+.firebase

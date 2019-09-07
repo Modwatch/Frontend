@@ -12,7 +12,6 @@ import OMT from "@surma/rollup-plugin-off-main-thread";
 
 /* wild crazy mdx hacky shit */
 import mdx from "@mdx-js/mdx";
-// import { transform } from "@swc/core";
 import { transform } from "sucrase";
 import sucrase from "rollup-plugin-sucrase";
 import { createFilter } from "rollup-pluginutils";
@@ -24,20 +23,8 @@ const readFileAsync = promisify(readFile);
 const env = {
   API_ENV: process.env.API_ENV,
   NODE_ENV: process.env.NODE_ENV || "production",
-  NOMODULE: (process.env.NOMODULE || "false") === "true" // default to the es6, "type=module" version
-};
-
-const swcOptions = {
-  sourceMaps: true,
-  jsc: {
-    target: "es2016",
-    parser: {
-      syntax: "typescript",
-      tsx: true,
-      decorators: false,
-      dynamicImport: true
-    }
-  }
+  NOMODULE: (process.env.NOMODULE || "false") === "true", // default to the es6, "type=module" version
+  ADSENSE_CLIENT: "ca-pub-8579998974655014"
 };
 
 export default async () => ({
@@ -65,6 +52,7 @@ export default async () => ({
         "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
         "process.env.VERSION": JSON.stringify(localPkg.version),
         "process.env.NOMODULE": env.NOMODULE ? "true" : "false",
+        "process.env.ADSENSE_CLIENT": JSON.stringify(env.ADSENSE_CLIENT),
         "process.env.API_URL":
           env.API_ENV === "production" || env.NODE_ENV === "production"
             ? JSON.stringify("https://api.modwat.ch")
@@ -76,14 +64,14 @@ export default async () => ({
       }, {
         test: /(import .+ from \"\..+\/types\";)/,
         replace: "// $1 // removed at build time"
-      }, {
-        test: /(.+)\s*\/\/\/PROD_ONLY$/,
+      }, */{
+        test: /(.*)\s*\/\/\/PROD_ONLY/g,
         replace: "// $1 // removed at build time"
-      }*/] : [{
-        test: /(.+)\s*\/\/\/DEV_ONLY$/,
+      }] : [{
+        test: /(.*)\s*\/\/\/DEV_ONLY/g,
         replace: "// $1 // removed at build time"
       }]).concat(env.NOMODULE ? [] : [{
-        test: /(.+)\s*\/\/\/NOMODULE_ONLY$/,
+        test: /(.*)\s*\/\/\/NOMODULE_ONLY/g,
         replace: "// $1 // removed at build time"
       }])
     }),
