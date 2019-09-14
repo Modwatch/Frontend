@@ -3,10 +3,11 @@ import devtools from "unistore/devtools"; ///DEV_ONLY
 import jwtDecode from "jwt-decode";
 
 import { clearLocalState, setLocalState, getLocalState } from "./local";
+import { insertScriptIntoDom } from "./dom";
 
 import { GlobalState } from "../types";
 
-const user = JSON.parse(getLocalState() || "{}");
+const user = getLocalState();
 
 export const rawState = {
   notifications: [],
@@ -50,24 +51,8 @@ export const actions = store => ({
     if(state.adsense.loaded || state.adsense.failed) {
       return state;
     }
-    const s = document.createElement("script");
-    s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-    s.async = true;
-    document.body.appendChild(s);
     try {
-      await new Promise((resolve, reject) => {
-        s.addEventListener("load", () => {
-          s.parentNode.removeChild(s);
-          resolve();
-        });
-        s.addEventListener("error", e => {
-          s.parentNode.removeChild(s);
-          reject(e);
-          window.setTimeout(() => {
-            store.setState(actions(store).addNotification(store.getState(), "Ads Blocked"));
-          }, 1);
-        });
-      });
+      await insertScriptIntoDom("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js");
       return {
         ...state,
         adsense: {
@@ -76,6 +61,7 @@ export const actions = store => ({
         }
       };
     } catch(e) {
+      store.setState(actions(store).addNotification(store.getState(), "Ads Blocked"));
       return {
         ...state,
         adsense: {

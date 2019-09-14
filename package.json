@@ -8,7 +8,7 @@
     "build:nomodule": "rollup -c --environment NODE_ENV:production,NOMODULE:true",
     "build": "run-p build:*",
     "watch": "rollup -cw --environment NODE_ENV:development,API_ENV:production",
-    "test:tape": "sucrase-node node_modules/tape/bin/tape tests/store/index.ts",
+    "test:tape": "sucrase-node node_modules/tape/bin/tape ./tests/**/*.ts",
     "test:ts": "tsc --noEmit",
     "test": "run-p test:*",
     "postgen": "node postgen",

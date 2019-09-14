@@ -1,5 +1,15 @@
-export const getLocalState = () =>
-  JSON.parse(localStorage.getItem("modwatch.user"));
+export const getLocalState = () => {
+  const user = localStorage.getItem("modwatch.user");
+  if(!user) {
+    return {};
+  }
+  try {
+    return JSON.parse(user);
+  } catch(e) {
+    console.log(`Failed to parse saved user: "${user}"`, e);
+    return clearLocalState();
+  }
+}
 
 export const setLocalState = state => (
   localStorage.setItem("modwatch.user", JSON.stringify(state)), state
