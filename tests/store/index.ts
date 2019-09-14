@@ -6,9 +6,9 @@ const jwtDecode = require("jwt-decode");
 const { rawState, store, actions } = proxyquire("../../src/store/index", {
   "unistore/devtools": store => store,
   "./local": {
-    clearLocalState: () => undefined,
+    clearLocalState: () => ({}),
     setLocalState: state => state,
-    getLocalState: () => undefined
+    getLocalState: () => ({})
   }
 });
 
