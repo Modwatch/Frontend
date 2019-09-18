@@ -109,10 +109,7 @@ export default class ModwatchModlists extends Component<
                   <Link href={`/u/${encodedUsername}`}>{username}</Link>
                 </td>
                 <td style={styles.td}>{this.state.gameMap[game]}</td>
-                <td
-                  style={styles.td}
-                  class="responsive-hide"
-                >
+                <td style={styles.td} class="responsive-hide">
                   {displayTimestamp}
                 </td>
               </tr>

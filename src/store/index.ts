@@ -48,11 +48,13 @@ export const actions = store => ({
     };
   },
   async loadAdsenseAds(state: GlobalState) {
-    if(state.adsense.loaded || state.adsense.failed) {
+    if (state.adsense.loaded || state.adsense.failed) {
       return state;
     }
     try {
-      await insertScriptIntoDom("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js");
+      await insertScriptIntoDom(
+        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      );
       return {
         ...state,
         adsense: {
@@ -60,15 +62,17 @@ export const actions = store => ({
           failed: false
         }
       };
-    } catch(e) {
-      store.setState(actions(store).addNotification(store.getState(), "Ads Blocked"));
+    } catch (e) {
+      store.setState(
+        actions(store).addNotification(store.getState(), "Ads Blocked")
+      );
       return {
         ...state,
         adsense: {
           loaded: false,
           failed: true
         }
-      }
+      };
     }
   },
   addNotification(

@@ -47,7 +47,7 @@ class Root extends Component<StoreProps & { token: string }, {}> {
         1
       );
     } else if (this.props.token === "401" || !(await verify(token))) {
-      if(!this.props.user || !this.props.user.authenticated) {
+      if (!this.props.user || !this.props.user.authenticated) {
         return;
       }
       this.props.logout();

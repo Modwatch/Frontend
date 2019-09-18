@@ -35,11 +35,15 @@ export default class Home extends Component<
         </section>
         <section>
           <a href="http://www.nexusmods.com/skyrim/mods/56640" target="_blank">
-            <h2 style={{
-              paddingBottom: 0,
-              marginBottom: 0,
-              borderBottom: 0
-            }}>Download Here</h2>
+            <h2
+              style={{
+                paddingBottom: 0,
+                marginBottom: 0,
+                borderBottom: 0
+              }}
+            >
+              Download Here
+            </h2>
           </a>
         </section>
         {/* <ModwatchPostList /> */}

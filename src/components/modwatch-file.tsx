@@ -41,11 +41,13 @@ export default class ModwatchFile extends Component<{
             line =>
               !line.hide && (
                 <li
-                  class={`modlist-item ${line.descriptor ? line.descriptor : ""} ${
-                    line.type ? line.type : ""
-                  }`}
+                  class={`modlist-item ${
+                    line.descriptor ? line.descriptor : ""
+                  } ${line.type ? line.type : ""}`}
                 >
-                  <span class="modlist-item-index unselectable">{line.index}.</span>
+                  <span class="modlist-item-index unselectable">
+                    {line.index}.
+                  </span>
                   <span class="modlist-item-content">
                     {line.content.map(chunk => (
                       <span class={chunk.class}>{chunk.display}</span>

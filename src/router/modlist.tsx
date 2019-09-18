@@ -98,16 +98,16 @@ export default class ModlistWrapper extends Component<
     if (!files.includes(this.props.matches.filetype)) {
       route(`/u/${this.props.matches.username}/${files[0]}`, true);
     }
-  }
+  };
   async componentDidMount() {
     this.initialize({ clear: true })
-    .then(() => this.props.loadAdsenseAds())
-    .then(() => {
-      if (!this.props.adsense.failed) {
-        //@ts-ignore google adsense nonsense
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      }
-    });
+      .then(() => this.props.loadAdsenseAds())
+      .then(() => {
+        if (!this.props.adsense.failed) {
+          //@ts-ignore google adsense nonsense
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      });
   }
   updateFilter = ({ target }) => {
     if (this.state.filtering) {
@@ -122,12 +122,12 @@ export default class ModlistWrapper extends Component<
         }));
       }, 200)
     }));
-  }
+  };
   toggleActiveMods = () => {
     this.setState(({ showInactiveMods }) => ({
       showInactiveMods: !showInactiveMods
     }));
-  }
+  };
   shouldComponentUpdate(nextProps, nextState) {
     // const kPop = Object.keys(this.props).filter(k => typeof this.props[k] !== "function");
     // console.log("PROPS", kPop.map(k => ({ [k]: this.props[k] })), kPop.map(k => ({ [k]: nextProps[k] })));
@@ -159,7 +159,7 @@ export default class ModlistWrapper extends Component<
         }
       }));
     }
-  }
+  };
   render() {
     const { matches, user, deleteModlist, adsense } = this.props;
     const {
@@ -190,7 +190,8 @@ export default class ModlistWrapper extends Component<
             </div>
           )}
         </section>
-        <ins class="adsbygoogle"
+        <ins
+          class="adsbygoogle"
           style={{
             display: "block",
             width: "100%",
@@ -201,8 +202,8 @@ export default class ModlistWrapper extends Component<
           data-adtest={process.env.NODE_ENV !== "production" ? "on" : undefined}
           data-ad-slot="1008233292"
           data-ad-format="auto"
-          data-full-width-responsive="true">
-        </ins>
+          data-full-width-responsive="true"
+        ></ins>
         <section class="modlist-content">
           <nav class="modlist-filetype-nav">
             <ul>

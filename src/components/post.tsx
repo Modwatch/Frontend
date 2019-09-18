@@ -57,7 +57,11 @@ export const Header = props => (
     {props.subtitle && <p>{props.subtitle}</p>}
     <span style={styles.tagTimestampWrapper}>
       <p style={styles.author}>{props.author}</p>
-      <p style={styles.timestamp} title={d.toUTCString()}>{months[d.getMonth()]}{" "}{d.getDate()}{", "}{d.getFullYear()}</p>
+      <p style={styles.timestamp} title={d.toUTCString()}>
+        {months[d.getMonth()]} {d.getDate()}
+        {", "}
+        {d.getFullYear()}
+      </p>
       {/* <ul style={styles.tags}>
         {props.tags.map(tag => (
           <li style={styles.tag}>{tag}</li>
