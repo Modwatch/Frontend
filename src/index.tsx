@@ -15,7 +15,7 @@ import Notifications from "./components/modwatch-notifications";
 
 import { StoreProps } from "./types";
 
-import "./ga.js"; ///PROD_ONLY
+import "./ga"; ///PROD_ONLY
 
 console.log(`Modwatch:
 VERSION:\t${process.env.VERSION}

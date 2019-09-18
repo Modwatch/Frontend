@@ -52,6 +52,14 @@ h2 {
   -ms-user-select: none;
   user-select: none;
 }
+.sr-only {
+  position: absolute;
+  left: -200%;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 @media (width <= 768px) {
   .responsive-hide {
     display: none;

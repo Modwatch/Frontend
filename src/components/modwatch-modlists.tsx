@@ -72,7 +72,7 @@ export default class ModwatchModlists extends Component<
     return (
       <div>
         <form>
-          <label for="modlists-search" style="display: none">
+          <label for="modlists-search" class="sr-only">
             Search
           </label>
           <input

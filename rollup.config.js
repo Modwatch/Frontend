@@ -58,13 +58,7 @@ export default async () => ({
             ? JSON.stringify("https://api.modwat.ch")
             : JSON.stringify("http://localhost:3001")
       },
-      patterns: (env.NODE_ENV !== "production" ? [/*{
-        test: /(import .+ from \"\@modwatch\/types\";)/,
-        replace: "// $1 // removed at build time"
-      }, {
-        test: /(import .+ from \"\..+\/types\";)/,
-        replace: "// $1 // removed at build time"
-      }, */{
+      patterns: (env.NODE_ENV !== "production" ? [{
         test: /(.*)\s*\/\/\/PROD_ONLY/g,
         replace: "// $1 // removed at build time"
       }] : [{
@@ -140,7 +134,9 @@ export default async () => ({
             }module.html`,
             title: `Modwatch Dependency Graph (${
               env.NOMODULE ? "no" : ""
-            }module)`
+            }module)`,
+            bundlesRelative: true,
+            template: "treemap"
           })
         ]
       : []
