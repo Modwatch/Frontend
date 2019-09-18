@@ -30,12 +30,11 @@ function putInCache({
   caches,
   cacheName = "offline"
 }) {
-  return fetch(request).then(response => {
-    return caches.open(cacheName).then(cache => {
-      console.log(`[oninstall] Cached ${cacheName} page ${response.url}`);
-      return cache.put(request, response);
-    });
-  });
+  return fetch(request).then(response =>
+    caches.open(cacheName).then(cache =>
+      cache.put(request, response)
+    )
+  );
 }
 
 self.addEventListener("fetch", event => {
@@ -87,8 +86,8 @@ function returnRequestOrOffline({
     console.error(
       `[onfetch] Failed. Serving cached ${cacheName} fallback for ${request.url}`, error
     );
-    return caches.open(cacheName).then(cache => {
-      return cache.match(filename);
-    });
+    return caches.open(cacheName).then(cache =>
+      cache.match(filename)
+    );
   })
 }
