@@ -15,8 +15,7 @@
     "postgen": "node postgen",
     "loadz0r": "node loadz0r/supermin.js",
     "serve": "firebase serve --only hosting",
-    "premicro": "tsc -p ./src/__helpers__/tsconfig.json",
-    "micro": "micro-dev -p 3001",
+    "micro": "sucrase-node ./node_modules/micro-dev/bin/micro-dev ./micro.ts -p 3001",
     "prettier": "prettier --write 'src/**/*.{js,jsx,css,ts,tsx}'",
     "postinstall": "run-p postgen loadz0r",
     "deploy:ci": "firebase use testing-ee4f4 --token $FIREBASE_TOKEN && firebase deploy --non-interactive --token $FIREBASE_TOKEN"
