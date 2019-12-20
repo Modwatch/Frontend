@@ -4,14 +4,17 @@ import { Link } from "preact-router";
 import { Provider, connect } from "unistore/preact";
 import "unfetch/polyfill/index"; ///NOMODULE_ONLY
 
-import "./global.css";
+// import "@modwatch/core/src/properties.css";
+import "@modwatch/core/src/global.css";
 
 import Router from "./router";
 import { rawState, store, actions } from "./store";
 import { verify } from "./store/pure";
 
+import "@modwatch/core/src/components/modwatch-notifications.css";
+import { ModwatchNotifications } from "@modwatch/core/src/components/modwatch-notifications";
+
 import Nav from "./components/modwatch-nav";
-import Notifications from "./components/modwatch-notifications";
 
 import { StoreProps } from "./types";
 
@@ -23,7 +26,7 @@ NODE_ENV:\t${process.env.NODE_ENV}`);
 
 const pathname = window.location.pathname;
 
-const token = (() => {
+const token = (function() {
   if (pathname.indexOf("/oauth/access_token/") === 0) {
     history.replaceState(null, null, "/");
     try {
@@ -66,7 +69,7 @@ class Root extends Component<StoreProps & { token: string }, {}> {
   render() {
     return (
       <div>
-        <Notifications {...this.props} />
+        <ModwatchNotifications {...this.props} />
         <header>
           <h1 class="header">
             <Link class="no-underline" href="/">
@@ -88,10 +91,12 @@ class Root extends Component<StoreProps & { token: string }, {}> {
 const Connector = connect(
   Object.keys(rawState),
   actions
-)(props => (
-  //@ts-ignore I don't know how to pass types to connect
-  <Root {...props} token={token} />
-));
+)(function(props) {
+  return (
+    //@ts-ignore I don't know how to pass types to connect
+    <Root {...props} token={token} />
+  )
+});
 
 render(
   <Provider store={store}>

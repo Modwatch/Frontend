@@ -7,7 +7,8 @@ import { getModlist, getModlistFileType } from "../store/pure";
 
 import { RouteProps } from "../types";
 import { Modlist } from "@modwatch/types";
-import ModwatchFile from "../components/modwatch-file";
+import ModwatchFile from "@modwatch/core/src/components/modwatch-file";
+// import ModwatchFile from "../components/modwatch-file";
 
 type ComponentProps = RouteProps<{
   username: string;

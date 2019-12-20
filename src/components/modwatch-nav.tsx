@@ -1,12 +1,12 @@
 import { h, Component } from "preact";
 import { route } from "preact-router";
-import { Link } from "preact-router";
 
-import "./modwatch-nav.css";
+import "@modwatch/core/src/components/modwatch-nav.css";
+import ModwatchNav from "@modwatch/core/src/components/modwatch-nav";
 
 import { StoreProps } from "../types";
 
-export default class ModwatchNav extends Component<
+export default class Nav extends Component<
   StoreProps,
   {
     show: boolean;
@@ -49,32 +49,25 @@ export default class ModwatchNav extends Component<
       ? this.props.user.authenticated
       : false;
     return (
-      <div class="menu-wrapper">
-        <div class="menu-toggle" onClick={this.toggleShow} />
-        <nav
-          class={this.state.show ? "menu-main menu-active" : "menu-main"}
-          onClick={this.toggleShow}
-        >
-          <a onClick={this.gotoHome} class="nav-block">
-            Home
+      <ModwatchNav {...this.props}>
+        <a onClick={this.gotoHome} class="nav-block">
+          Home
+        </a>
+        {!authenticated ? (
+          <a onClick={this.login} class="nav-block">
+            Login
           </a>
-          {!authenticated ? (
-            <a onClick={this.login} class="nav-block">
-              Login
-            </a>
-          ) : (
-            <a onClick={this.logout} class="nav-block">
-              Logout
-            </a>
-          )}
-          {authenticated && (
-            <a onClick={this.gotoProfile} class="nav-block">
-              Profile
-            </a>
-          )}
-          <span class="nav-block">Close</span>
-        </nav>
-      </div>
+        ) : (
+          <a onClick={this.logout} class="nav-block">
+            Logout
+          </a>
+        )}
+        {authenticated && (
+          <a onClick={this.gotoProfile} class="nav-block">
+            Profile
+          </a>
+        )}
+      </ModwatchNav>
     );
   }
 }

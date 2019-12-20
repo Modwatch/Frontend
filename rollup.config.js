@@ -5,6 +5,7 @@ import glob from "tiny-glob";
 import postcss from "rollup-plugin-postcss";
 import postcssNesting from "postcss-nesting";
 import postcssCustomProperties from "postcss-custom-properties";
+import postcssURL from "postcss-url";
 import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import replace from "rollup-plugin-re";
@@ -23,12 +24,13 @@ const readFileAsync = promisify(readFile);
 const env = {
   API_ENV: process.env.API_ENV,
   NODE_ENV: process.env.NODE_ENV || "production",
-  NOMODULE: (process.env.NOMODULE || "false") === "true", // default to the es6, "type=module" version
+  NOMODULE: (process.env.NOMODULE || "false") === "true",
+  NOPOSTS: (process.env.NOPOSTS || "false") === "true",
   ADSENSE_CLIENT: "ca-pub-8579998974655014"
 };
 
 export default async () => ({
-  input: ["src/index.tsx"].concat(await glob("src/router/posts/*.mdx")),
+  input: ["src/index.tsx"].concat(!env.NOPOSTS ? await glob("src/router/posts/*.mdx") : []),
   output: {
     sourcemap: env.NODE_ENV !== "production" ? "inline" : true,
     exports: "named",
@@ -38,6 +40,8 @@ export default async () => ({
     ),
     format: "amd"
   },
+  context: null,
+  moduleContext: null,
   treeshake: env.NODE_ENV === "production",
   experimentalOptimizeChunks: env.NODE_ENV === "production",
   watch: {
@@ -78,16 +82,14 @@ export default async () => ({
     }),
     env.NODE_ENV !== "production" ?
       sucrase({
-        include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)"],
-        exclude: "node_modules/**",
+        include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)", "./node_modules/@modwatch/core/**/*.ts+(|x)"],
         transforms: [
           "jsx",
           "typescript"
         ],
         jsxPragma: "h"
       }) : require("rollup-plugin-typescript")({
-          include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)"],
-          exclude: "node_modules/**",
+          include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)", "./node_modules/@modwatch/core/**/*.ts+(|x)"],
           typescript: require("typescript"),
           tslib: require("tslib"),
           sourceMap: env.NODE_ENV === "production",
@@ -95,8 +97,7 @@ export default async () => ({
           target: env.NOMODULE ? "es5" : "es6"
         }),
     postcss({
-      include: ["./src/*.css", "./src/**/*.css"],
-      exclude: "node_modules/**",
+      include: ["./src/*.css", "./src/**/*.css", "./node_modules/@modwatch/core/**/*.css"],
       sourceMap: env.NODE_ENV === "production",
       modules: {
         scopeBehaviour: "global"
@@ -105,8 +106,11 @@ export default async () => ({
       plugins: [
         postcssNesting(),
         postcssCustomProperties({
-          importFrom: "./src/properties.css",
+          importFrom: "node_modules/@modwatch/core/src/properties.css",
           preserve: false
+        }),
+        postcssURL({
+          url: "inline"
         })
       ].concat(env.NODE_ENV !== "production" ? [] : [require("cssnano")()])
     }),
@@ -160,14 +164,15 @@ function mdxPlugin(options) {
       const es5 = await transform(jsx, {
         transforms: [
           "jsx",
-          "typescript"//,
-          // "imports"
+          "typescript"
         ],
         jsxPragma: "h"
       });
 
       try {
-        return es5;
+        return {
+          code: es5.code
+        };
       } catch (e) {
         e.plugin = "preact-mdx-sucrase";
         if (!e.loc) e.loc = {};
