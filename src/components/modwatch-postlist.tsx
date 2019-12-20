@@ -83,7 +83,6 @@ export default class ModwatchPostList extends Component<
       allPosts,
       posts: allPosts
         .slice(0, !this.props.unlimited ? MAX_POSTS : undefined)
-        .concat(this.props.unlimited ? allPosts.concat(allPosts) : [])
     });
   };
   componentWillReceiveProps(nextProps) {
@@ -99,7 +98,9 @@ export default class ModwatchPostList extends Component<
         style={styles.div}
         class={`postlist${this.props.unlimited ? "" : " limited"}`}
       >
-        <h2 style={styles.h2}>{this.props.title || "Latest Blog Posts"}</h2>
+        <Link href="/posts" class="no-underline">
+          <h2 style={styles.h2}>{this.props.title || "Latest Blog Posts"}</h2>
+        </Link>
         <ul style={styles.ul}>
           {this.state.posts.map(post => (
             <li style={styles.li}>

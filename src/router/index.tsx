@@ -56,6 +56,10 @@ export default class Routes extends Component<
           if (e.previous) {
             this.cancelRouteChange = true;
             route(e.url, true);
+            window.scroll({
+              top: 0,
+              behavior: "smooth"
+            })
           }
         }
       );

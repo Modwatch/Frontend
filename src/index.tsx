@@ -4,7 +4,6 @@ import { Link } from "preact-router";
 import { Provider, connect } from "unistore/preact";
 import "unfetch/polyfill/index"; ///NOMODULE_ONLY
 
-// import "@modwatch/core/src/properties.css";
 import "@modwatch/core/src/global.css";
 
 import Router from "./router";

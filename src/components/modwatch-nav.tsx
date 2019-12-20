@@ -44,6 +44,9 @@ export default class Nav extends Component<
   gotoHome = () => {
     route("/");
   };
+  gotoBlog = () => {
+    route("/posts");
+  };
   render() {
     const authenticated = this.props.user
       ? this.props.user.authenticated
@@ -62,6 +65,9 @@ export default class Nav extends Component<
             Logout
           </a>
         )}
+        <a onClick={this.gotoBlog} class="nav-block">
+          Blog
+        </a>
         {authenticated && (
           <a onClick={this.gotoProfile} class="nav-block">
             Profile
