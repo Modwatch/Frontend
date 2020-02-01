@@ -112,7 +112,7 @@ export default async () => ({
     }),
     OMT({
       loader: (await readFileAsync(
-        path.resolve(__dirname, "loadz0r", "loader.min.js"),
+        require.resolve("@modwatch/core/loadz0r/loader.min.js"),
         "utf8"
       )).replace(/process\.env\.PUBLIC_PATH/g, JSON.stringify(`/dist/${env.NOMODULE ? "no" : ""}module`)),
       prependLoader: (chunk, workerFiles) =>
