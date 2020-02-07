@@ -58,7 +58,7 @@ export default async () => ({
         "process.env.NOMODULE": env.NOMODULE ? "true" : "false",
         "process.env.ADSENSE_CLIENT": JSON.stringify(env.ADSENSE_CLIENT),
         "process.env.API_URL":
-          env.API_ENV === "production" || env.NODE_ENV === "production"
+          env.API_ENV === "production" || (!env.API_ENV && env.NODE_ENV === "production")
             ? JSON.stringify("https://api.modwat.ch")
             : JSON.stringify("http://localhost:3001")
       },
@@ -116,7 +116,7 @@ export default async () => ({
     }),
     OMT({
       loader: (await readFileAsync(
-        path.resolve(__dirname, "loadz0r", "loader.min.js"),
+        require.resolve("@modwatch/core/loadz0r/loader.min.js"),
         "utf8"
       )).replace(/process\.env\.PUBLIC_PATH/g, JSON.stringify(`/dist/${env.NOMODULE ? "no" : ""}module`)),
       prependLoader: (chunk, workerFiles) =>
