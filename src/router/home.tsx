@@ -46,7 +46,7 @@ export default class Home extends Component<
             </h2>
           </a>
         </section>
-        {/* <ModwatchPostList /> */}
+        <ModwatchPostList title="Blog" />
         <section>
           <h2>Latest Modlists</h2>
           <ModwatchModlists />
