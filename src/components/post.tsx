@@ -71,7 +71,7 @@ export const Header = function(props) {
       </span>
     </header>
   );
-}
+};
 
 export default class Post extends Component<
   PostMetadata & { content: any },

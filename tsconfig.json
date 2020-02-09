@@ -9,6 +9,7 @@
   "compilerOptions": {
     "alwaysStrict": false,
     "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
     "allowJs": false,
     "moduleResolution": "node",
     "jsx": "react",

@@ -37,12 +37,16 @@ export default class Routes extends Component<
     if (this.state.fading || this.state.timeout) {
       return;
     }
+    const decodedPrevious = e.previous
+      ? decodeURIComponent(e.previous)
+      : undefined;
+    const username = e.current.props.matches.username;
     if (
       e.previous &&
       e.previous.indexOf("/u/") === 0 &&
       e.current.key === "modlist" &&
-      e.current.props.matches.username ===
-        e.previous.slice(3, e.current.props.matches.username.length + 3)
+      username &&
+      username === decodedPrevious.slice(3, username.length + 3)
     ) {
       return;
     }

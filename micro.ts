@@ -5,11 +5,14 @@ import { send } from "micro";
 import Cors from "micro-cors";
 import compress from "micro-compress";
 import { encode } from "jwt-simple";
+import UrlPattern from "url-pattern";
 
 import * as mocks from "./src/__helpers__/mocks";
-import Post from './src/components/post';
 
 const cors = Cors();
+const usernameRegex = {
+  segmentValueCharset: "a-zA-Z0-9-_~ %@!\\.'\\(\\)\\[\\]"
+}
 
 async function throttledSend(res: ServerResponse, status: number, response?: any) {
   return new Promise(resolve => {
@@ -22,32 +25,32 @@ interface RouteDefResponseFunction {
 }
 type RouteDef = {
   method: get | post;
-  url: string;
+  url: string | UrlPattern;
   response?: any | RouteDefResponseFunction;
 }
 
 const routes: RouteDef[] = [{
   method: get,
-  url: "/api/user/:username/file/:filetype",
+  url: new UrlPattern("/api/user/:username/file/:filetype", usernameRegex),
   response: params => mocks[params.filetype]
 }, {
   method: get,
-  url: "/api/user/:username/profile",
+  url: new UrlPattern("/api/user/:username/profile", usernameRegex),
   response: mocks.profile
 }, {
   method: get,
-  url: "/api/user/:username/files",
+  url: new UrlPattern("/api/user/:username/files", usernameRegex),
   response: mocks.files
 }, {
   method: get,
-  url: "/api/user/:username/all",
+  url: new UrlPattern("/api/user/:username/all", usernameRegex),
   response: mocks.all
 }, {
   method: post,
-  url: "/api/user/:username/delete"
+  url: new UrlPattern("/api/user/:username/delete", usernameRegex)
 }, {
   method: post,
-  url: "/api/user/:username/changepass"
+  url: new UrlPattern("/api/user/:username/changepass", usernameRegex)
 }, {
   method: get,
   url: "/api/users/count",
@@ -82,6 +85,9 @@ export default cors(compress(router(
   }),
   get("/oauth/verify", async (req: ServerRequest, res: ServerResponse) => {
     await throttledSend(res, 200);
+  }),
+  get("*", async (req, res) => {
+    await throttledSend(res, 404);
   }),
   del("/oauth/user/:username/delete", async (req: ServerRequest, res: ServerResponse) => {
     await throttledSend(res, 200);

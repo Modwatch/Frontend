@@ -102,6 +102,7 @@ export const all: Partial<Modlist> = {
 
 export const users: Partial<Modlist>[] = [
   { username: "Peanut", timestamp: new Date("1995-12-17T03:24:00") },
+  { username: "Peanut New", timestamp: new Date("1995-12-17T03:24:00") },
   { username: "Sunconure11", timestamp: new Date("1995-12-17T03:23:54") },
   { username: "eeekief", timestamp: new Date("1995-12-17T03:23:20") },
   { username: "alcyonemods", timestamp: new Date("1995-12-17T03:22:49") },

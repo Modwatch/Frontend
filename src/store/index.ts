@@ -2,7 +2,10 @@ import createStore from "unistore";
 import devtools from "unistore/devtools"; ///DEV_ONLY
 import jwtDecode from "jwt-decode";
 
-import { addNotification, removeNotification } from "@modwatch/core/src/store/index";
+import {
+  addNotification,
+  removeNotification
+} from "@modwatch/core/src/store/index";
 import { clearLocalState, setLocalState, getLocalState } from "./local";
 import { insertScriptIntoDom } from "./dom";
 

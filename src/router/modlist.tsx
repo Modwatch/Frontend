@@ -101,14 +101,12 @@ export default class ModlistWrapper extends Component<
     }
   };
   async componentDidMount() {
-    this.initialize({ clear: true })
-      .then(() => this.props.loadAdsenseAds())
-      .then(() => {
-        if (!this.props.adsense.failed) {
-          //@ts-ignore google adsense nonsense
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
-        }
-      });
+    await this.initialize({ clear: true });
+    await this.props.loadAdsenseAds();
+    if (!this.props.adsense.failed) {
+      //@ts-ignore google adsense nonsense
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    }
   }
   updateFilter = ({ target }) => {
     if (this.state.filtering) {

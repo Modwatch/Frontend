@@ -95,7 +95,7 @@ const Connector = connect(
   return (
     //@ts-ignore I don't know how to pass types to connect
     <Root {...props} token={token} />
-  )
+  );
 });
 
 render(

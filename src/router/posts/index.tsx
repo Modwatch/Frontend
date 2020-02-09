@@ -9,10 +9,8 @@ export const Header = function(props) {
       <p>{props.timestamp.toDateString()}</p>
     </header>
   );
-}
+};
 
 export default function({ path }: { path?: string }) {
-  return (
-    <ModwatchPostList title="All Blog Posts" unlimited={true} />
-  )
-};
+  return <ModwatchPostList title="All Blog Posts" unlimited={true} />;
+}
