@@ -51,42 +51,33 @@ const months = [
 
 const d = new Date();
 
-export const Header = function(props) {
-  return (
-    <header style={styles.header}>
-      <h1>{props.title}</h1>
-      {props.subtitle && <p>{props.subtitle}</p>}
-      <span style={styles.tagTimestampWrapper}>
-        <p style={styles.author}>{props.author}</p>
-        <p style={styles.timestamp} title={d.toUTCString()}>
-          {months[d.getMonth()]} {d.getDate()}
-          {", "}
-          {d.getFullYear()}
-        </p>
-        {/* <ul style={styles.tags}>
-          {props.tags.map(tag => (
-            <li style={styles.tag}>{tag}</li>
-          ))}
-        </ul> */}
-      </span>
-    </header>
-  );
-};
+export const Header = (props) => (
+  <header style={styles.header}>
+    <h1>{props.title}</h1>
+    {props.subtitle && <p>{props.subtitle}</p>}
+    <span style={styles.tagTimestampWrapper}>
+      <p style={styles.author}>{props.author}</p>
+      <p style={styles.timestamp} title={d.toUTCString()}>
+        {months[d.getMonth()]} {d.getDate()}
+        {", "}
+        {d.getFullYear()}
+      </p>
+      {/* <ul style={styles.tags}>
+        {props.tags.map(tag => (
+          <li style={styles.tag}>{tag}</li>
+        ))}
+      </ul> */}
+    </span>
+  </header>
+);
 
-export default class Post extends Component<
-  PostMetadata & { content: any },
-  {}
-> {
-  render() {
-    return (
-      <div class="post-wrapper">
-        <section style={styles.section}>
-          <Header {...this.props} content={undefined} />
-          <span style={styles.content} class="post-content">
-            <this.props.content {...this.props} content={undefined} />
-          </span>
-        </section>
-      </div>
-    );
-  }
-}
+export default (props) => (
+  <div class="post-wrapper">
+    <section style={styles.section}>
+      <Header {...props} content={undefined} />
+      <span style={styles.content} class="post-content">
+        <props.content {...props} content={undefined} />
+      </span>
+    </section>
+  </div>
+);

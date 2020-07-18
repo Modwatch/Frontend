@@ -1,5 +1,6 @@
-import { h, Component } from "preact";
-import { Link, route } from "preact-router";
+import { h } from "preact";
+import { useState, useEffect } from "preact/hooks";
+import { Link, useRoute } from "wouter-preact";
 
 import "./modlist.css";
 
@@ -8,7 +9,6 @@ import { getModlist, getModlistFileType } from "../store/pure";
 import { RouteProps } from "../types";
 import { Modlist } from "@modwatch/types";
 import ModwatchFile from "@modwatch/core/src/components/modwatch-file";
-// import ModwatchFile from "../components/modwatch-file";
 
 type ComponentProps = RouteProps<{
   username: string;
@@ -58,208 +58,150 @@ const initialState: ComponentState = {
   filetype: "plugins"
 };
 
-export default class ModlistWrapper extends Component<
-  ComponentProps,
-  ComponentState
-> {
-  constructor(props: ComponentProps) {
-    super(props);
-    this.state = {
-      ...initialState,
-      isAdmin: props.user && props.user.scopes.indexOf("admin") !== -1
-      // filetype: props.matches.filetype || undefined
+export const useSearchFilter = (debounceRate = 200): [string, (value: string) => void] => {
+  const [filter, innerSetFilter] = useState("");
+  const [filterTimeoutID, setFilterTimeoutID] = useState(null);
+
+  function setFilter(value: string) {
+    window.clearTimeout(filterTimeoutID);
+    setFilterTimeoutID(window.setTimeout(() => {
+      innerSetFilter(value);
+    }, debounceRate));
+  }
+
+  return [filter, setFilter];
+}
+
+export default (props: ComponentProps) => {
+  const [filter, setFilter] = useSearchFilter();
+  const [showInactiveMods, setShowInactiveMods] = useState(false);
+  const [modlist, setModlist] = useState(initialState.modlist);
+  const [files, setFiles] = useState([]);
+  const [, params] = useRoute("/u/:username/:filetype?");
+  params.filetype = params.filetype || "plugins";
+
+  useEffect(() => {
+    const fetcher = async () => {
+      const [_modlist, _file] = await Promise.all([
+        getModlist({
+          username: params.username
+        }),
+        params.filetype !== "plugins"
+          ? getModlistFileType(params as any)
+          : undefined
+      ]);
+      const _files = Object.keys(_modlist.files).filter(
+        key => _modlist.files[key] > 0
+      );
+      setModlist({
+        ..._modlist,
+        ...(_file ? {
+          [params.filetype]: _file
+        } : {})
+      });
+      setFiles(_files);
+
+      await props.loadAdsenseAds();
+      if (!props.adsense.failed) {
+        //@ts-ignore google adsense nonsense
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
     };
-  }
+    fetcher();
+  }, [params.username, params.filetype]);
 
-  initialize = async ({ clear }: { clear?: boolean } = {}) => {
-    clear &&
-      this.setState({
-        modlist: initialState.modlist,
-        filetype: initialState.filetype
-      });
-    const [modlist, file] = await Promise.all([
-      getModlist({
-        username: this.props.matches.username
-      }),
-      this.state.filetype !== "plugins"
-        ? getModlistFileType(this.props.matches)
-        : undefined
-    ]);
-    const files = Object.keys(modlist.files).filter(
-      key => modlist.files[key] > 0
-    );
-    this.setState(() => ({
-      modlist: {
-        ...modlist,
-        [this.state.filetype]: file || modlist.plugins
-      },
-      gameDisplay: gameMap[modlist.game || "skyrim"],
-      files
-    }));
-    if (!files.includes(this.props.matches.filetype)) {
-      route(`/u/${this.props.matches.username}/${files[0]}`, true);
-    }
-  };
-  async componentDidMount() {
-    await this.initialize({ clear: true });
-    await this.props.loadAdsenseAds();
-    if (!this.props.adsense.failed) {
-      //@ts-ignore google adsense nonsense
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    }
-  }
-  updateFilter = ({ target }) => {
-    if (this.state.filtering) {
-      clearTimeout(this.state.filterTimeoutID);
-    }
-    this.setState(() => ({
-      filtering: true,
-      filterTimeoutID: window.setTimeout(() => {
-        this.setState(() => ({
-          filter: target.value,
-          filtering: false
-        }));
-      }, 200)
-    }));
-  };
-  toggleActiveMods = () => {
-    this.setState(({ showInactiveMods }) => ({
-      showInactiveMods: !showInactiveMods
-    }));
-  };
-  shouldComponentUpdate(nextProps, nextState) {
-    // const kPop = Object.keys(this.props).filter(k => typeof this.props[k] !== "function");
-    // console.log("PROPS", kPop.map(k => ({ [k]: this.props[k] })), kPop.map(k => ({ [k]: nextProps[k] })));
+  const { user, deleteModlist, adsense } = props;
+  const showAdminTools =
+    user && (props.user.scopes.indexOf("admin") !== -1 || user.username === params.username);
+  const complexLines = ["prefsini", "ini"].includes(params.filetype);
+  const _fileTypeMap = modlist.game ? filetypeMap(modlist.game) : {};
 
-    // const kState = Object.keys(this.state).filter(k => typeof this.state[k] !== "function");
-    // console.log("STATE", kState.map(k => ({ [k]: this.state[k] })), kState.map(k => ({ [k]: nextState[k] })));
-
-    const valid = [
-      [this.state.filetype, nextState.filetype],
-      [this.props.url, nextProps.url]
-    ];
-    return valid.map(set => set[0] !== set[1]).some(_ => true);
-  }
-  componentDidUpdate = async (prevProps: ComponentProps) => {
-    if (typeof this.props.matches.username === "undefined") {
-      return;
-    }
-    if (this.props.matches.username !== prevProps.matches.username) {
-      this.initialize({ clear: true });
-    } else if (this.props.matches.filetype !== prevProps.matches.filetype) {
-      this.setState({
-        filetype: this.props.matches.filetype
-      });
-      const file = await getModlistFileType(this.props.matches);
-      this.setState(({ modlist }) => ({
-        modlist: {
-          ...modlist,
-          [this.props.matches.filetype]: file
-        }
-      }));
-    }
-  };
-  render() {
-    const { matches, user, deleteModlist, adsense } = this.props;
-    const {
-      modlist,
-      files,
-      gameDisplay,
-      isAdmin,
-      filetype,
-      filter,
-      showInactiveMods
-    } = this.state;
-    const showAdminTools =
-      user && (isAdmin || user.username === matches.username);
-    const complexLines = ["prefsini", "ini"].includes(filetype);
-    const _fileTypeMap = modlist.game ? filetypeMap(modlist.game) : {};
-    return (
-      <div class="modlist-wrapper">
-        <section class="modlist-meta">
-          <p class="modlist-username">{matches.username}</p>
-          {modlist.enb && <p class="modlist-enb">ENB: {modlist.enb}</p>}
-          {modlist.tag && <p class="modlist-tag">Tag: {modlist.tag}</p>}
-          <p class="modlist-gamedisplay">{gameDisplay}</p>
-          {showAdminTools && (
-            <div class="modlist-actions">
-              <button type="button" onClick={e => deleteModlist()}>
-                Delete
-              </button>
-            </div>
-          )}
-        </section>
-        <ins
-          class="adsbygoogle"
-          style={{
-            display: "block",
-            width: "100%",
-            height: !adsense.failed ? "280px" : "0",
-            marginBottom: !adsense.failed ? "25px" : "0"
-          }}
-          data-ad-client={process.env.ADSENSE_CLIENT}
-          data-adtest={process.env.NODE_ENV !== "production" ? "on" : undefined}
-          data-ad-slot="1008233292"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></ins>
-        <section class="modlist-content">
-          <nav class="modlist-filetype-nav">
-            <ul>
-              {files.map(t => (
-                <li>
-                  <Link
-                    href={`/u/${encodeURIComponent(
-                      matches.username
-                    )}/${encodeURIComponent(t)}`}
-                    class="no-underline"
-                  >
-                    <button class={filetype === t ? "active" : ""}>
-                      {_fileTypeMap[t]}
-                    </button>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <form class="modlist-filter">
+  return (
+    <div class="modlist-wrapper">
+      <section class="modlist-meta">
+        <p class="modlist-username">{params.username}</p>
+        {modlist.enb && <p class="modlist-enb">ENB: {modlist.enb}</p>}
+        {modlist.tag && <p class="modlist-tag">Tag: {modlist.tag}</p>}
+        <p class="modlist-gamedisplay">{gameMap[modlist.game] || ""}</p>
+        {showAdminTools && (
+          <div class="modlist-actions">
+            <button type="button" onClick={e => deleteModlist()}>
+              Delete
+            </button>
+          </div>
+        )}
+      </section>
+      <ins
+        class="adsbygoogle"
+        style={{
+          display: "block",
+          width: "100%",
+          height: !adsense.failed ? "280px" : "0",
+          marginBottom: !adsense.failed ? "25px" : "0"
+        }}
+        data-ad-client={process.env.ADSENSE_CLIENT}
+        data-adtest={process.env.NODE_ENV !== "production" ? "on" : undefined}
+        data-ad-slot="1008233292"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+      <section class="modlist-content">
+        <nav class="modlist-filetype-nav">
+          <ul>
+            {files.map(t => (
+              <li>
+                <Link
+                  href={`/u/${encodeURIComponent(
+                    params.username
+                  )}/${encodeURIComponent(t)}`}
+                  class="no-underline"
+                >
+                  <button class={params.filetype === t ? "active" : ""}>
+                    {_fileTypeMap[t]}
+                  </button>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <form class="modlist-filter">
+          <span class="form-group">
+            <label
+              for="modlist-filter"
+              style="visibility: hidden; display: none;"
+            >
+              Filter
+            </label>
+            <input
+              type="text"
+              id="modlist-filter"
+              placeholder="Filter By..."
+              //@ts-ignore stupid typescript onInput type checking
+              onInput={({ target }) => setFilter(target.value)}
+            />
+          </span>
+          {params.filetype === "modlist" && (
             <span class="form-group">
-              <label
-                for="modlist-filter"
-                style="visibility: hidden; display: none;"
-              >
-                Filter
-              </label>
+              <label for="modlist-enabled-toggle">Inactive Mods</label>
               <input
-                type="text"
-                id="modlist-filter"
-                placeholder="Filter By..."
-                onInput={this.updateFilter}
+                type="checkbox"
+                id="modlist-enabled-toggle"
+                onChange={e => setShowInactiveMods(!showInactiveMods)}
               />
             </span>
-            {filetype === "modlist" && (
-              <span class="form-group">
-                <label for="modlist-enabled-toggle">Inactive Mods</label>
-                <input
-                  type="checkbox"
-                  id="modlist-enabled-toggle"
-                  onChange={this.toggleActiveMods}
-                />
-              </span>
-            )}
-          </form>
-          {modlist[filetype] && modlist[filetype].length > 0 && (
-            <ModwatchFile
-              filter={filter}
-              showInactiveMods={showInactiveMods}
-              filetype={filetype}
-              showDescriptor={filetype === "plugins"}
-              complexLines={complexLines}
-              lines={modlist[filetype] as string[]}
-            />
           )}
-        </section>
-      </div>
-    );
-  }
-}
+        </form>
+        {modlist[params.filetype] && modlist[params.filetype].length > 0 && (
+          <ModwatchFile
+            filter={filter}
+            showInactiveMods={showInactiveMods}
+            filetype={params.filetype}
+            showDescriptor={params.filetype === "plugins"}
+            complexLines={complexLines}
+            lines={modlist[params.filetype] as string[]}
+          />
+        )}
+      </section>
+    </div>
+  );
+};

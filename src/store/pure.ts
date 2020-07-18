@@ -9,7 +9,7 @@ export async function getModlists({
 }: {
   limit?: number;
 } = {}): Promise<PartialModlist[]> {
-  return await fetch(`${process.env.API_URL}/api/users/list/${limit}`).then(
+  return fetch(`${process.env.API_URL}/api/users/list/${limit}`).then(
     getJson
   );
 }
@@ -21,7 +21,7 @@ export async function searchModlists({
   filter: string;
   limit?: number;
 }): Promise<PartialModlist[]> {
-  return await fetch(
+  return fetch(
     `${process.env.API_URL}/api/search/users/${_e(filter)}/${limit}`
   ).then(getJson);
 }
@@ -31,7 +31,7 @@ export async function getModlist({
 }: {
   username: string;
 }): Promise<Modlist> {
-  return await fetch(
+  return fetch(
     `${process.env.API_URL}/api/user/${_e(username)}/all`
   ).then(getJson);
 }
@@ -43,7 +43,7 @@ export async function getModlistFileType({
   username: string;
   filetype: string;
 }): Promise<Modlist> {
-  return await fetch(
+  return fetch(
     `${process.env.API_URL}/api/user/${_e(username)}/file/${_e(filetype)}`
   ).then(getJson);
 }

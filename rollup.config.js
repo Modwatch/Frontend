@@ -25,6 +25,7 @@ const env = {
   API_ENV: process.env.API_ENV,
   NODE_ENV: process.env.NODE_ENV || "production",
   NOMODULE: (process.env.NOMODULE || "false") === "true",
+  ADSENSE_ENABLED: (process.env.ADSENSE_ENABLED || "false") === "true",
   NOPOSTS: (process.env.NOPOSTS || "false") === "true",
   ADSENSE_CLIENT: "ca-pub-8579998974655014"
 };
@@ -43,7 +44,7 @@ export default async () => ({
   context: null,
   moduleContext: null,
   treeshake: env.NODE_ENV === "production",
-  experimentalOptimizeChunks: env.NODE_ENV === "production",
+  preserveEntrySignatures: false,
   watch: {
     clearScreen: false
   },
@@ -56,6 +57,7 @@ export default async () => ({
         "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
         "process.env.VERSION": JSON.stringify(localPkg.version),
         "process.env.NOMODULE": env.NOMODULE ? "true" : "false",
+        "process.env.ADSENSE_ENABLED": env.ADSENSE_ENABLED ? "true" : "false",
         "process.env.ADSENSE_CLIENT": JSON.stringify(env.ADSENSE_CLIENT),
         "process.env.API_URL":
           env.API_ENV === "production" || (!env.API_ENV && env.NODE_ENV === "production")
@@ -116,7 +118,7 @@ export default async () => ({
     }),
     OMT({
       loader: (await readFileAsync(
-        require.resolve("@modwatch/core/loadz0r/loader.min.js"),
+        require.resolve("./loadz0r/loader.js"),
         "utf8"
       )).replace(/process\.env\.PUBLIC_PATH/g, JSON.stringify(`/dist/${env.NOMODULE ? "no" : ""}module`)),
       prependLoader: (chunk, workerFiles) =>

@@ -50,6 +50,15 @@ export const actions = store => ({
     };
   },
   async loadAdsenseAds(state: GlobalState) {
+    if(!process.env.ADSENSE_ENABLED) {
+      return {
+        ...state,
+        adsense: {
+          loaded: false,
+          failed: true
+        }
+      }
+    }
     if (state.adsense.loaded || state.adsense.failed) {
       return state;
     }

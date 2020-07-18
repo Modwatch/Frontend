@@ -1,6 +1,7 @@
 // import "preact/debug"; ///DEV_ONLY
-import { render, h, Component } from "preact";
-import { Link } from "preact-router";
+import { render, h } from "preact";
+import { useEffect } from 'preact/hooks';
+import { Link } from "wouter-preact";
 import { Provider, connect } from "unistore/preact";
 import "unfetch/polyfill/index"; ///NOMODULE_ONLY
 
@@ -21,7 +22,8 @@ import "./ga"; ///PROD_ONLY
 
 console.log(`Modwatch:
 VERSION:\t${process.env.VERSION}
-NODE_ENV:\t${process.env.NODE_ENV}`);
+NODE_ENV:\t${process.env.NODE_ENV}
+ADSENSE_ENABLED:\t${process.env.ADSENSE_ENABLED}`);
 
 const pathname = window.location.pathname;
 
@@ -38,53 +40,52 @@ const token = (function() {
   return undefined;
 })();
 
-class Root extends Component<StoreProps & { token: string }, {}> {
-  componentDidMount = async () => {
-    if (!this.props.token && this.props.user && this.props.user.authenticated) {
-      setTimeout(
+const Root = (props: StoreProps & { token: string }) => {
+  useEffect(() => {
+    if (!props.token && props.user && props.user.authenticated) {
+      window.setTimeout(
         () =>
-          this.props.addNotification(
-            `Welcome Back, ${this.props.user.username}`
+          props.addNotification(
+            `Welcome Back, ${props.user.username}`
           ),
         1
       );
-    } else if (this.props.token === "401" || !(await verify(token))) {
-      if (!this.props.user || !this.props.user.authenticated) {
+    } else if (props.token === "401" || !(async () => await verify(token))()) {
+      if (!props.user || !props.user.authenticated) {
         return;
       }
-      this.props.logout();
-      setTimeout(
+      props.logout();
+      window.setTimeout(
         () =>
-          this.props.addNotification("Login Failed", {
+          props.addNotification("Login Failed", {
             type: "error"
           }),
         1
       );
-    } else {
-      this.props.login(token);
-      setTimeout(() => this.props.addNotification("Login Successful"), 1);
+    } else if(token) {
+      props.login(token);
+      window.setTimeout(() => props.addNotification("Login Successful"), 1);
     }
-  };
-  render() {
-    return (
-      <div>
-        <ModwatchNotifications {...this.props} />
-        <header>
-          <h1 class="header">
-            <Link class="no-underline" href="/">
-              MODWATCH
-            </Link>
-          </h1>
-        </header>
-        <Nav {...this.props} />
-        <div class="content-wrapper">
-          <div class="view-wrapper">
-            <Router {...this.props} />
-          </div>
+  }, []);
+
+  return (
+    <div>
+      <ModwatchNotifications {...props} />
+      <header>
+        <h1 class="header">
+          <Link class="no-underline" href="/">
+            MODWATCH
+          </Link>
+        </h1>
+      </header>
+      <Nav {...props} />
+      <div class="content-wrapper">
+        <div class="view-wrapper">
+          <Router {...props} />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 const Connector = connect(

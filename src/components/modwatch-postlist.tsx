@@ -1,5 +1,6 @@
-import { h, Component } from "preact";
-import { Link } from "preact-router";
+import { h } from "preact";
+import { useState, useEffect } from "preact/hooks";
+import { Link } from "wouter-preact";
 import { PostMetadata } from "../types";
 
 import "./modwatch-postlist.css";
@@ -56,76 +57,138 @@ const styles = {
   }
 };
 
-export default class ModwatchPostList extends Component<
-  {
-    unlimited?: boolean;
-    title?: string;
-  },
-  {
-    posts: PostMetadata[];
-    allPosts: PostMetadata[];
-  }
-> {
-  state = {
-    posts: [],
-    allPosts: []
-  };
-  componentDidMount = async () => {
-    const { metadata } = await import("../store/posts");
-    const allPosts = []
-      .concat(metadata)
-      .sort((a, b) => (a.timestamp > b.timestamp ? -1 : 1))
-      .map(post => ({
-        ...post,
-        _timestamp: new Date(post.timestamp).toDateString()
-      }));
-    this.setState({
-      allPosts,
-      posts: allPosts
-        .slice(0, !this.props.unlimited ? MAX_POSTS : undefined)
+export default (props: {
+  unlimited?: boolean;
+  title?: string;
+}) => {
+  const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
+
+  useEffect(() => {
+    import("../store/posts").then(({ metadata }) => {
+      const allPosts = []
+        .concat(metadata)
+        .sort((a, b) => (a.timestamp > b.timestamp ? -1 : 1))
+        .map(post => ({
+          ...post,
+          _timestamp: new Date(post.timestamp).toDateString()
+        }));
+      setPosts(allPosts
+        .slice(0, !props.unlimited ? MAX_POSTS : undefined));
+      setAllPosts(allPosts);
     });
-  };
-  componentWillReceiveProps(nextProps) {
-    if (this.props.unlimited !== nextProps.unlimited) {
-      this.setState(({ allPosts }) => ({
-        posts: allPosts.slice(0, !nextProps.unlimited ? MAX_POSTS : undefined)
-      }));
-    }
-  }
-  render() {
-    return (
-      <div
-        style={styles.div}
-        class={`postlist${this.props.unlimited ? "" : " limited"}`}
-      >
-        <Link href="/posts" class="no-underline">
-          <h2 style={styles.h2}>{this.props.title || "Latest Blog Posts"}</h2>
-        </Link>
-        <ul style={styles.ul}>
-          {this.state.posts.map(post => (
-            <li style={styles.li}>
-              <Link
-                style={styles.link}
-                class="no-underline"
-                href={`/post/${post.id}`}
-              >
-                <img style={styles.img} alt={post.title} />
-                <span style={styles.span}>
-                  <span>{post.title}</span>
-                  <span>{post._timestamp}</span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        {!this.props.unlimited && (
-          <div style={styles.more}>
-            <Link class="no-underline" href="/posts">
-              <button>More Posts</button>
+  }, []);
+
+  useEffect(() => {
+    setPosts(allPosts.slice(0, !props.unlimited ? MAX_POSTS : undefined))
+  }, [props.unlimited]);
+
+  return (
+    <div
+      style={styles.div}
+      class={`postlist${props.unlimited ? "" : " limited"}`}
+    >
+      <Link href="/posts" class="no-underline">
+        <h2 style={styles.h2}>{props.title || "Latest Blog Posts"}</h2>
+      </Link>
+      <ul style={styles.ul}>
+        {posts.map(post => (
+          <li style={styles.li}>
+            <Link
+              style={styles.link}
+              class="no-underline"
+              href={`/post/${post.id}`}
+            >
+              <img style={styles.img} alt={post.title} />
+              <span style={styles.span}>
+                <span>{post.title}</span>
+                <span>{post._timestamp}</span>
+              </span>
             </Link>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+          </li>
+        ))}
+      </ul>
+      {!props.unlimited && (
+        <div style={styles.more}>
+          <Link class="no-underline" href="/posts">
+            <button>More Posts</button>
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// export default class ModwatchPostList extends Component<
+//   {
+//     unlimited?: boolean;
+//     title?: string;
+//   },
+//   {
+//     posts: PostMetadata[];
+//     allPosts: PostMetadata[];
+//   }
+// > {
+//   state = {
+//     posts: [],
+//     allPosts: []
+//   };
+//   componentDidMount = async () => {
+//     const { metadata } = await import("../store/posts");
+//     const allPosts = []
+//       .concat(metadata)
+//       .sort((a, b) => (a.timestamp > b.timestamp ? -1 : 1))
+//       .map(post => ({
+//         ...post,
+//         _timestamp: new Date(post.timestamp).toDateString()
+//       }));
+//     this.setState({
+//       allPosts,
+//       posts: allPosts
+//         .slice(0, !this.props.unlimited ? MAX_POSTS : undefined)
+//     });
+//   };
+//   componentWillReceiveProps(nextProps) {
+//     if (this.props.unlimited !== nextProps.unlimited) {
+//       this.setState(({ allPosts }) => ({
+//         posts: allPosts.slice(0, !nextProps.unlimited ? MAX_POSTS : undefined)
+//       }));
+//     }
+//   }
+//   render() {
+//     return (
+//       <div
+//         style={styles.div}
+//         class={`postlist${this.props.unlimited ? "" : " limited"}`}
+//       >
+//         <Link href="/posts" class="no-underline">
+//           <h2 style={styles.h2}>{this.props.title || "Latest Blog Posts"}</h2>
+//         </Link>
+//         <ul style={styles.ul}>
+//           {this.state.posts.map(post => (
+//             <li style={styles.li}>
+//               <Link
+//                 style={styles.link}
+//                 class="no-underline"
+//                 href={`/post/${post.id}`}
+//               >
+//                 <img style={styles.img} alt={post.title} />
+//                 <span style={styles.span}>
+//                   <span>{post.title}</span>
+//                   <span>{post._timestamp}</span>
+//                 </span>
+//               </Link>
+//             </li>
+//           ))}
+//         </ul>
+//         {!this.props.unlimited && (
+//           <div style={styles.more}>
+//             <Link class="no-underline" href="/posts">
+//               <button>More Posts</button>
+//             </Link>
+//           </div>
+//         )}
+//       </div>
+//     );
+//   }
+// }
