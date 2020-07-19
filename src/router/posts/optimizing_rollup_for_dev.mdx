@@ -15,6 +15,10 @@ I first started trying to get my build iteration times down when I had to go bac
 I'm going to go through this post focusing on rollup, but some ideas should carry over to webpack or other tools, if that's what you prefer. This also focuses on tools I use myself, so I've split the following into sections so you can focus on pieces you use/are interested in.
 </blockquote>
 
+```js
+const x = async () => await fetch("/");
+```
+
 ## PostCSS
 
 PostCSS is a tool for manipulating CSS via plugins. Anything from autoprefixer to future syntax to resolving imports, PostCSS is robust. But it can really start to drag when you throw more and more plugins on the pile. An easy way to do this is by using `postcss-preset-env`. I love this package because it makes choosing features, or even sets of features, incredibly easy. But specifying the specific plugins you need, especially development vs production, can be the difference of several seconds.

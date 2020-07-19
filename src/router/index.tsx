@@ -1,23 +1,25 @@
-import { h } from "preact";
+import { h, Fragment } from "preact";
 import { Suspense, lazy } from "preact/compat";
 import { useState, useEffect, useCallback } from "preact/hooks";
 // import Router, { route } from "preact-router";
 import { Router, useRoute, Route, Switch } from "wouter-preact";
 
 import NotFound from "./notFound";
-import Post from "../components/post";
 import { RouteProps, StoreProps } from "../types";
 
 const ROUTE_TRANSITION_TIMEOUT = 150; // needs to match transition duration in src/global.css
-
 
 const Home = lazy(() => import("./home"));
 const Modlist = lazy(() => import("./modlist"));
 const Posts = lazy(() => import("./posts"));
 // const Post = title => lazy(() => import(`./posts/${title}.js`)); // populate these in a file at build time!!!
-const AsyncPosts = {
-  optimizing_rollup_for_dev: () => import(`./optimizing_rollup_for_dev.js`)
-}
+const posts = ["optimizing_rollup_for_dev"];
+const AsyncPosts = posts.map(path => ({
+  path,
+  component: lazy(() => import(`./${path}.js`))
+}));
+
+console.log(AsyncPosts[0].component);
 
 export default (props: StoreProps) => {
   const [fading, setFading] = useState(false);
@@ -35,9 +37,21 @@ export default (props: StoreProps) => {
       <Suspense path="/posts" fallback={<div />}>
         <Posts {...props} />
       </Suspense>
-      <Suspense path="/post/:title" fallback={<div />}>
-        <Post {...AsyncPosts.optimizing_rollup_for_dev.metadata} content={AsyncPosts.optimizing_rollup_for_dev.default} {...props} />
-      </Suspense>
+      <Route path="/post/:title">
+        {params => {
+          const Comp = AsyncPosts.find(p => p.path === params.title).component;
+          console.log("comp?");
+          return <Comp {...props} />
+        }}
+      </Route>
+      {/* {AsyncPosts.map(post => (
+        <Suspense path={`/post/${post.path}`} fallback={<div />}>
+          <post.component {...props} />
+        </Suspense>
+      ))} */}
+      <Route>
+        <NotFound {...props} />
+      </Route>
     </Switch>
   </Router>
 }

@@ -1,6 +1,7 @@
 // import "preact/debug"; ///DEV_ONLY
 import { render, h } from "preact";
 import { useEffect } from 'preact/hooks';
+import { MDXProvider } from "@mdx-js/preact";
 import { Link } from "wouter-preact";
 import { Provider, connect } from "unistore/preact";
 import "unfetch/polyfill/index"; ///NOMODULE_ONLY
@@ -88,13 +89,27 @@ const Root = (props: StoreProps & { token: string }) => {
   );
 }
 
+const mdxComponents = {
+  wrapper: props => {
+    const { metadata } = props;
+    return (
+      <section class="post-wrapper">
+        <h1>{metadata.title}</h1>
+        <div {...props}/>
+      </section>
+    );
+  },
+}
+
 const Connector = connect(
   Object.keys(rawState),
   actions
 )(function(props) {
   return (
-    //@ts-ignore I don't know how to pass types to connect
-    <Root {...props} token={token} />
+    <MDXProvider components={mdxComponents}>
+      {/*@ts-ignore I don't know how to pass types to connect*/}
+      <Root {...props} token={token} />
+    </MDXProvider>
   );
 });
 

@@ -26,6 +26,7 @@
   ],
   "main": "micro.js",
   "dependencies": {
+    "@mdx-js/preact": "^1.6.11",
     "@modwatch/core": "^0.1.0",
     "jwt-decode": "^2.2.0",
     "preact": "^10.4.6",

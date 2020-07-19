@@ -48,6 +48,9 @@ export default async () => ({
   watch: {
     clearScreen: false
   },
+  external: [
+    `./optimizing_rollup_for_dev.js`
+  ],
   plugins: [
     nodeResolve({
       extensions: ['.mjs', '.js', '.jsx', '.json', ".ts", ".tsx", ".mdx"]
@@ -158,17 +161,14 @@ function mdxPlugin(options) {
     transform: async (code, id) => {
       if (!filter(id)) return null;
 
-      const jsx = `import { h } from "preact";\n${(await mdx(code)).replace(
-        "/* @jsx mdx */",
-        ""
-      )}`;
+      const jsx = `import { h } from "preact"; import { mdx } from "@mdx-js/preact";\n${(await mdx(code))}`;
 
       const es5 = await transform(jsx, {
         transforms: [
           "jsx",
           "typescript"
         ],
-        jsxPragma: "h"
+        jsxPragma: "mdx"
       });
 
       try {
