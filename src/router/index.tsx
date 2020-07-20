@@ -12,14 +12,8 @@ const ROUTE_TRANSITION_TIMEOUT = 150; // needs to match transition duration in s
 const Home = lazy(() => import("./home"));
 const Modlist = lazy(() => import("./modlist"));
 const Posts = lazy(() => import("./posts"));
-// const Post = title => lazy(() => import(`./posts/${title}.js`)); // populate these in a file at build time!!!
-const posts = ["optimizing_rollup_for_dev"];
-const AsyncPosts = posts.map(path => ({
-  path,
-  component: lazy(() => import(`./${path}.js`))
-}));
 
-console.log(AsyncPosts[0].component);
+process.env.LAZY_POST_INITIALIZERS;
 
 export default (props: StoreProps) => {
   const [fading, setFading] = useState(false);
@@ -37,18 +31,7 @@ export default (props: StoreProps) => {
       <Suspense path="/posts" fallback={<div />}>
         <Posts {...props} />
       </Suspense>
-      <Route path="/post/:title">
-        {params => {
-          const Comp = AsyncPosts.find(p => p.path === params.title).component;
-          console.log("comp?");
-          return <Comp {...props} />
-        }}
-      </Route>
-      {/* {AsyncPosts.map(post => (
-        <Suspense path={`/post/${post.path}`} fallback={<div />}>
-          <post.component {...props} />
-        </Suspense>
-      ))} */}
+      {/*ROUTER_POST_SUSPENDERS*/}
       <Route>
         <NotFound {...props} />
       </Route>

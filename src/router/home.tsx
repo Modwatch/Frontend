@@ -36,7 +36,7 @@ export default () => {
           </h2>
         </a>
       </section>
-      <ModwatchPostList title="Blog" />
+      {!process.env.NOPOSTS && <ModwatchPostList title="Blog" />}
       <section>
         <h2>Latest Modlists</h2>
         <ModwatchModlists />

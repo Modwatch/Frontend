@@ -43,30 +43,33 @@ const token = (function() {
 
 const Root = (props: StoreProps & { token: string }) => {
   useEffect(() => {
-    if (!props.token && props.user && props.user.authenticated) {
-      window.setTimeout(
-        () =>
-          props.addNotification(
-            `Welcome Back, ${props.user.username}`
-          ),
-        1
-      );
-    } else if (props.token === "401" || !(async () => await verify(token))()) {
-      if (!props.user || !props.user.authenticated) {
-        return;
+    const asyncWrapper = async () => {
+      if (!props.token && props.user && props.user.authenticated) {
+        window.setTimeout(
+          () =>
+            props.addNotification(
+              `Welcome Back, ${props.user.username}`
+            ),
+          1
+        );
+      } else if (props.token === "401" || await verify(token)) {
+        if (!props.user || !props.user.authenticated) {
+          return;
+        }
+        props.logout();
+        window.setTimeout(
+          () =>
+            props.addNotification("Login Failed", {
+              type: "error"
+            }),
+          1
+        );
+      } else if(token) {
+        props.login(token);
+        window.setTimeout(() => props.addNotification("Login Successful"), 1);
       }
-      props.logout();
-      window.setTimeout(
-        () =>
-          props.addNotification("Login Failed", {
-            type: "error"
-          }),
-        1
-      );
-    } else if(token) {
-      props.login(token);
-      window.setTimeout(() => props.addNotification("Login Successful"), 1);
-    }
+    };
+    asyncWrapper();
   }, []);
 
   return (
