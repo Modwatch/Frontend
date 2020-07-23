@@ -3,26 +3,26 @@ import { readFile } from "fs";
 import { promisify } from "util";
 import glob from "tiny-glob";
 import postcss from "rollup-plugin-postcss";
+import cssnano from "cssnano";
 import postcssNesting from "postcss-nesting";
 import postcssCustomProperties from "postcss-custom-properties";
 import postcssURL from "postcss-url";
-import nodeResolve from "rollup-plugin-node-resolve";
-import commonjs from "rollup-plugin-commonjs";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
 import replace from "rollup-plugin-re";
 import OMT from "@surma/rollup-plugin-off-main-thread";
 
 /* wild crazy mdx hacky shit */
 import mdx from "@mdx-js/mdx";
 import esbuild from "rollup-plugin-esbuild";
-import sucrase from "rollup-plugin-sucrase";
-import { createFilter } from "rollup-pluginutils";
+import { createFilter } from "@rollup/pluginutils";
 
-import { startService } from 'esbuild';
-const qService = startService();
-
-const localPkg = require("./package.json");
+import _esbuild from 'esbuild';
+const qService = _esbuild.startService();
 
 const readFileAsync = promisify(readFile);
+
+// const localPkg = require("./package.json");
 
 const env = {
   API_ENV: process.env.API_ENV,
@@ -34,6 +34,8 @@ const env = {
 };
 
 export default async () => {
+
+  const localPkg = JSON.parse(await readFileAsync("./package.json"));
   const posts = !env.NOPOSTS ? await glob("src/router/posts/*.mdx") : [];
   const postNames = posts.map(p => path.basename(p, ".mdx"));
   return {
@@ -45,7 +47,7 @@ export default async () => {
         __dirname,
         `public/dist/${env.NOMODULE ? "no" : ""}module/`
       ),
-      // format: "amd"
+      format: "amd"
     },
     context: null,
     moduleContext: null,
@@ -56,8 +58,29 @@ export default async () => {
     },
     external: postNames.map(p => `./${p}.js`),
     plugins: [
+      postcss({
+        include: ["./src/*.css", "./src/**/*.css", "./node_modules/@modwatch/core/**/*.css"],
+        sourceMap: env.NODE_ENV === "production",
+        modules: {
+          scopeBehaviour: "global"
+        },
+        extract: true,
+        plugins: [
+          postcssNesting(),
+          postcssCustomProperties({
+            importFrom: "node_modules/@modwatch/core/src/properties.css",
+            preserve: false
+          }),
+          postcssURL({
+            url: "inline"
+          })
+        ].concat(env.NODE_ENV !== "production" ? [] : [cssnano()])
+      }),
       nodeResolve({
         extensions: ['.mjs', '.js', '.jsx', '.json', ".ts", ".tsx", ".mdx"]
+      }),
+      commonjs({
+        sourceMap: env.NODE_ENV === "production"
       }),
       replace({
         replaces: {
@@ -89,70 +112,41 @@ export default async () => {
           replace: "// $1 // removed at build time"
         }])
       }),
-      commonjs({
-        sourceMap: env.NODE_ENV === "production"
-      }),
       mdxPlugin({
         include: ["./src/**/*.mdx"],
         exclude: "node_modules/**"
       }),
-      // esbuild({
-      //   include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)", "./node_modules/@modwatch/core/**/*.ts+(|x)"],
-      //   exclude: [],
-      //   watch: process.argv.includes("--watch"),
-      //   target: env.NOMODULE ? "es2015" : "es2016",
-      //   jsxFactory: "h",
-      //   jsxFragment: "Fragment"
-      // }),
-      sucrase({
+      esbuild({
         include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)", "./node_modules/@modwatch/core/**/*.ts+(|x)"],
-        transforms: [
-          "jsx",
-          "typescript"
-        ],
-        jsxPragma: "h"
+        exclude: [],
+        watch: process.argv.includes("--watch"),
+        target: env.NOMODULE ? "es2015" : "es2016",
+        jsxFactory: "h",
+        jsxFragment: "Fragment"
       }),
-      postcss({
-        include: ["./src/*.css", "./src/**/*.css", "./node_modules/@modwatch/core/**/*.css"],
-        sourceMap: env.NODE_ENV === "production",
-        modules: {
-          scopeBehaviour: "global"
-        },
-        extract: true,
-        plugins: [
-          postcssNesting(),
-          postcssCustomProperties({
-            importFrom: "node_modules/@modwatch/core/src/properties.css",
-            preserve: false
-          }),
-          postcssURL({
-            url: "inline"
-          })
-        ].concat(env.NODE_ENV !== "production" ? [] : [require("cssnano")()])
-      }),
-      // OMT({
-      //   loader: (await readFileAsync(
-      //     require.resolve("./node_modules/@modwatch/core/loadz0r/loader.min.js"),
-      //     "utf8"
-      //   )).replace(/process\.env\.PUBLIC_PATH/g, JSON.stringify(`/dist/${env.NOMODULE ? "no" : ""}module`)),
-      //   prependLoader: (chunk, workerFiles) =>
-      //     (chunk.isEntry && chunk.fileName.includes("index.js")) || workerFiles.includes(chunk.facadeModuleId)
-      // })
+      OMT({
+        loader: (await readFileAsync(
+          require.resolve("./node_modules/@modwatch/core/loadz0r/loader.min.js"),
+          "utf8"
+        )).replace(/process\.env\.PUBLIC_PATH/g, JSON.stringify(`/dist/${env.NOMODULE ? "no" : ""}module`)),
+        prependLoader: (chunk, workerFiles) =>
+          (chunk.isEntry && chunk.fileName.includes("index.js")) || workerFiles.includes(chunk.facadeModuleId)
+      })
     ].concat(
-      // env.NODE_ENV === "production"
-      //   ? [
-      //       require("rollup-plugin-visualizer")({
-      //         filename: `./node_modules/.visualizer/index-${
-      //           env.NOMODULE ? "no" : ""
-      //         }module.html`,
-      //         title: `Modwatch Dependency Graph (${
-      //           env.NOMODULE ? "no" : ""
-      //         }module)`,
-      //         bundlesRelative: true,
-      //         template: "treemap"
-      //       })
-      //     ]
-      //   : []
+      env.NODE_ENV === "production"
+        ? [
+            require("rollup-plugin-visualizer")({
+              filename: `./node_modules/.visualizer/index-${
+                env.NOMODULE ? "no" : ""
+              }module.html`,
+              title: `Modwatch Dependency Graph (${
+                env.NOMODULE ? "no" : ""
+              }module)`,
+              bundlesRelative: true,
+              template: "treemap"
+            })
+          ]
+        : []
     )
   };
 }

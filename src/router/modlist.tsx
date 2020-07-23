@@ -78,16 +78,22 @@ export default (props: ComponentProps) => {
   const [modlist, setModlist] = useState(initialState.modlist);
   const [files, setFiles] = useState([]);
   const [, params] = useRoute("/u/:username/:filetype?");
-  params.filetype = params.filetype || "plugins";
+  const [username, filetype] = [
+    params.username,
+    params.filetype || "plugins"
+  ].map(s => decodeURIComponent(s));
 
   useEffect(() => {
     const fetcher = async () => {
       const [_modlist, _file] = await Promise.all([
         getModlist({
-          username: params.username
+          username
         }),
-        params.filetype !== "plugins"
-          ? getModlistFileType(params as any)
+        filetype !== "plugins"
+          ? getModlistFileType({
+            username,
+            filetype
+          })
           : undefined
       ]);
       const _files = Object.keys(_modlist.files).filter(
@@ -96,7 +102,7 @@ export default (props: ComponentProps) => {
       setModlist({
         ..._modlist,
         ...(_file ? {
-          [params.filetype]: _file
+          [filetype]: _file
         } : {})
       });
       setFiles(_files);
@@ -112,14 +118,14 @@ export default (props: ComponentProps) => {
 
   const { user, deleteModlist, adsense } = props;
   const showAdminTools =
-    user && (props.user.scopes.indexOf("admin") !== -1 || user.username === params.username);
-  const complexLines = ["prefsini", "ini"].includes(params.filetype);
+    user && (props.user.scopes.indexOf("admin") !== -1 || user.username === username);
+  const complexLines = ["prefsini", "ini"].includes(filetype);
   const _fileTypeMap = modlist.game ? filetypeMap(modlist.game) : {};
 
   return (
     <div class="modlist-wrapper">
       <section class="modlist-meta">
-        <p class="modlist-username">{params.username}</p>
+        <p class="modlist-username">{username}</p>
         {modlist.enb && <p class="modlist-enb">ENB: {modlist.enb}</p>}
         {modlist.tag && <p class="modlist-tag">Tag: {modlist.tag}</p>}
         <p class="modlist-gamedisplay">{gameMap[modlist.game] || ""}</p>
@@ -151,12 +157,10 @@ export default (props: ComponentProps) => {
             {files.map(t => (
               <li>
                 <Link
-                  href={`/u/${encodeURIComponent(
-                    params.username
-                  )}/${encodeURIComponent(t)}`}
+                  href={`/u/${params.username}/${encodeURIComponent(t)}`}
                   class="no-underline"
                 >
-                  <button class={params.filetype === t ? "active" : ""}>
+                  <button class={filetype === t ? "active" : ""}>
                     {_fileTypeMap[t]}
                   </button>
                 </Link>
@@ -180,7 +184,7 @@ export default (props: ComponentProps) => {
               onInput={({ target }) => setFilter(target.value)}
             />
           </span>
-          {params.filetype === "modlist" && (
+          {filetype === "modlist" && (
             <span class="form-group">
               <label for="modlist-enabled-toggle">Inactive Mods</label>
               <input
@@ -191,14 +195,14 @@ export default (props: ComponentProps) => {
             </span>
           )}
         </form>
-        {modlist[params.filetype] && modlist[params.filetype].length > 0 && (
+        {modlist[filetype] && modlist[filetype].length > 0 && (
           <ModwatchFile
             filter={filter}
             showInactiveMods={showInactiveMods}
-            filetype={params.filetype}
-            showDescriptor={params.filetype === "plugins"}
+            filetype={filetype}
+            showDescriptor={filetype === "plugins"}
             complexLines={complexLines}
-            lines={modlist[params.filetype] as string[]}
+            lines={modlist[filetype] as string[]}
           />
         )}
       </section>

@@ -1,6 +1,8 @@
 import { h } from "preact";
+import { Link } from "wouter-preact";
+import ModwatchModlists from "@modwatch/core/src/components/modwatch-modlists";
 
-import ModwatchModlists from "../components/modwatch-modlists";
+import { getModlists, searchModlists } from "../store/pure";
 import ModwatchPostList from "../components/modwatch-postlist";
 
 export default () => {
@@ -39,7 +41,7 @@ export default () => {
       {!process.env.NOPOSTS && <ModwatchPostList title="Blog" />}
       <section>
         <h2>Latest Modlists</h2>
-        <ModwatchModlists />
+        <ModwatchModlists {...{Link, getModlists, searchModlists}} />
       </section>
     </div>
   );

@@ -1,10 +1,12 @@
-// import "preact/debug"; ///DEV_ONLY
+import "preact/debug"; ///DEV_ONLY
+import "unfetch/polyfill/index"; ///NOMODULE_ONLY
+
 import { render, h } from "preact";
+
 import { useEffect } from 'preact/hooks';
 import { MDXProvider } from "@mdx-js/preact";
 import { Link } from "wouter-preact";
 import { Provider, connect } from "unistore/preact";
-import "unfetch/polyfill/index"; ///NOMODULE_ONLY
 
 import "@modwatch/core/src/global.css";
 

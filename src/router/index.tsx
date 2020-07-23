@@ -1,7 +1,6 @@
 import { h, Fragment } from "preact";
 import { Suspense, lazy } from "preact/compat";
 import { useState, useEffect, useCallback } from "preact/hooks";
-// import Router, { route } from "preact-router";
 import { Router, useRoute, Route, Switch } from "wouter-preact";
 
 import NotFound from "./notFound";
