@@ -1,5 +1,5 @@
 import path from "path";
-import { readFile } from "fs";
+import { readFile, readFileSync } from "fs";
 import { promisify } from "util";
 import glob from "tiny-glob";
 import postcss from "rollup-plugin-postcss";
@@ -15,14 +15,10 @@ import OMT from "@surma/rollup-plugin-off-main-thread";
 /* wild crazy mdx hacky shit */
 import mdx from "@mdx-js/mdx";
 import esbuild from "rollup-plugin-esbuild";
+import { transform } from "esbuild";
 import { createFilter } from "@rollup/pluginutils";
 
-import _esbuild from 'esbuild';
-const qService = _esbuild.startService();
-
 const readFileAsync = promisify(readFile);
-
-// const localPkg = require("./package.json");
 
 const env = {
   API_ENV: process.env.API_ENV,
@@ -33,9 +29,9 @@ const env = {
   ADSENSE_CLIENT: "ca-pub-8579998974655014"
 };
 
-export default async () => {
+const localPkg = JSON.parse(readFileSync("./package.json", "utf8"));
 
-  const localPkg = JSON.parse(await readFileAsync("./package.json"));
+export default async () => {
   const posts = !env.NOPOSTS ? await glob("src/router/posts/*.mdx") : [];
   const postNames = posts.map(p => path.basename(p, ".mdx"));
   return {
@@ -53,6 +49,7 @@ export default async () => {
     moduleContext: null,
     treeshake: env.NODE_ENV === "production",
     preserveEntrySignatures: false,
+    preserveSymlinks: true,
     watch: {
       clearScreen: false
     },
@@ -80,9 +77,11 @@ export default async () => {
         extensions: ['.mjs', '.js', '.jsx', '.json', ".ts", ".tsx", ".mdx"]
       }),
       commonjs({
+        include: ["node_modules/**"],
         sourceMap: env.NODE_ENV === "production"
       }),
       replace({
+        include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)", "./node_modules/@modwatch/core/**/*.ts+(|x)"],
         replaces: {
           "process.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
           "process.env.VERSION": JSON.stringify(localPkg.version),
@@ -96,9 +95,9 @@ export default async () => {
               : JSON.stringify("http://localhost:3001"),
           "process.env.LAZY_POST_INITIALIZERS": postNames.map(p => `/* LAZY IMPORTS INJECTED VIA ROLLUP */\nconst ${p[0].toUpperCase()}${p.slice(1)} = lazy(() => import("./posts/${p}.mdx"));`).join("\n"),
           "{/*ROUTER_POST_SUSPENDERS*/}": postNames.map(p => (`/* SUSPENDED POST ROUTES INJECTED VIA ROLLUP */\n
-<Suspense path="/post/${p}" fallback={<div>loading ${p}</div>}>
+  <Suspense path="/post/${p}" fallback={<div>loading ${p}</div>}>
   <${p[0].toUpperCase()}${p.slice(1)} {...props} />
-</Suspense>
+  </Suspense>
           `)).join("\n")
         },
         patterns: (env.NODE_ENV !== "production" ? [{
@@ -161,8 +160,6 @@ function mdxPlugin(options) {
       if (!filter(id)) return null;
 
       const jsx = `import { h } from "preact"; import { mdx } from "@mdx-js/preact";\n${(await mdx(code))}`;
-
-      const { transform } = await qService;
 
       const es5 = await transform(jsx, {
         loader: "jsx",
