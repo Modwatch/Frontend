@@ -33,9 +33,9 @@ export default (props: StoreProps) => {
           Logout
         </a>
       )}
-      <Link href="/posts" class="nav-block">
+      {!process.env.NOPOSTS && <Link href="/posts" class="nav-block">
         Blog
-      </Link>
+      </Link>}
       {authenticated && (
         <Link href={`/u/${props.user.username}`} class="nav-block">
           Profile

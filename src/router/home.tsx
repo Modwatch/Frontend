@@ -16,7 +16,7 @@ export default () => {
           internet, you've probably had someone ask you for what mods you're
           using. So you could go find those file and copy them into a comment,
           or into pastebin, or a google doc, etc. Or you could{" "}
-          <a href="http://www.nexusmods.com/skyrim/mods/56640">
+          <a rel="noopener" href="http://www.nexusmods.com/skyrim/mods/56640">
             download Modwatch
           </a>
           , choose a username, upload your files here, and have an easy link (
