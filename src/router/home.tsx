@@ -4,8 +4,9 @@ import ModwatchModlists from "@modwatch/core/src/components/modwatch-modlists";
 
 import { getModlists, searchModlists } from "../store/pure";
 import ModwatchPostList from "../components/modwatch-postlist";
+import { StoreProps } from '../types';
 
-export default () => {
+export default (props: StoreProps) => {
   return (
     <div>
       <section>

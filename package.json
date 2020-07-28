@@ -10,7 +10,7 @@
     "watch": "rollup -cw --environment NODE_ENV:development,ADSENSE_ENABLED:false",
     "tape": "sucrase-node node_modules/tape/bin/tape ./tests/**/*.ts | tap-min",
     "tape:watch": "watch 'npm run tape' src tests -du",
-    "tsc": "tsc --noEmit",
+    "tsc": "npx -p typescript tsc --noEmit",
     "postgen": "node postgen",
     "loadz0r": "node loadz0r/supermin.js",
     "serve": "serve public",

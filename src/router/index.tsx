@@ -15,18 +15,21 @@ export default (props: StoreProps) => {
 
   return <Router>
     <Switch>
+      {/* @ts-ignore passing path to Suspense, _this is fine_*/}
       <Suspense path="/" fallback={<div />}>
         <Home {...props} />
       </Suspense>
+      {/* @ts-ignore passing path to Suspense, _this is fine_*/}
       <Suspense path="/u/:username/:filetype?" fallback={<div />}>
         <Modlist {...props} />
       </Suspense>
+      {/* @ts-ignore passing path to Suspense, _this is fine_*/}
       <Suspense path="/posts" fallback={<div />}>
-        <Posts {...props} />
+        <Posts />
       </Suspense>
       {/*ROUTER_POST_SUSPENDERS*/}
       <Route>
-        <NotFound {...props} />
+        <NotFound />
       </Route>
     </Switch>
   </Router>

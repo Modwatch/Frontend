@@ -73,8 +73,3 @@ export type Actions = {
 };
 
 export interface StoreProps extends GlobalState, Actions {}
-
-export interface RouteProps<Matches = any> extends StoreProps {
-  url: string;
-  matches: Matches;
-}

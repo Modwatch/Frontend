@@ -6,15 +6,9 @@ import "./modlist.css";
 
 import { getModlist, getModlistFileType } from "../store/pure";
 
-import { RouteProps } from "../types";
+import { StoreProps } from "../types";
 import { Modlist } from "@modwatch/types";
 import ModwatchFile from "@modwatch/core/src/components/modwatch-file";
-
-type ComponentProps = RouteProps<{
-  username: string;
-  filetype: string;
-  path?: string;
-}>;
 type ComponentState = {
   showInactiveMods: boolean;
   gameDisplay?: string;
@@ -72,7 +66,7 @@ export const useSearchFilter = (debounceRate = 200): [string, (value: string) =>
   return [filter, setFilter];
 }
 
-export default (props: ComponentProps) => {
+export default (props: StoreProps) => {
   const [filter, setFilter] = useSearchFilter();
   const [showInactiveMods, setShowInactiveMods] = useState(false);
   const [modlist, setModlist] = useState(initialState.modlist);
