@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf \"public/dist/?(no)module/*\"",
-    "build:module": "rollup -c --environment NODE_ENV:production,NOMODULE:false",
-    "build:nomodule": "rollup -c --environment NODE_ENV:production,NOMODULE:true",
+    "build:module": "rollup -c --environment NODE_ENV:production,NOMODULE:false,NOPOSTS:true,ADSENSE_ENABLED:false",
+    "build:nomodule": "rollup -c --environment NODE_ENV:production,NOMODULE:true,NOPOSTS:true,ADSENSE_ENABLED:false",
     "build": "run-p build:*",
     "watch": "rollup -cw --environment NODE_ENV:development,ADSENSE_ENABLED:false",
     "tape": "sucrase-node node_modules/tape/bin/tape ./tests/**/*.ts | tap-min",
