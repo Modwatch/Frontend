@@ -3,23 +3,20 @@
   "version": "2.0.8",
   "private": true,
   "scripts": {
-    "prebuild": "rimraf \"public/dist/?(no)module/*\" && npm run postinstall",
+    "prebuild": "rimraf \"public/dist/?(no)module/*\" && npm run postgen",
     "build:module": "rollup -c --environment NODE_ENV:production,NOMODULE:false,NOPOSTS:true,ADSENSE_ENABLED:false",
     "build:nomodule": "rollup -c --environment NODE_ENV:production,NOMODULE:true,NOPOSTS:true,ADSENSE_ENABLED:false",
     "build": "run-p build:*",
     "watch": "rollup -cw --environment NODE_ENV:development,ADSENSE_ENABLED:false",
-    "tape": "sucrase-node node_modules/tape/bin/tape ./tests/**/*.ts | tap-min",
-    "tape:watch": "watch 'npm run tape' src tests -du",
     "tsc": "npx -p typescript tsc --noEmit",
     "postgen": "node postgen",
-    "loadz0r": "node loadz0r/supermin.js",
     "serve": "serve public",
-    "micro": "sucrase-node ./node_modules/micro-dev/bin/micro-dev ./micro.ts -p 3001",
+    "premicro": "esbuild micro.ts --format=cjs --bundle --platform=node --outfile=micro.js",
+    "micro": "micro ./micro.js -l tcp://0.0.0.0:3001",
     "prettier": "prettier --write 'src/**/*.{js,jsx,css,ts,tsx}'",
-    "postinstall": "run-p postgen loadz0r"
+    "postinstall": "npm run postgen"
   },
   "precommit": [
-    "test",
     "prettier",
     "build"
   ],
@@ -29,15 +26,11 @@
     "@modwatch/core": "^0.2.0",
     "jwt-decode": "^2.2.0",
     "preact": "^10.4.6",
-    "preact-transition-group": "^2.0.0",
-    "promiscuous": "^0.7.2",
     "unfetch": "^4.1.0",
     "unistore": "^3.5.2",
     "wouter-preact": "^2.5.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@istanbuljs/nyc-config-typescript": "^0.1.3",
     "@mdx-js/mdx": "^1.6.13",
     "@modwatch/types": "^0.3.0",
     "@rollup/plugin-commonjs": "^14.0.0",
@@ -45,14 +38,11 @@
     "@rollup/pluginutils": "^3.1.0",
     "@surma/rollup-plugin-off-main-thread": "^1.4.1",
     "colorette": "^1.2.1",
-    "esbuild": "^0.6.8",
-    "firebase-tools": "^7.16.2",
+    "esbuild": "^0.6.9",
     "json5": "^2.1.3",
     "jwt-simple": "^0.5.6",
     "micro": "^9.3.4",
-    "micro-compress": "^1.0.0",
     "micro-cors": "^0.1.1",
-    "micro-dev": "^3.0.0",
     "microrouter": "^3.1.3",
     "mri": "^1.1.6",
     "npm-run-all": "^4.1.5",
@@ -61,7 +51,6 @@
     "postcss-url": "^8.0.0",
     "pre-commit": "^1.2.2",
     "prettier": "^2.0.5",
-    "proxyquire": "^2.1.3",
     "rimraf": "^3.0.2",
     "rollup": "^2.22.1",
     "rollup-plugin-esbuild": "^2.4.2",
@@ -69,14 +58,8 @@
     "rollup-plugin-re": "^1.0.7",
     "rollup-plugin-visualizer": "^4.0.4",
     "serve": "^11.3.2",
-    "sucrase": "^3.15.0",
-    "tap-min": "^2.0.0",
-    "tape": "^4.13.3",
-    "tape-watch": "^2.3.0",
-    "terser": "^4.8.0",
     "tiny-glob": "^0.2.6",
     "tslib": "^2.0.0",
-    "url-pattern": "^1.0.3",
-    "watch": "^1.0.2"
+    "url-pattern": "^1.0.3"
   }
 }

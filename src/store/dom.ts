@@ -8,7 +8,7 @@ export function insertScriptIntoDom(src: string) {
       s.parentNode.removeChild(s);
       resolve();
     });
-    s.addEventListener("error", e => {
+    s.addEventListener("error", (e) => {
       s.parentNode.removeChild(s);
       reject(e);
     });

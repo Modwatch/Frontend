@@ -4,7 +4,7 @@ export const profile: Partial<Modlist> = {
   timestamp: new Date("1995-12-17T03:24:00"),
   tag: "Tag",
   game: "skyrim",
-  enb: "Shiny ENB"
+  enb: "Shiny ENB",
 };
 
 export const plugins: ModFile = [
@@ -25,7 +25,7 @@ export const plugins: ModFile = [
   "*BBLuxurySuite.esm",
   "*DynDOLOD.esm",
   "*hdtHighHeel.esm",
-  "*ApachiiHair.esm"
+  "*ApachiiHair.esm",
 ];
 export const modlist: ModFile = [
   "-Recently Installed_separator",
@@ -41,7 +41,7 @@ export const modlist: ModFile = [
   "+CORE – Conflict Resolution Patch",
   "-32 CONFLICT RESOLUTION_separator",
   "+Charrmers - The Eyes Of Beauty Compability",
-  "+OMEGA AIO"
+  "+OMEGA AIO",
 ];
 export const ini: ModFile = [
   "[Actor]",
@@ -59,7 +59,7 @@ export const ini: ModFile = [
   "fMusicDuckingSeconds=6.0",
   "fMusicUnDuckingSeconds=8.0",
   "[Bethesda.net]",
-  "bEnablePlatform=0"
+  "bEnablePlatform=0",
 ];
 export const prefsini: ModFile = [
   "[AudioMenu]",
@@ -84,20 +84,20 @@ export const prefsini: ModFile = [
   "uPersistentUuidData0=3251767419",
   "uPersistentUuidData1=880756506",
   "uPersistentUuidData2=2788829086",
-  "uPersistentUuidData3=1390707462"
+  "uPersistentUuidData3=1390707462",
 ];
 export const game: Game = "skyrim";
 export const files: { [key: string]: number } = {
   plugins: plugins.length,
   modlist: modlist.length,
   ini: ini.length,
-  prefsini: prefsini.length
+  prefsini: prefsini.length,
 };
 
 export const all: Partial<Modlist> = {
   ...profile,
   plugins,
-  files
+  files,
 };
 
 export const users: Partial<Modlist>[] = [
@@ -111,14 +111,14 @@ export const users: Partial<Modlist>[] = [
   { username: "Arthandis", timestamp: new Date("1995-12-17T03:22:00") },
   {
     username: "FollowTheLaser",
-    timestamp: new Date("1995-12-17T03:20:34")
+    timestamp: new Date("1995-12-17T03:20:34"),
   },
   { username: "OsirisNGaming", timestamp: new Date("1995-12-17T03:20:15") },
   { username: "krrptd", timestamp: new Date("1995-12-17T03:20:13") },
   {
     timestamp: new Date("1995-12-17T03:20:03"),
-    username: "Flintlocksagerider"
-  }
+    username: "Flintlocksagerider",
+  },
 ];
 
 const iat = new Date("1995-12-17T03:24:00").getTime();
@@ -128,5 +128,5 @@ export const token = {
   sub: "Peanut",
   iat,
   exp: iat + 3600 * 1000,
-  scopes: ["user"]
+  scopes: ["user"],
 };

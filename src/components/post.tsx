@@ -3,35 +3,35 @@ import { PostMetadata } from "../types";
 
 const styles = {
   header: {
-    marginBottom: "50px"
+    marginBottom: "50px",
   },
   tagTimestampWrapper: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   tags: {
     listStyle: "none",
     display: "flex",
     padding: 0,
-    margin: 0
+    margin: 0,
   },
   tag: {
-    margin: "0 3px"
+    margin: "0 3px",
   },
   section: {
-    padding: "25px 10%"
+    padding: "25px 10%",
   },
   timestamp: {
-    color: "#d58717"
+    color: "#d58717",
   },
   author: {
-    color: "#d58717"
+    color: "#d58717",
   },
   content: {
     textAlign: "left",
-    fontSize: "16px"
-  }
+    fontSize: "16px",
+  },
 };
 
 const months = [
@@ -46,7 +46,7 @@ const months = [
   "September",
   "October",
   "November",
-  "December"
+  "December",
 ];
 
 const d = new Date();

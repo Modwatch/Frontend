@@ -24,13 +24,13 @@ type ComponentState = {
 const gameMap = {
   skyrim: "Skyrim Classic",
   skyrimse: "Skyrim SE",
-  fallout4: "Fallout 4"
+  fallout4: "Fallout 4",
 };
-const filetypeMap = game => ({
+const filetypeMap = (game) => ({
   plugins: "plugins",
   modlist: "modlist",
   ini: game.indexOf("skyrim") !== -1 ? "skyrim" : game,
-  prefsini: `${game.indexOf("skyrim") !== -1 ? "skyrim" : game}Prefs`
+  prefsini: `${game.indexOf("skyrim") !== -1 ? "skyrim" : game}Prefs`,
 });
 const initialState: ComponentState = {
   filter: "",
@@ -44,27 +44,31 @@ const initialState: ComponentState = {
     enb: undefined,
     game: undefined,
     timestamp: undefined,
-    score: undefined
+    score: undefined,
   },
   files: [],
   gameDisplay: undefined,
   isAdmin: false,
-  filetype: "plugins"
+  filetype: "plugins",
 };
 
-export const useSearchFilter = (debounceRate = 200): [string, (value: string) => void] => {
+export const useSearchFilter = (
+  debounceRate = 200
+): [string, (value: string) => void] => {
   const [filter, innerSetFilter] = useState("");
   const [filterTimeoutID, setFilterTimeoutID] = useState(null);
 
   function setFilter(value: string) {
     window.clearTimeout(filterTimeoutID);
-    setFilterTimeoutID(window.setTimeout(() => {
-      innerSetFilter(value);
-    }, debounceRate));
+    setFilterTimeoutID(
+      window.setTimeout(() => {
+        innerSetFilter(value);
+      }, debounceRate)
+    );
   }
 
   return [filter, setFilter];
-}
+};
 
 export default (props: StoreProps) => {
   const [filter, setFilter] = useSearchFilter();
@@ -74,30 +78,32 @@ export default (props: StoreProps) => {
   const [, params] = useRoute("/u/:username/:filetype?");
   const [username, filetype] = [
     params.username,
-    params.filetype || "plugins"
-  ].map(s => decodeURIComponent(s));
+    params.filetype || "plugins",
+  ].map((s) => decodeURIComponent(s));
 
   useEffect(() => {
     const fetcher = async () => {
       const [_modlist, _file] = await Promise.all([
         getModlist({
-          username
+          username,
         }),
         filetype !== "plugins"
           ? getModlistFileType({
-            username,
-            filetype
-          })
-          : undefined
+              username,
+              filetype,
+            })
+          : undefined,
       ]);
       const _files = Object.keys(_modlist.files).filter(
-        key => _modlist.files[key] > 0
+        (key) => _modlist.files[key] > 0
       );
       setModlist({
         ..._modlist,
-        ...(_file ? {
-          [filetype]: _file
-        } : {})
+        ...(_file
+          ? {
+              [filetype]: _file,
+            }
+          : {}),
       });
       setFiles(_files);
 
@@ -112,12 +118,18 @@ export default (props: StoreProps) => {
 
   const { user, deleteModlist, adsense } = props;
   const showAdminTools =
-    user && (props.user.scopes.indexOf("admin") !== -1 || user.username === username);
+    user &&
+    (props.user.scopes.indexOf("admin") !== -1 || user.username === username);
   const complexLines = ["prefsini", "ini"].includes(filetype);
   const _fileTypeMap = modlist.game ? filetypeMap(modlist.game) : {};
 
   const tProps = {
-    transitionName: "fading", transitionAppear: "fading", transitionEnter: "fading", transitionLeaveTimeout: 2000, transitionEnterTimeout: 2000, transitionAppearTimeout: 2000
+    transitionName: "fading",
+    transitionAppear: "fading",
+    transitionEnter: "fading",
+    transitionLeaveTimeout: 2000,
+    transitionEnterTimeout: 2000,
+    transitionAppearTimeout: 2000,
   };
 
   return (
@@ -129,30 +141,32 @@ export default (props: StoreProps) => {
         <p class="modlist-gamedisplay">{gameMap[modlist.game] || ""}</p>
         {showAdminTools && (
           <div class="modlist-actions">
-            <button type="button" onClick={e => deleteModlist()}>
+            <button type="button" onClick={(e) => deleteModlist()}>
               Delete
             </button>
           </div>
         )}
       </section>
-      {process.env.ADSENSE_ENABLED && <ins
-        class="adsbygoogle"
-        style={{
-          display: "block",
-          width: "100%",
-          height: !adsense.failed ? "280px" : "0",
-          marginBottom: !adsense.failed ? "25px" : "0"
-        }}
-        data-ad-client={process.env.ADSENSE_CLIENT}
-        data-adtest={process.env.NODE_ENV !== "production" ? "on" : undefined}
-        data-ad-slot="1008233292"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      ></ins>}
+      {process.env.ADSENSE_ENABLED && (
+        <ins
+          class="adsbygoogle"
+          style={{
+            display: "block",
+            width: "100%",
+            height: !adsense.failed ? "280px" : "0",
+            marginBottom: !adsense.failed ? "25px" : "0",
+          }}
+          data-ad-client={process.env.ADSENSE_CLIENT}
+          data-adtest={process.env.NODE_ENV !== "production" ? "on" : undefined}
+          data-ad-slot="1008233292"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
+      )}
       <section class="modlist-content">
         <nav class="modlist-filetype-nav">
           <ul>
-            {files.map(t => (
+            {files.map((t) => (
               <li>
                 <Link
                   href={`/u/${params.username}/${encodeURIComponent(t)}`}
@@ -188,7 +202,7 @@ export default (props: StoreProps) => {
               <input
                 type="checkbox"
                 id="modlist-enabled-toggle"
-                onChange={e => setShowInactiveMods(!showInactiveMods)}
+                onChange={(e) => setShowInactiveMods(!showInactiveMods)}
               />
             </span>
           )}

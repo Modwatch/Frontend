@@ -9,14 +9,14 @@ const MAX_POSTS = 3;
 
 const styles = {
   div: {
-    marginBottom: "25px"
+    marginBottom: "25px",
   },
   h2: {
     marginBottom: "10px",
     boxSizing: "border-box",
     padding: "25px 10px",
     backgroundColor: "#d3d3d3",
-    boxShadow: "3px 3px 6px 1px #000000"
+    boxShadow: "3px 3px 6px 1px #000000",
   },
   ul: {
     listStyle: "none",
@@ -26,7 +26,7 @@ const styles = {
     gridRowGap: "10px",
     paddingLeft: "0",
     display: "grid",
-    margin: 0
+    margin: 0,
   },
   li: {},
   link: {
@@ -35,32 +35,29 @@ const styles = {
     color: "#000000",
     backgroundColor: "#d3d3d3",
     padding: "25px 10px",
-    boxShadow: "3px 3px 6px 1px"
+    boxShadow: "3px 3px 6px 1px",
   },
   img: {
     width: "100px",
     height: "100px",
-    flexShrink: "0"
+    flexShrink: "0",
   },
   span: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    paddingLeft: "10px"
+    paddingLeft: "10px",
   },
   more: {
     marginTop: "10px",
     boxSizing: "border-box",
     backgroundColor: "rgb(211, 211, 211)",
     boxShadow: "rgb(0, 0, 0) 3px 3px 6px 1px",
-    padding: "10px 0"
-  }
+    padding: "10px 0",
+  },
 };
 
-export default (props: {
-  unlimited?: boolean;
-  title?: string;
-}) => {
+export default (props: { unlimited?: boolean; title?: string }) => {
   const [posts, setPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
 
@@ -69,18 +66,17 @@ export default (props: {
       const allPosts = []
         .concat(metadata)
         .sort((a, b) => (a.timestamp > b.timestamp ? -1 : 1))
-        .map(post => ({
+        .map((post) => ({
           ...post,
-          _timestamp: new Date(post.timestamp).toDateString()
+          _timestamp: new Date(post.timestamp).toDateString(),
         }));
-      setPosts(allPosts
-        .slice(0, !props.unlimited ? MAX_POSTS : undefined));
+      setPosts(allPosts.slice(0, !props.unlimited ? MAX_POSTS : undefined));
       setAllPosts(allPosts);
     });
   }, []);
 
   useEffect(() => {
-    setPosts(allPosts.slice(0, !props.unlimited ? MAX_POSTS : undefined))
+    setPosts(allPosts.slice(0, !props.unlimited ? MAX_POSTS : undefined));
   }, [props.unlimited]);
 
   return (
@@ -92,7 +88,7 @@ export default (props: {
         <h2 style={styles.h2}>{props.title || "Latest Blog Posts"}</h2>
       </Link>
       <ul style={styles.ul}>
-        {posts.map(post => (
+        {posts.map((post) => (
           <li style={styles.li}>
             <Link
               style={styles.link}

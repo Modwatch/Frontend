@@ -11,7 +11,7 @@ export const getLocalState = () => {
   }
 };
 
-export const setLocalState = state => (
+export const setLocalState = (state) => (
   localStorage.setItem("modwatch.user", JSON.stringify(state)), state
 );
 

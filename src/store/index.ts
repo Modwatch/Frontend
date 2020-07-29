@@ -4,7 +4,7 @@ import jwtDecode from "jwt-decode";
 
 import {
   addNotification,
-  removeNotification
+  removeNotification,
 } from "@modwatch/core/src/store/index";
 import { clearLocalState, setLocalState, getLocalState } from "./local";
 import { insertScriptIntoDom } from "./dom";
@@ -18,8 +18,8 @@ export const rawState = {
   user: user.username ? user : undefined,
   adsense: {
     loaded: false,
-    failed: false
-  }
+    failed: false,
+  },
 };
 
 let _store = createStore(rawState);
@@ -27,37 +27,37 @@ let _store = createStore(rawState);
 _store = devtools(_store); ///DEV_ONLY
 export const store = _store;
 
-export const actions = store => ({
+export const actions = (store) => ({
   login(state: GlobalState, token) {
     const { sub, scopes } = jwtDecode(token);
     const user = {
       token,
       authenticated: true,
       username: sub,
-      scopes
+      scopes,
     };
     setLocalState(user);
     return {
       ...state,
-      user
+      user,
     };
   },
   logout(state: GlobalState) {
     clearLocalState();
     return {
       ...state,
-      user: undefined
+      user: undefined,
     };
   },
   async loadAdsenseAds(state: GlobalState) {
-    if(!process.env.ADSENSE_ENABLED) {
+    if (!process.env.ADSENSE_ENABLED) {
       return {
         ...state,
         adsense: {
           loaded: false,
-          failed: true
-        }
-      }
+          failed: true,
+        },
+      };
     }
     if (state.adsense.loaded || state.adsense.failed) {
       return state;
@@ -70,8 +70,8 @@ export const actions = store => ({
         ...state,
         adsense: {
           loaded: true,
-          failed: false
-        }
+          failed: false,
+        },
       };
     } catch (e) {
       store.setState(
@@ -81,11 +81,11 @@ export const actions = store => ({
         ...state,
         adsense: {
           loaded: false,
-          failed: true
-        }
+          failed: true,
+        },
       };
     }
   },
   addNotification,
-  removeNotification
+  removeNotification,
 });

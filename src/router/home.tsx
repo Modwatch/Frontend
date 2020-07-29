@@ -4,7 +4,7 @@ import ModwatchModlists from "@modwatch/core/src/components/modwatch-modlists";
 
 import { getModlists, searchModlists } from "../store/pure";
 import ModwatchPostList from "../components/modwatch-postlist";
-import { StoreProps } from '../types';
+import { StoreProps } from "../types";
 
 export default (props: StoreProps) => {
   return (
@@ -13,17 +13,17 @@ export default (props: StoreProps) => {
         <h2>What is Modwatch?</h2>
         <p>
           This is a modlist-hosting site for Skyrim, Skyrim SE, and Fallout 4.
-          If you've ever had your game crash and asked for help on the
-          internet, you've probably had someone ask you for what mods you're
-          using. So you could go find those file and copy them into a comment,
-          or into pastebin, or a google doc, etc. Or you could{" "}
+          If you've ever had your game crash and asked for help on the internet,
+          you've probably had someone ask you for what mods you're using. So you
+          could go find those file and copy them into a comment, or into
+          pastebin, or a google doc, etc. Or you could{" "}
           <a rel="noopener" href="http://www.nexusmods.com/skyrim/mods/56640">
             download Modwatch
           </a>
           , choose a username, upload your files here, and have an easy link (
-          <i>modwat.ch/u/your_username_here</i>) to give out. This site is
-          also used by streamers, youtubers, or anyone else that might want to
-          show people what mods they're using.
+          <i>modwat.ch/u/your_username_here</i>) to give out. This site is also
+          used by streamers, youtubers, or anyone else that might want to show
+          people what mods they're using.
         </p>
       </section>
       <section>
@@ -32,7 +32,7 @@ export default (props: StoreProps) => {
             style={{
               paddingBottom: 0,
               marginBottom: 0,
-              borderBottom: 0
+              borderBottom: 0,
             }}
           >
             Download Here
@@ -42,8 +42,8 @@ export default (props: StoreProps) => {
       {!process.env.NOPOSTS && <ModwatchPostList title="Blog" />}
       <section>
         <h2>Latest Modlists</h2>
-        <ModwatchModlists {...{Link, getModlists, searchModlists}} />
+        <ModwatchModlists {...{ Link, getModlists, searchModlists }} />
       </section>
     </div>
   );
-}
+};

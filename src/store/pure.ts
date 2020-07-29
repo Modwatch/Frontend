@@ -1,22 +1,20 @@
 import { Modlist } from "@modwatch/types";
 import { PartialModlist, User } from "../types";
 
-const getJson = res => res.json();
+const getJson = (res) => res.json();
 const _e = encodeURIComponent;
 
 export async function getModlists({
-  limit = 10
+  limit = 10,
 }: {
   limit?: number;
 } = {}): Promise<PartialModlist[]> {
-  return fetch(`${process.env.API_URL}/api/users/list/${limit}`).then(
-    getJson
-  );
+  return fetch(`${process.env.API_URL}/api/users/list/${limit}`).then(getJson);
 }
 
 export async function searchModlists({
   filter,
-  limit = 10
+  limit = 10,
 }: {
   filter: string;
   limit?: number;
@@ -27,18 +25,18 @@ export async function searchModlists({
 }
 
 export async function getModlist({
-  username
+  username,
 }: {
   username: string;
 }): Promise<Modlist> {
-  return fetch(
-    `${process.env.API_URL}/api/user/${_e(username)}/all`
-  ).then(getJson);
+  return fetch(`${process.env.API_URL}/api/user/${_e(username)}/all`).then(
+    getJson
+  );
 }
 
 export async function getModlistFileType({
   username,
-  filetype
+  filetype,
 }: {
   username: string;
   filetype: string;
@@ -50,7 +48,7 @@ export async function getModlistFileType({
 
 export async function deleteModlist({
   user,
-  username
+  username,
 }: {
   user: User;
   username: string;
@@ -62,13 +60,18 @@ export async function deleteModlist({
   }
   try {
     return (
-      (await fetch(`${process.env.API_URL}/oauth/user/${_e(username)}/delete`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`
-        }
-      })).status === 200
+      (
+        await fetch(
+          `${process.env.API_URL}/oauth/user/${_e(username)}/delete`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        )
+      ).status === 200
     );
   } catch (e) {
     return false;
@@ -77,11 +80,13 @@ export async function deleteModlist({
 
 export async function verify(token: string): Promise<boolean> {
   return (
-    (await fetch(`${process.env.API_URL}/oauth/verify?t=${Date.now()}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })).status === 200
+    (
+      await fetch(`${process.env.API_URL}/oauth/verify?t=${Date.now()}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    ).status === 200
   );
 }

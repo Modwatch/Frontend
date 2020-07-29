@@ -3,7 +3,7 @@ import "unfetch/polyfill/index"; ///NOMODULE_ONLY
 
 import { render, h } from "preact";
 
-import { useEffect } from 'preact/hooks';
+import { useEffect } from "preact/hooks";
 import { MDXProvider } from "@mdx-js/preact";
 import { Link } from "wouter-preact";
 import { Provider, connect } from "unistore/preact";
@@ -30,7 +30,7 @@ ADSENSE_ENABLED:\t${process.env.ADSENSE_ENABLED}`);
 
 const pathname = window.location.pathname;
 
-const token = (function() {
+const token = (function () {
   if (pathname.indexOf("/oauth/access_token/") === 0) {
     history.replaceState(null, null, "/");
     try {
@@ -48,13 +48,10 @@ const Root = (props: StoreProps & { token: string }) => {
     const asyncWrapper = async () => {
       if (!props.token && props.user && props.user.authenticated) {
         window.setTimeout(
-          () =>
-            props.addNotification(
-              `Welcome Back, ${props.user.username}`
-            ),
+          () => props.addNotification(`Welcome Back, ${props.user.username}`),
           1
         );
-      } else if (props.token === "401" || await verify(token)) {
+      } else if (props.token === "401" || (await verify(token))) {
         if (!props.user || !props.user.authenticated) {
           return;
         }
@@ -62,11 +59,11 @@ const Root = (props: StoreProps & { token: string }) => {
         window.setTimeout(
           () =>
             props.addNotification("Login Failed", {
-              type: "error"
+              type: "error",
             }),
           1
         );
-      } else if(token) {
+      } else if (token) {
         props.login(token);
         window.setTimeout(() => props.addNotification("Login Successful"), 1);
       }
@@ -92,24 +89,24 @@ const Root = (props: StoreProps & { token: string }) => {
       </div>
     </div>
   );
-}
+};
 
 const mdxComponents = {
-  wrapper: props => {
+  wrapper: (props) => {
     const { metadata } = props;
     return (
       <section class="post-wrapper">
         <h1>{metadata.title}</h1>
-        <div {...props}/>
+        <div {...props} />
       </section>
     );
   },
-}
+};
 
 const Connector = connect(
   Object.keys(rawState),
   actions
-)(function(props) {
+)(function (props) {
   return (
     <MDXProvider components={mdxComponents}>
       {/*@ts-ignore I don't know how to pass types to connect*/}

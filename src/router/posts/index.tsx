@@ -1,7 +1,7 @@
 import { h } from "preact";
 import ModwatchPostList from "../../components/modwatch-postlist";
 
-export const Header = function(props) {
+export const Header = function (props) {
   return (
     <header>
       <h1>{props.title}</h1>
@@ -11,6 +11,6 @@ export const Header = function(props) {
   );
 };
 
-export default function({ path }: { path?: string }) {
+export default function ({ path }: { path?: string }) {
   return <ModwatchPostList title="All Blog Posts" unlimited={true} />;
 }

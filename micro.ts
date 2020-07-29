@@ -3,7 +3,6 @@ import { ServerRequest, ServerResponse } from "microrouter";
 import { router, get, post, del } from "microrouter";
 import { send } from "micro";
 import Cors from "micro-cors";
-import compress from "micro-compress";
 import { encode } from "jwt-simple";
 import UrlPattern from "url-pattern";
 
@@ -65,7 +64,7 @@ const routes: RouteDef[] = [{
   response: params => mocks.users.filter(user => user.username.toLowerCase().includes(params.query.toLowerCase()))
 }]
 
-export default cors(compress(router(
+export default cors(router(
   /* User */
   ...routes.map(route => route.method(route.url, async (req: ServerRequest, res: ServerResponse) => {
     await throttledSend(res, 200, typeof route.response === "function" ? route.response(req.params) : route.response);
@@ -92,4 +91,4 @@ export default cors(compress(router(
   del("/oauth/user/:username/delete", async (req: ServerRequest, res: ServerResponse) => {
     await throttledSend(res, 200);
   })
-)));
+));
