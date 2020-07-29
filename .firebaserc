@@ -1,6 +1,0 @@
-{
-  "projects": {
-    "default": "testing-ee4f4",
-    "staging": "modwatch-staging"
-  }
-}
