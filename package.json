@@ -3,7 +3,7 @@
   "version": "2.0.8",
   "private": true,
   "scripts": {
-    "prebuild": "rimraf \"public/dist/?(no)module/*\"",
+    "prebuild": "rimraf \"public/dist/?(no)module/*\" && npm run postinstall",
     "build:module": "rollup -c --environment NODE_ENV:production,NOMODULE:false,NOPOSTS:true,ADSENSE_ENABLED:false",
     "build:nomodule": "rollup -c --environment NODE_ENV:production,NOMODULE:true,NOPOSTS:true,ADSENSE_ENABLED:false",
     "build": "run-p build:*",
@@ -16,8 +16,7 @@
     "serve": "serve public",
     "micro": "sucrase-node ./node_modules/micro-dev/bin/micro-dev ./micro.ts -p 3001",
     "prettier": "prettier --write 'src/**/*.{js,jsx,css,ts,tsx}'",
-    "postinstall": "run-p postgen loadz0r",
-    "deploy:ci": "firebase use testing-ee4f4 --token $FIREBASE_TOKEN && firebase deploy --only hosting --non-interactive --token $FIREBASE_TOKEN"
+    "postinstall": "run-p postgen loadz0r"
   },
   "precommit": [
     "test",
