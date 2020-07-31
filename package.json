@@ -7,7 +7,7 @@
     "build:module": "rollup -c --environment NODE_ENV:production,NOMODULE:false,NOPOSTS:true,ADSENSE_ENABLED:false",
     "build:nomodule": "rollup -c --environment NODE_ENV:production,NOMODULE:true,NOPOSTS:true,ADSENSE_ENABLED:false",
     "build": "run-p build:*",
-    "watch": "rollup -cw --environment NODE_ENV:development,ADSENSE_ENABLED:false",
+    "watch": "rollup -c rollup.config.mjs -w --environment NODE_ENV:development,ADSENSE_ENABLED:false",
     "tsc": "npx -p typescript tsc --noEmit",
     "postgen": "node postgen",
     "serve": "serve public",

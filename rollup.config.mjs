@@ -1,4 +1,5 @@
-import path from "path";
+import { basename, resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 import { readFile, readFileSync } from "fs";
 import { promisify } from "util";
 import glob from "tiny-glob";
@@ -11,11 +12,12 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "rollup-plugin-re";
 import OMT from "@surma/rollup-plugin-off-main-thread";
+import visualizer from "rollup-plugin-visualizer";
 
 /* wild crazy mdx hacky shit */
 import mdx from "@mdx-js/mdx";
-import esbuild from "rollup-plugin-esbuild";
-import { transform } from "esbuild";
+import rollupEsbuild from "rollup-plugin-esbuild";
+import esbuild from "esbuild";
 import { createFilter } from "@rollup/pluginutils";
 
 const readFileAsync = promisify(readFile);
@@ -33,17 +35,17 @@ const localPkg = JSON.parse(readFileSync("./package.json", "utf8"));
 
 export default async () => {
   const posts = !env.NOPOSTS ? await glob("src/router/posts/*.mdx") : [];
-  const postNames = posts.map(p => path.basename(p, ".mdx"));
+  const postNames = posts.map(p => basename(p, ".mdx"));
   return {
     input: "src/index.tsx",
     output: {
       sourcemap: env.NODE_ENV !== "production" ? "inline" : true,
       exports: "named",
-      dir: path.resolve(
-        __dirname,
+      dir: resolve(
+        dirname(fileURLToPath(import.meta.url)),
         `public/dist/${env.NOMODULE ? "no" : ""}module/`
       ),
-      format: "amd"
+      format: process.env.NODE_ENV === "production" ? "amd" : "es"
     },
     context: null,
     moduleContext: null,
@@ -115,26 +117,26 @@ export default async () => {
         include: ["./src/**/*.mdx"],
         exclude: "node_modules/**"
       }),
-      esbuild({
+      rollupEsbuild({
         include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)", "./node_modules/@modwatch/core/**/*.ts+(|x)"],
         exclude: [],
         watch: process.argv.includes("--watch"),
         target: env.NOMODULE ? "es2015" : "es2016",
         jsxFactory: "h",
         jsxFragment: "Fragment"
-      }),
-      OMT({
-        loader: (await readFileAsync(
-          require.resolve("./node_modules/@modwatch/core/loadz0r/loader.min.js"),
-          "utf8"
-        )).replace(/process\.env\.PUBLIC_PATH/g, JSON.stringify(`/dist/${env.NOMODULE ? "no" : ""}module`)),
-        prependLoader: (chunk, workerFiles) =>
-          (chunk.isEntry && chunk.fileName.includes("index.js")) || workerFiles.includes(chunk.facadeModuleId)
       })
     ].concat(
       env.NODE_ENV === "production"
         ? [
-            require("rollup-plugin-visualizer")({
+          OMT({
+            loader: (await readFileAsync(
+              resolve("./node_modules/@modwatch/core/loadz0r/loader.min.js"),
+              "utf8"
+            )).replace(/process\.env\.PUBLIC_PATH/g, JSON.stringify(`/dist/${env.NOMODULE ? "no" : ""}module`)),
+            prependLoader: (chunk, workerFiles) =>
+              (chunk.isEntry && chunk.fileName.includes("index.js")) || workerFiles.includes(chunk.facadeModuleId)
+          }),
+            visualizer({
               filename: `./node_modules/.visualizer/index-${
                 env.NOMODULE ? "no" : ""
               }module.html`,
@@ -161,7 +163,7 @@ function mdxPlugin(options) {
 
       const jsx = `import { h } from "preact"; import { mdx } from "@mdx-js/preact";\n${(await mdx(code))}`;
 
-      const es5 = await transform(jsx, {
+      const es5 = await esbuild.transform(jsx, {
         loader: "jsx",
         watch: process.argv.includes("--watch"),
         target: env.NOMODULE ? "es2015" : "es2016",
