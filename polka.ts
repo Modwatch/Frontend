@@ -56,7 +56,6 @@ const routes: RouteDef[] = [{
 
 routes.forEach(({ method, url, response }) => {
   app[method](url, (req, res) => {
-    console.log(method, url, response);
     res.end(typeof response === "function" ? response(req.params) : response)
   })
 });
