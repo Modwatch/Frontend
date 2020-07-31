@@ -11,8 +11,8 @@
     "tsc": "npx -p typescript tsc --noEmit",
     "postgen": "node postgen",
     "serve": "serve public",
-    "premicro": "esbuild micro.ts --format=cjs --bundle --platform=node --outfile=micro.js",
-    "micro": "micro ./micro.js -l tcp://0.0.0.0:3001",
+    "prepolka": "esbuild polka.ts --format=cjs --bundle --platform=node --outfile=polka.js",
+    "polka": "node polka.js",
     "prettier": "prettier --write 'src/**/*.{js,jsx,css,ts,tsx}'",
     "postinstall": "npm run postgen"
   },
@@ -20,7 +20,7 @@
     "prettier",
     "build"
   ],
-  "main": "micro.js",
+  "main": "polka.js",
   "dependencies": {
     "@mdx-js/preact": "^1.6.16",
     "@modwatch/core": "^0.2.0",
@@ -38,12 +38,10 @@
     "@rollup/pluginutils": "^3.1.0",
     "@surma/rollup-plugin-off-main-thread": "^1.4.1",
     "colorette": "^1.2.1",
+    "cors": "^2.8.5",
     "esbuild": "^0.6.11",
     "json5": "^2.1.3",
     "jwt-simple": "^0.5.6",
-    "micro": "^9.3.4",
-    "micro-cors": "^0.1.1",
-    "microrouter": "^3.1.3",
     "mri": "^1.1.6",
     "npm-run-all": "^4.1.5",
     "polka": "^0.5.2",
