@@ -47,8 +47,7 @@ export default async () => {
       ),
       format: process.env.NODE_ENV === "production" ? "amd" : "es"
     },
-    context: null,
-    moduleContext: null,
+    context: "window",
     treeshake: env.NODE_ENV === "production",
     preserveEntrySignatures: false,
     preserveSymlinks: true,
@@ -155,15 +154,26 @@ export default async () => {
 function mdxPlugin(options) {
   if (!options) options = {};
   const filter = createFilter(options.include, options.exclude);
+  let service, serviceCount = 0;
 
   return {
     name: "preact-mdx-esbuild",
+    buildStart: async (options) => {
+      if(serviceCount++ === 0) {
+        service = await esbuild.startService();
+      }
+    },
+    buildEnd: async (error) => {
+      if(--serviceCount === 0) {
+        service.stop();
+      }
+    },
     transform: async (code, id) => {
       if (!filter(id)) return null;
 
       const jsx = `import { h } from "preact"; import { mdx } from "@mdx-js/preact";\n${(await mdx(code))}`;
 
-      const es5 = await esbuild.transform(jsx, {
+      const es5 = await service.transform(jsx, {
         loader: "jsx",
         watch: process.argv.includes("--watch"),
         target: env.NOMODULE ? "es2015" : "es2016",
@@ -172,7 +182,8 @@ function mdxPlugin(options) {
 
       try {
         return {
-          code: es5.js
+          code: es5.js,
+          map: null
         };
       } catch (e) {
         e.plugin = "preact-mdx-esbuild";
