@@ -6,6 +6,7 @@ import glob from "tiny-glob";
 import postcss from "rollup-plugin-postcss";
 import cssnano from "cssnano";
 import postcssNesting from "postcss-nesting";
+import minmax from "postcss-media-minmax";
 import postcssCustomProperties from "postcss-custom-properties";
 import postcssURL from "postcss-url";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
@@ -71,7 +72,8 @@ export default async () => {
           }),
           postcssURL({
             url: "inline"
-          })
+          }),
+          minmax()
         ].concat(env.NODE_ENV !== "production" ? [] : [cssnano()])
       }),
       nodeResolve({
