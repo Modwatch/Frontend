@@ -119,7 +119,8 @@ export default (props: StoreProps) => {
   const { user, deleteModlist, adsense } = props;
   const showAdminTools =
     user &&
-    (props.user.scopes.indexOf("admin") !== -1 || user.username === username);
+    user.scopes &&
+    (user.scopes.indexOf("admin") !== -1 || user.username === username);
   const complexLines = ["prefsini", "ini"].includes(filetype);
   const _fileTypeMap = modlist.game ? filetypeMap(modlist.game) : {};
 
