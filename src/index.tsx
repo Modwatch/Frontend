@@ -46,12 +46,17 @@ const token = (function () {
 const Root = (props: StoreProps & { token: string }) => {
   useEffect(() => {
     const asyncWrapper = async () => {
-      if (!props.token && props.user && props.user.authenticated) {
+      const verified = props.token
+        ? await verify(props.token)
+        : props.user.token
+        ? await verify(props.user.token)
+        : false;
+      if (!props.token && props.user && props.user.authenticated && verified) {
         window.setTimeout(
           () => props.addNotification(`Welcome Back, ${props.user.username}`),
           1
         );
-      } else if (props.token === "401" || (await verify(token))) {
+      } else if (props.token === "401" || !verified) {
         if (!props.user || !props.user.authenticated) {
           return;
         }
@@ -63,8 +68,8 @@ const Root = (props: StoreProps & { token: string }) => {
             }),
           1
         );
-      } else if (token) {
-        props.login(token);
+      } else if (props.token) {
+        props.login(props.token);
         window.setTimeout(() => props.addNotification("Login Successful"), 1);
       }
     };

@@ -1,7 +1,7 @@
 export const getLocalState = () => {
   const user = localStorage.getItem("modwatch.user");
   if (!user) {
-    return {};
+    return clearLocalState();
   }
   try {
     return JSON.parse(user);

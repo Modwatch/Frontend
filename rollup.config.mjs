@@ -1,5 +1,4 @@
-import { basename, resolve, dirname } from "path";
-import { fileURLToPath } from "url";
+import { basename, resolve } from "path";
 import { readFile, readFileSync } from "fs";
 import { promisify } from "util";
 import glob from "tiny-glob";
@@ -14,6 +13,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import replace from "rollup-plugin-re";
 import OMT from "@surma/rollup-plugin-off-main-thread";
 import visualizer from "rollup-plugin-visualizer";
+import serve from "rollup-plugin-serve";
 
 /* wild crazy mdx hacky shit */
 import mdx from "@mdx-js/mdx";
@@ -43,7 +43,6 @@ export default async () => {
       sourcemap: env.NODE_ENV !== "production" ? "inline" : true,
       exports: "named",
       dir: resolve(
-        dirname(fileURLToPath(import.meta.url)),
         `public/dist/${env.NOMODULE ? "no" : ""}module/`
       ),
       format: process.env.NODE_ENV === "production" ? "amd" : "es"
@@ -119,9 +118,14 @@ export default async () => {
         exclude: "node_modules/**"
       }),
       rollupEsbuild({
-        include: ["./src/*/*.ts+(|x)", "./src/**/*.ts+(|x)", "./node_modules/@modwatch/core/**/*.ts+(|x)"],
+        include: [
+          "./src/*/*.ts+(|x)",
+          "./src/**/*.ts+(|x)",
+          "./node_modules/@modwatch/core/**/*.ts+(|x)",
+          "./src/**/*.mdx",
+        ],
         exclude: [],
-        watch: process.argv.includes("--watch"),
+        watch: process.env.ROLLUP_WATCH,
         target: env.NOMODULE ? "es2015" : "es2016",
         jsxFactory: "h",
         jsxFragment: "Fragment"
@@ -149,7 +153,14 @@ export default async () => {
             })
           ]
         : []
-    )
+    ).concat(process.env.ROLLUP_WATCH ? [
+      serve({
+        contentBase: "public",
+        port: 5000,
+        verbose: false,
+        historyApiFallback: true,
+      })
+    ] : [])
   };
 }
 
@@ -177,7 +188,7 @@ function mdxPlugin(options) {
 
       const es5 = await service.transform(jsx, {
         loader: "jsx",
-        watch: process.argv.includes("--watch"),
+        watch: process.env.ROLLUP_WATCH,
         target: env.NOMODULE ? "es2015" : "es2016",
         jsxFactory: "mdx"
       });

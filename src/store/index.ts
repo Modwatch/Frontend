@@ -15,7 +15,7 @@ const user = getLocalState();
 
 export const rawState = {
   notifications: [],
-  user: user.username ? user : undefined,
+  user: user,
   adsense: {
     loaded: false,
     failed: false,
@@ -43,10 +43,9 @@ export const actions = (store) => ({
     };
   },
   logout(state: GlobalState) {
-    clearLocalState();
     return {
       ...state,
-      user: undefined,
+      user: clearLocalState(),
     };
   },
   async loadAdsenseAds(state: GlobalState) {
