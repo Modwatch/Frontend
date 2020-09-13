@@ -1,10 +1,12 @@
 const { watch, readFile, writeFile } = require("fs");
 const { basename } = require("path");
 const { promisify } = require("util");
-const { red, orange, cyan, green } = require("colorette");
+const { red, yellow, cyan, green } = require("colorette");
 const glob = require("tiny-glob");
 const mri = require("mri");
-const JSON5 = require("json5");
+const mdx = require("@mdx-js/mdx");
+const esbuild = require("esbuild");
+const requireFromString = require("require-from-string");
 
 const argv = mri(process.argv.slice(2), {
   boolean: ["watch"],
@@ -16,9 +18,9 @@ const argv = mri(process.argv.slice(2), {
 });
 const [readFileAsync, writeFileAsync] = [readFile, writeFile].map(promisify);
 
-if (watch && !process.platform.indexOf(["win32", "darwin"])) {
+if (watch && !["win32", "darwin"].some(os => process.platform.indexOf(os))) {
   console.log(
-    orange(
+    yellow(
       `postgen.js -> Your OS (${process.platform}) does not support fs.watch`
     )
   );
@@ -50,7 +52,7 @@ if (watch && !process.platform.indexOf(["win32", "darwin"])) {
   }
 })();
 
-const metadataRegex = /export\s+const\s+metadata\s*=\s*({(?:[\s\S])*})/m;
+const decoder = new TextDecoder("utf-8");
 
 async function generatePostsFile({ watch }) {
   try {
@@ -61,9 +63,26 @@ async function generatePostsFile({ watch }) {
     const contents = await Promise.all(
       filenames.map(async file => await readFileAsync(file, "utf8"))
     );
-    const posts = contents.map((content, index) => ({
-      ...JSON5.parse(content.match(metadataRegex)[1]),
-      id: basename(filenames[index], ".mdx")
+
+    const posts = await Promise.all(contents.map(async (content, index) => {
+      const jsx = await mdx(content);
+      const parsed = await esbuild.build({
+        platform: "node",
+        write: false,
+        bundle: true,
+        stdin: {
+          contents: jsx,
+          sourcefile: filenames[index],
+          loader: "jsx",
+        },
+      });
+      const cjs = decoder.decode(
+        parsed.outputFiles[0].contents
+      );
+      return {
+        ...requireFromString(cjs).metadata,
+        id: basename(filenames[index], ".mdx")
+      };
     }));
 
     await writeFileAsync(

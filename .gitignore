@@ -3,5 +3,6 @@
 .DS_Store
 .cache
 polka.js
+generatepostmeta.js
 # Local Netlify folder
 .netlify

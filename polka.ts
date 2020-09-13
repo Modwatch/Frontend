@@ -5,7 +5,7 @@ import Cors from "cors";
 import * as mocks from "./src/__helpers__/mocks";
 
 const app = polka();
-const cors = Cors({ origin:true });
+const cors = Cors({ origin: true });
 
 app.use(cors);
 
@@ -56,6 +56,7 @@ const routes: RouteDef[] = [{
 
 routes.forEach(({ method, url, response }) => {
   app[method](url, (req, res) => {
+
     res.end(typeof response === "function" ? response(req.params) : response)
   })
 });
